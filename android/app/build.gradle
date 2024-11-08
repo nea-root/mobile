@@ -105,6 +105,31 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    
+    // Define the dimensions for flavors
+    flavorDimensions "environment"
+
+    productFlavors {
+        dev {
+            dimension "environment"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "NEA Dev"
+            buildConfigField "String", "API_BASE_URL", "\"https://dev.api.example.com\""
+        }
+        staging {
+            dimension "environment"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+            resValue "string", "app_name", "NEA Stag"
+            buildConfigField "String", "API_BASE_URL", "\"https://staging.api.example.com\""
+        }
+        prod {
+            dimension "environment"
+            resValue "string", "app_name", "NEA"
+            buildConfigField "String", "API_BASE_URL", "\"https://api.example.com\""
+        }
+    }
 }
 
 dependencies {

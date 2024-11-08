@@ -1,5 +1,5 @@
 
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import storage from 'redux-persist/lib/storage'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import {
@@ -23,16 +23,16 @@ const reducers = combineReducers({
     dummy
 })
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  whitelist: ['theme'],
-}
+// const persistConfig = {
+//   key: 'root',
+//   storage: storage,
+//   whitelist: ['theme'],
+// }
 
-const persistedReducer = persistReducer(persistConfig, reducers)
+// const persistedReducer = persistReducer(persistConfig, reducers)
 
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: reducers,
   middleware: getDefaultMiddleware => {
     const middlewares = getDefaultMiddleware({
       serializableCheck: {
