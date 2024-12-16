@@ -1,13 +1,18 @@
 export type UserList = {
-    fname: string,
-    lname: string,
-    userType: string,
+    flowType: string,
 }
 
 export const mockUserList: UserList[] = [
     {
-        fname: "john",
-        lname: "doe",
-        userType: "victim",
+        flowType: "victim",
+    },
+    {
+        flowType: "volunteer",
+    },
+    {
+        flowType: "lawyer",
+    },
+    {
+        flowType: "therapist",
     }
 ]

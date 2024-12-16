@@ -85,3 +85,7 @@ rm -rf node_modules
 npm install
 npm start -- --reset-cache
 
+# android codgen scafolding commands
+cd android
+./gradlew generateCodegenArtifactsFromSchema
+

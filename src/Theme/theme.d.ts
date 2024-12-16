@@ -17,7 +17,7 @@ export type ThemeVariables = {
   Dimens: typeof Variables.Dimens
 }
 
-export type Theme<F, G, I, V, L, C> = ThemeVariables & {
+export type Theme<F, G, I, L, C> = ThemeVariables & {
   Fonts: F
   Gutters: G
   Images: I

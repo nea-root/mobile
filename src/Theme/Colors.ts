@@ -1,5 +1,6 @@
 import { Palette } from './Palette'
-
+const tintColorLight = '#2f95dc';
+const tintColorDark = '#fff';
 /**
  * Roles for colors. You can access Colors in Variable by const {Colors} = useTheme()  Prefer using these over the palette.  It makes it easier
  * to change things.
@@ -10,6 +11,24 @@ import { Palette } from './Palette'
  * put that in the <Spinner /> component.
  */
 export const Color = {
+  /**
+   * Nea Primary Colors
+   */
+
+  light: {
+    text: '#000',
+    background: '#fff',
+    tint: tintColorLight,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorLight,
+  },
+  dark: {
+    text: '#fff',
+    background: '#000',
+    tint: tintColorDark,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorDark,
+  },
   /**
    * The palette is available to use, but prefer using the name.
    */

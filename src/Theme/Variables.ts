@@ -284,7 +284,7 @@ export const Dimens = {
   height65: '65%',
   height20: 20,
   marginTop55: '55%',
-  modalBorderRaidus: 30,
+  modalBorderRaidus: 20,
   alertShadowOffsetHeight: 2,
   alertShadowOpacity: 0.25,
   alertShadowRadius: 4,
