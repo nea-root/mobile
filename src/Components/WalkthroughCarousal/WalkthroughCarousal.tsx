@@ -18,19 +18,6 @@ export type WalkthroughCarouselProps = {
 
 const screenWidth = Dimensions.get('window').width;
 
-const slidesDataArray = [
-  { id: 1, title: require("@/Assets/images/survivor/get-help-and-support.png") , flowType: UserFlowTypes.victim },
-  { id: 2, title: require("@/Assets/images/survivor/live-chat.png"), flowType: UserFlowTypes.victim },
-  { id: 3, title: require("@/Assets/images/survivor/save-evidence.png"), flowType: UserFlowTypes.victim },
-  { id: 4, title: require("@/Assets/images/survivor/get-help-and-support.png") , flowType: UserFlowTypes.volunteer },
-  { id: 5, title: require("@/Assets/images/survivor/save-evidence.png"), flowType: UserFlowTypes.lawyer },
-  { id: 6, title: require("@/Assets/images/survivor/save-evidence.png"), flowType: UserFlowTypes.lawyer },
-  { id: 7, title: require("@/Assets/images/survivor/get-help-and-support.png") , flowType: UserFlowTypes.lawyer },
-  { id: 8, title: require("@/Assets/images/survivor/save-evidence.png"), flowType: UserFlowTypes.therapist },
-  { id: 9, title: require("@/Assets/images/survivor/save-evidence.png"), flowType: UserFlowTypes.therapist },
-  { id: 10, title: require("@/Assets/images/survivor/get-help-and-support.png") , flowType: UserFlowTypes.therapist },
-
-]
 
 const WalkthroughCarousel = ({flowType}: WalkthroughCarouselProps) => {
   const [loading, setLoading] = useState(true);
