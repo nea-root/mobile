@@ -3,11 +3,18 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 // import NativeLocalStorage from '../specs/NativeLocalStorage'
 import NativeRNConfig from '../specs/NativeRNConfig'
 import NativeLocalStorage from '../specs/NativeLocalStorage'
+import SpashScreen from '@/Components/SplashScreen/SplashScreen'
+import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen'
+import WalkthroughCarousal from '@/Components/WalkthroughCarousal/WalkthroughCarousal'
+import Walkthrough from '@/Containers/Walkthrough/Walkthrough'
+import OTPInput from '@/Components/OTPInput/OTPInput'
 const App = () => {
+  const [isLoading,setIsLoading] = useState(true);
+  const [splashScreen, setSplashScreen]  = useState(true)
   // const getLocalStorage = async () => {
   //   NativeLocalStorage.setItem("json", "123456")
   //     setTimeout(()=>{
@@ -19,10 +26,13 @@ const App = () => {
   useEffect(()=>{
     console.log(NativeRNConfig.getEnv())
     console.log(NativeLocalStorage.getItem("json"))
+    setTimeout(()=>{
+        setSplashScreen(false)
+    },3500)
   },[])
 
   return (
-    <Provider store={store}>
+    <Provider store={store} >
       {/**
          * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
          * and saved to redux.
@@ -31,7 +41,7 @@ const App = () => {
          * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
          */}
         <PaperProvider>
-          <ApplicationNavigator />
+         { splashScreen ? <SpashScreen />:<ApplicationNavigator />}
         </PaperProvider>
     </Provider>
   )

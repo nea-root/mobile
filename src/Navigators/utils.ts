@@ -10,3 +10,26 @@ export enum Tabs {
     Messages = 'Messages',
     Clients = 'Clients'
 }
+
+export enum RootStacks {
+    OnBoarding = 'OnBoardingStack',
+    Walkthrough = 'WalkthroughStack',
+}
+
+export enum UserStacks {
+    Walkthrough = 'Walkthrough',
+    AuthStack = 'AuthStack'
+}
+
+export enum AuthStacks {
+    Register = 'Register',
+    Verification = 'Verification'
+}
+
+
+export enum UserFlowTypes {
+    victim = 'victim',
+    volunteer = 'volunteer',
+    lawyer = 'lawyer',
+    therapist = 'therapist'
+}
