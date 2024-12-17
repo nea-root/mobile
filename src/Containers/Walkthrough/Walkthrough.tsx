@@ -20,6 +20,7 @@ const Walkthrough = () => {
         navigation.navigate(UserStacks.AuthStack)
     }
     if (!flowType || flowType === "loading" || flowType === undefined) {
+        console.log(flowType+"Flowtype")
         return <LoadingSpinner />
     }
     return (<View style={{ flex: 1, flexDirection: 'column', backgroundColor: "white", }}>

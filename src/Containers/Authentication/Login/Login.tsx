@@ -28,14 +28,10 @@ const Login: React.FC = () => {
   
 
     const handleLoginClick = async () => {
-        console.log(flowType + "-----"+ UserFlowTypes.victim)
         if (flowType === UserFlowTypes.lawyer || flowType === UserFlowTypes.volunteer || flowType === UserFlowTypes.therapist || flowType === UserFlowTypes.victim) {
             try {
-                console.log(flowType+"++++")
                 const response = await signIn(email,password,flowType)
-                if (response.tokens.role === UserFlowTypes.lawyer || response.tokens.role === UserFlowTypes.volunteer || response.tokens.role === UserFlowTypes.therapist || response.tokens.role === UserFlowTypes.victim)
-                login(response.tokens.role, {username: response.username}, response.tokens)
-                console.log(response+"++++")
+                login(flowType, {username: response.username}, response.tokens)
 
             } catch (error) {
                 console.log(error)
@@ -44,7 +40,6 @@ const Login: React.FC = () => {
     }
 
     const handleInput = (text: string,inputType: string) => {
-        console.log(inputType)
         switch(inputType){
             case 'email':
                 setEmail(text)
@@ -57,7 +52,7 @@ const Login: React.FC = () => {
 
     return (
         <View style={{flex: 1}}>
-            <AuthForm mode={'login'} onSubmit={handleLoginClick} buttonLabel={'login'} showDropdown={true} email={email} password={password} handleInput={handleInput}/>
+            <AuthForm mode={'login'} onSubmit={handleLoginClick} buttonLabel={'login'} showDropdown={true} email={email} password={password} handleInput={handleInput} navigation={navigation}/>
         </View>
     );
 };

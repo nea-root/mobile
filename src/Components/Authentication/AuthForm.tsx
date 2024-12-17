@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Alert, TextInput } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Alert, TextInput, TouchableOpacity } from 'react-native';
 import NEATextField from '@/Components/TextField/NEATextField';
 import NeaButton from '@/Components/Button/NeaButton';
 import NEADropdown from '@/Components/DropDown/NEADropDown';
@@ -25,6 +25,7 @@ interface AuthFormProps {
 const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password, email, place, handleInput, navigation  }) => {
   const [focusElement, setFocusElement] = useState<string>('')
   const [error, setError] = useState('');
+
 
   const validateInputs = (email: string, username?:string, password?:string) => {
     const errors: { email?: string, username?: string, password?: string} = {};
@@ -88,6 +89,56 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
       reset: "Send Code"
     }
     return lables[mode];
+  }
+
+  const GetButtonLabelElement = () => {
+    if(mode === 'register')
+    return (<><Text style={{
+      color: '#434345',
+      textAlign: 'center',
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontStyle: 'normal',
+      fontWeight: 500,
+      letterSpacing: -0.14,
+      lineHeight: 22.4
+
+    }}>By registering, you agree to our <TouchableWithoutFeedback><Text style={{
+      color: "#0B0B14",
+      textAlign: 'center',
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontStyle: 'normal',
+      fontWeight: 500,
+      letterSpacing: -0.14,
+      lineHeight: 22.4
+
+    }}>Terms & Conditions</Text></TouchableWithoutFeedback> and <TouchableWithoutFeedback><Text style={{
+      color: "#0B0B14",
+      textAlign: 'center',
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontStyle: 'normal',
+      fontWeight: 500,
+      letterSpacing: -0.14,
+      lineHeight: 22.4
+
+    }}>Privacy Policy</Text></TouchableWithoutFeedback></Text>
+    </>)
+    else if(mode === 'login')
+    return (<TouchableOpacity onPress={()=>{
+
+    }}><Text style={{
+      color: '#147952',
+      textAlign: 'center',
+      fontFamily: 'Montserrat',
+      fontSize: 14,
+      fontStyle: 'normal',
+      fontWeight: 600,
+      letterSpacing: -0.14,
+      lineHeight: 22.4
+
+    }}>Forgot password?</Text></TouchableOpacity>)
   }
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -153,38 +204,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
             alignItems: 'center',
             gap: 8
           }} />
-          {mode==='login' || mode === 'register'?<><Text style={{
-            color: '#434345',
-            textAlign: 'center',
-            fontFamily: 'Montserrat',
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 500,
-            letterSpacing: -0.14,
-            lineHeight: 22.4
-
-          }}>By registering, you agree to our <TouchableWithoutFeedback><Text style={{
-            color: "#0B0B14",
-            textAlign: 'center',
-            fontFamily: 'Montserrat',
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 500,
-            letterSpacing: -0.14,
-            lineHeight: 22.4
-
-          }}>Terms & Conditions</Text></TouchableWithoutFeedback> and <TouchableWithoutFeedback><Text style={{
-            color: "#0B0B14",
-            textAlign: 'center',
-            fontFamily: 'Montserrat',
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 500,
-            letterSpacing: -0.14,
-            lineHeight: 22.4
-
-          }}>Privacy Policy</Text></TouchableWithoutFeedback></Text>
-          </>: <></>}
+          {mode==='login' || mode === 'register'?<GetButtonLabelElement />: <></>}
         </View>
        { mode === 'register' || mode === 'login' ?<>
           <View style={{ flexDirection: 'column' }}>
@@ -241,7 +261,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
               letterSpacing: -0.14,
               lineHeight: 22.4
 
-            }}>Already registered? <TouchableWithoutFeedback onPress={()=>{ navigation.navigate(AuthStacks.Login)}}><Text style={{
+            }}>{mode==='register'?'Already registered?':"Don’t have an account?"} <TouchableWithoutFeedback onPress={()=>{ 
+              navigation.navigate(mode==='register'?AuthStacks.Login:AuthStacks.Register)
+            }}><Text style={{
               color: "#147952",
               textAlign: 'center',
               fontFamily: 'Montserrat',
@@ -251,7 +273,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
               letterSpacing: -0.14,
               lineHeight: 22.4
 
-            }}>Login</Text></TouchableWithoutFeedback></Text>
+            }}>{mode==='register'?'Login':'Register'}</Text></TouchableWithoutFeedback></Text>
           </View>
         </>: <></>}
         {mode === 'register' || mode === 'login' ? <View style={{ flexDirection: 'column' }}>
@@ -266,7 +288,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
             lineHeight: 25.6,
             marginBottom: 16
 
-          }}>Do you need  immediate help? Press "SOS" button below to make a phone call to emergency services.</Text>
+          }}>{mode === 'register'?'Do you need  immediate help? Press "SOS" button below to make a phone call to emergency services.': 'Are you in distress? Press "SOS" button below to make a phone call to emergency services.'}</Text>
           <View style={{ flexDirection: 'row', paddingTop: 16, marginBottom: 40, justifyContent: 'space-around' }}>
             <View style={{
               backgroundColor: '#FF5722',

@@ -20,11 +20,9 @@ const Verification: React.FC = ({ route }: any) => {
     const navigation = useNavigation<NavigationProp>();
     const handleSubmit = async (inputValue: string) => {
         if (inputValue.length === length) {
-            console.log(inputValue)
             const { username, email, password, role } = route?.params?.formData
 
             const response: string = await verifySignIn(username, inputValue, role)
-            console.log(JSON.stringify(response))
             if (response === 'SUCCESS')
                 navigation.navigate(AuthStacks.Login)
         }

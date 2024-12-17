@@ -1,6 +1,40 @@
-import { CognitoUser, AuthenticationDetails, CognitoUserPool, ICognitoUserPoolData, CognitoUserAttribute, ISignUpResult } from 'amazon-cognito-identity-js';
+import { CognitoUser, AuthenticationDetails, CognitoUserPool, ICognitoUserPoolData, CognitoUserAttribute, ISignUpResult, CognitoUserSession, ICognitoUserSessionData, CognitoIdToken } from 'amazon-cognito-identity-js';
 import * as Keychain from 'react-native-keychain';
 import { Pools } from './cognitoConfig';
+
+export interface CognitoTokenPayload {
+  sub: string;
+  email_verified?: boolean;
+  iss: string;
+  "cognito:username"?: string;
+  origin_jti: string;
+  aud?: string;
+  event_id: string;
+  token_use: string;
+  auth_time: string;
+  exp: string;
+  iat: string;
+  jti: string;
+  email?: string;
+  client_id?: string;
+  scope?: string;
+  username?: string;
+}
+
+export interface Token {
+  jwtToken: string;
+  payload: CognitoTokenPayload;
+}
+
+export interface CognitoTokenResponse {
+  idToken: Token;
+  refreshToken: {
+    token: string;
+  };
+  accessToken: Token;
+  clockDrift: string;
+}
+
 
 interface Tokens {
   idToken: string;
@@ -24,8 +58,8 @@ export const signIn = async (
   username: string,
   password: string,
   role: Role
-): Promise<{tokens:Tokens, username: string}> => {
-  if(role === 'loading'){
+): Promise<{ tokens: CognitoTokenResponse, username: string }> => {
+  if (role === 'loading') {
     return Promise.reject()
   }
   return new Promise((resolve, reject) => {
@@ -39,25 +73,21 @@ export const signIn = async (
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
     user.authenticateUser(authDetails, {
       onSuccess: async (session) => {
-        console.log(session)
-        const idToken = session.getIdToken().getJwtToken();
-        const accessToken = session.getAccessToken().getJwtToken();
-        const refreshToken = session.getRefreshToken().getToken();
-
+        const serializedSession = JSON.stringify(session)
         try {
           // Store role and tokens securely in Keychain
           await Keychain.setGenericPassword(
             username,
-            JSON.stringify({ idToken, accessToken, refreshToken }),
+            serializedSession,
             { service: role }
           );
-          resolve({tokens: { idToken: idToken, accessToken:accessToken, refreshToken: refreshToken, role: role }, username: username });
+          resolve({ tokens: JSON.parse(serializedSession), username: username });
         } catch (error) {
           console.log(error)
           reject(error);
         }
       },
-      onFailure: (err) => {console.log(err);reject(err)},
+      onFailure: (err) => { console.log(err); reject(err) },
     });
   });
 };
@@ -74,9 +104,9 @@ export const register = (username: string,
   password: string,
   email: string,
   role: Role) => {
-    if(role === 'loading'){
-      return Promise.reject()
-    }
+  if (role === 'loading') {
+    return Promise.reject()
+  }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
 
@@ -84,7 +114,6 @@ export const register = (username: string,
       reject(new Error('Invalid role'));
       return;
     }
-    console.log('hello')
     var dataEmail = {
       Name: 'email',
       Value: email,
@@ -102,15 +131,16 @@ export const register = (username: string,
     userPool.signUp(username,
       password, attributes, validateAttributes, ({ err, result }: any) => {
         if (err) {
-          console.log(userPool)
           reject(err);
           return;
         }
 
-        resolve({username: username,
+        resolve({
+          username: username,
           password: password,
           email: email,
-          role: role});
+          role: role
+        });
       });
   });
 };
@@ -120,7 +150,7 @@ export const verifySignIn = async (
   verificationCode: string,
   role: Role
 ): Promise<any> => {
-  if(role === 'loading'){
+  if (role === 'loading') {
     return Promise.reject()
   }
   return new Promise((resolve, reject) => {
@@ -134,7 +164,6 @@ export const verifySignIn = async (
     user.confirmRegistration(verificationCode, true, function (err, result) {
       if (err) {
         // alert(err.message || JSON.stringify(err));
-        console.log('call result: ' + err);
         reject(new Error(err))
         return;
       }
@@ -149,12 +178,11 @@ export const verifySignIn = async (
  *
  * @returns A Promise resolving to the stored tokens or null.
  */
-export const getTokens = async (role: Role): Promise<{tokens:Tokens, username: string} | null> => {
+export const getTokens = async (role: Role): Promise<{ tokens: CognitoTokenResponse, username: string } | null> => {
   try {
     const credentials = await Keychain.getGenericPassword({ service: role });
     if (credentials) {
-      console.log(JSON.stringify(credentials))
-      return {tokens: JSON.parse(credentials.password), username: credentials.username };
+      return { tokens: JSON.parse(credentials.password), username: credentials.username };
     }
     return null;
   } catch (error) {

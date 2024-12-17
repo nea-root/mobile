@@ -39,8 +39,12 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
 // Dummy Screems
 const DummyScreen = () => {
-    const { logout } =  useAuth()
+    const { logout, authState } =  useAuth()
     const { flowType } = React.useContext(FlowProvider)
+    React.useEffect(()=>{
+        if(flowType)
+            console.log(JSON.stringify(authState.tokens[flowType]?.idToken?.payload?.exp))
+    },[])
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Pressable onPress={async ()=>{
@@ -68,15 +72,15 @@ const UserStackNavigator = ({ route }: any) => {
     const { authState } = useAuth()
     React.useEffect(() => {
         setFlowType(route?.params?.flowType)
-    }, [setFlowType])
+    }, [setFlowType,route])
     React.useEffect(() => {
-        if (authState && authState.roles.length > 0 && flowType && authState.users[flowType]) {
+        if (authState && flowType && authState.users[flowType]) {
             setIsLoggedIn(true)
         }
-        else if(authState && authState.roles.length > 0 && flowType && !authState.users[flowType]){
+        else if(authState && flowType && !authState.users[flowType]){
             setIsLoggedIn(false)
         }
-    }, [authState, authState.users, authState.tokens])
+    }, [authState, authState.users, authState.tokens, authState.roles.length])
     if (isLoggedIn) {
         return (<Tab.Navigator screenOptions={{
             header: ({ navigation, route, options }) => (
@@ -117,12 +121,6 @@ const ApplicationNavigator = () => {
                     <RootStack.Screen name={RootStacks.OnBoarding} component={OnBoardingScreen} />
                     <RootStack.Screen name={RootStacks.Walkthrough} component={UserStackNavigator} />
                 </RootStack.Navigator>
-                {/* <Tab.Navigator>
-                    <Tab.Screen name={Tabs.Home} component={DummyScreen} />
-                    <Tab.Screen name={Tabs.Awareness} component={DummyScreen} />
-                    <Tab.Screen name={Tabs.Evidence} component={DummyScreen} />
-                    <Tab.Screen name={Tabs.Help} component={DummyScreen} />
-                </Tab.Navigator> */}
             </MasterContext>
         </NavigationContainer>
     );
