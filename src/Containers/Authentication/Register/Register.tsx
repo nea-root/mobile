@@ -36,12 +36,9 @@ const Register: React.FC = () => {
     };
 
     const handleRegisterClick = async () => {
-        console.log(flowType + "-----" + UserFlowTypes.victim)
         if (flowType === UserFlowTypes.lawyer || flowType === UserFlowTypes.volunteer || flowType === UserFlowTypes.therapist || flowType === UserFlowTypes.victim) {
             try {
-                console.log(flowType + "++++")
                 const response = await register(username, password, email, flowType)
-                console.log(response + "++++")
                 if (flowType === UserFlowTypes.victim) {
                     showAlert && showAlert(true, '', 'Do we have your permission to send an Email with verification code?', [
                         {
@@ -73,7 +70,6 @@ const Register: React.FC = () => {
     }
 
     const handleInput = (text: string, inputType: string) => {
-        console.log(inputType)
         switch (inputType) {
             case 'email':
                 setEmail(text)

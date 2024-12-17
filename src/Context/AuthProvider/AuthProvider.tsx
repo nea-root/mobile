@@ -1,13 +1,9 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { getTokens, register as loginRegister, Role } from '@/Services/Authentication/AuthService';
+import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
+import { CognitoTokenResponse, getTokens, register as loginRegister, Role } from '@/Services/Authentication/AuthService';
 import { FlowProvider } from '../FlowProvider/FlowProvider';
 import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
+import { ICognitoUserSessionData } from 'amazon-cognito-identity-js'
 
-interface AuthTokens {
-  idToken: string;
-  accessToken: string;
-  refreshToken: string;
-}
 
 interface UserData {
   username: string
@@ -16,12 +12,12 @@ interface UserData {
 interface AuthState {
   roles: string[];
   users: Record<Role, UserData>;
-  tokens: Record<Role, AuthTokens>; 
+  tokens: Record<Role, CognitoTokenResponse>; 
 }
 
 interface AuthContextProps {
   authState: AuthState;
-  login: (role: Role, user: UserData, tokens: AuthTokens) => void;
+  login: (role: Role, user: UserData, tokens: CognitoTokenResponse) => void;
   logout: (role: Role) => void;
 }
 
@@ -42,7 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
     roles: [],
     users: {} as Record<Role, UserData>,
-    tokens: {} as Record<Role, AuthTokens>,
+    tokens: {} as Record<Role, CognitoTokenResponse>,
   });
 
   const {flowType} = useContext(FlowProvider)
@@ -66,15 +62,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
 
-  const login = (role: string, user: UserData, tokens: AuthTokens) => {
+  const login = useCallback((role: string, user: UserData, tokens: CognitoTokenResponse) => {
     setAuthState((prevState) => ({
       roles: Array.from(new Set([...prevState.roles, role])),
       users: {...prevState.users,[role]: user},
       tokens: { ...prevState.tokens, [role]: tokens },
     }));
-  };
+  },[]);
 
-  const logout = (role: Role) => {
+  const logout = useCallback((role: Role) => {
     setAuthState((prevState) => {
       const updatedRoles = prevState.roles.filter((r) => r !== role);
       const { [role]: _, ...remainingTokens } = prevState.tokens;
@@ -83,10 +79,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return {
         roles: updatedRoles,
         users: remainingUsers as Record<Role, UserData>,
-        tokens: remainingTokens as Record<Role, AuthTokens>,
+        tokens: remainingTokens as Record<Role, CognitoTokenResponse>,
       };
     });
-  };
+  },[]);
 
   return (
     <AuthContext.Provider value={{ authState, login, logout }}>
