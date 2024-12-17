@@ -111,7 +111,9 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit }) => {
             </View>
             <NeaButton
                 title="Verify"
-                onPress={() => { }}
+                onPress={() => { 
+                    onSubmit(otp.join(""))
+                }}
                 style={{
                     display: "flex",
                     width: '100%',
@@ -122,29 +124,29 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit }) => {
                     gap: 8,
                 }}
             />
-                <View style={{ flexDirection: 'column', marginBottom: 40 }}>
-                    <Text style={{
-                        color: "#0B0B14",
-                        textAlign: 'center',
-                        fontFamily: 'Montserrat',
-                        fontSize: 14,
-                        fontStyle: 'normal',
-                        fontWeight: 500,
-                        letterSpacing: -0.14,
-                        lineHeight: 22.4
+            <View style={{ flexDirection: 'column', marginBottom: 40 }}>
+                <Text style={{
+                    color: "#0B0B14",
+                    textAlign: 'center',
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    fontStyle: 'normal',
+                    fontWeight: 500,
+                    letterSpacing: -0.14,
+                    lineHeight: 22.4
 
-                    }}>Did not receive code yet? <TouchableWithoutFeedback><Text style={{
-                        color: "#147952",
-                        textAlign: 'center',
-                        fontFamily: 'Montserrat',
-                        fontSize: 14,
-                        fontStyle: 'normal',
-                        fontWeight: 500,
-                        letterSpacing: -0.14,
-                        lineHeight: 22.4
+                }}>Did not receive code yet? <TouchableWithoutFeedback><Text style={{
+                    color: "#147952",
+                    textAlign: 'center',
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    fontStyle: 'normal',
+                    fontWeight: 500,
+                    letterSpacing: -0.14,
+                    lineHeight: 22.4
 
-                    }}>Resend Code</Text></TouchableWithoutFeedback></Text>
-                </View>
+                }}>Resend Code</Text></TouchableWithoutFeedback></Text>
+            </View>
 
             <Animated.View
                 style={[
@@ -163,13 +165,13 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit }) => {
                     <Text style={styles.switchText}>Enable Face ID app lock</Text>
 
                     <View style={styles.switch}>
-                    <Switch
-        trackColor={{ false: "#767577", true: "#4AC16A" }}
-        thumbColor={'#FFFFFF'}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
+                        <Switch
+                            trackColor={{ false: "#767577", true: "#4AC16A" }}
+                            thumbColor={'#FFFFFF'}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        />
                     </View>
                 </View>
                 <Text style={{

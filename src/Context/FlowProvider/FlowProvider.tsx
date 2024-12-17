@@ -1,6 +1,8 @@
 import { ReactNode, createContext, useEffect, useMemo, useState } from 'react'
 import { FlowContext } from '../Types/FlowContext'
 import { mockUserList } from '@/../__mocks__/UserList/mockUserList'
+import { Role } from '@/Services/Authentication/AuthService';
+
 export const FlowProvider = createContext<FlowContext>({
     flowType: undefined,
     setFlowType: () => {
@@ -13,7 +15,7 @@ type Props = {
 };
 
 export const FlowProviderContext = ({ children }: Props) => {
-    const [flowType, setFlowType] = useState<string | undefined>();
+    const [flowType, setFlowType] = useState<Role | undefined>();
 
     const fetchDefaultVinId = () => {
         const firstUser = mockUserList[0];

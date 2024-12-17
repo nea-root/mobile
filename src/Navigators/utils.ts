@@ -23,6 +23,7 @@ export enum UserStacks {
 
 export enum AuthStacks {
     Register = 'Register',
+    Login = 'Login',
     Verification = 'Verification'
 }
 

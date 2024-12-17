@@ -1,4 +1,4 @@
-import { CognitoUser, AuthenticationDetails, CognitoUserPool, ICognitoUserPoolData, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { CognitoUser, AuthenticationDetails, CognitoUserPool, ICognitoUserPoolData, CognitoUserAttribute, ISignUpResult } from 'amazon-cognito-identity-js';
 import * as Keychain from 'react-native-keychain';
 import { Pools } from './cognitoConfig';
 
@@ -9,7 +9,7 @@ interface Tokens {
   role: string;
 }
 
-export type Role = 'victim' | 'volunteer' | 'lawyer' | 'therapist';
+export type Role = 'victim' | 'volunteer' | 'lawyer' | 'therapist' | 'loading';
 
 
 /**
@@ -25,6 +25,9 @@ export const signIn = async (
   password: string,
   role: Role
 ): Promise<Tokens> => {
+  if(role === 'loading'){
+    return Promise.reject()
+  }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
     if (!userPool) {
@@ -36,6 +39,7 @@ export const signIn = async (
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
     user.authenticateUser(authDetails, {
       onSuccess: async (session) => {
+        console.log(session)
         const idToken = session.getIdToken().getJwtToken();
         const accessToken = session.getAccessToken().getJwtToken();
         const refreshToken = session.getRefreshToken().getToken();
@@ -49,10 +53,11 @@ export const signIn = async (
           );
           resolve({ idToken, accessToken, refreshToken, role });
         } catch (error) {
+          console.log(error)
           reject(error);
         }
       },
-      onFailure: (err) => reject(err),
+      onFailure: (err) => {console.log(err);reject(err)},
     });
   });
 };
@@ -69,17 +74,17 @@ export const register = (username: string,
   password: string,
   email: string,
   role: Role) => {
-
+    if(role === 'loading'){
+      return Promise.reject()
+    }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
-    if (userPool.getCurrentUser()) {
-      console.log(userPool.getCurrentUser())
-      return
-    }
+
     if (!userPool) {
       reject(new Error('Invalid role'));
       return;
     }
+    console.log('hello')
     var dataEmail = {
       Name: 'email',
       Value: email,
@@ -93,7 +98,6 @@ export const register = (username: string,
     ];
 
     const validateAttributes: CognitoUserAttribute[] = [
-
     ]
     userPool.signUp(username,
       password, attributes, validateAttributes, ({ err, result }: any) => {
@@ -103,8 +107,40 @@ export const register = (username: string,
           return;
         }
 
-        resolve(result);
+        resolve({username: username,
+          password: password,
+          email: email,
+          role: role});
       });
+  });
+};
+
+export const verifySignIn = async (
+  username: string,
+  verificationCode: string,
+  role: Role
+): Promise<any> => {
+  if(role === 'loading'){
+    return Promise.reject()
+  }
+  return new Promise((resolve, reject) => {
+    const userPool: CognitoUserPool = Pools[role];
+    if (!userPool) {
+      reject(new Error('Invalid role'));
+      return;
+    }
+
+    const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+    user.confirmRegistration(verificationCode, true, function (err, result) {
+      if (err) {
+        // alert(err.message || JSON.stringify(err));
+        console.log('call result: ' + err);
+        reject(new Error(err))
+        return;
+      }
+      resolve(result)
+      console.log('call result: ' + result);
+    });
   });
 };
 
@@ -113,12 +149,12 @@ export const register = (username: string,
  *
  * @returns A Promise resolving to the stored tokens or null.
  */
-export const getTokens = async (role: Role): Promise<Tokens | null> => {
+export const getTokens = async (role: Role): Promise<{tokens:Tokens, username: string} | null> => {
   try {
     const credentials = await Keychain.getGenericPassword({ service: role });
     if (credentials) {
       console.log(JSON.stringify(credentials))
-      return JSON.parse(credentials.password) as Tokens;
+      return {tokens: JSON.parse(credentials.password), username: credentials.username };
     }
     return null;
   } catch (error) {
