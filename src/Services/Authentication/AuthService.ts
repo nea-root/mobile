@@ -24,7 +24,7 @@ export const signIn = async (
   username: string,
   password: string,
   role: Role
-): Promise<Tokens> => {
+): Promise<{tokens:Tokens, username: string}> => {
   if(role === 'loading'){
     return Promise.reject()
   }
@@ -51,7 +51,7 @@ export const signIn = async (
             JSON.stringify({ idToken, accessToken, refreshToken }),
             { service: role }
           );
-          resolve({ idToken, accessToken, refreshToken, role });
+          resolve({tokens: { idToken: idToken, accessToken:accessToken, refreshToken: refreshToken, role: role }, username: username });
         } catch (error) {
           console.log(error)
           reject(error);

@@ -21,7 +21,7 @@ interface AuthState {
 
 interface AuthContextProps {
   authState: AuthState;
-  login: (role: Role, user: { username: string, password: string }, tokens: AuthTokens) => void;
+  login: (role: Role, user: UserData, tokens: AuthTokens) => void;
   logout: (role: Role) => void;
 }
 
@@ -79,6 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const updatedRoles = prevState.roles.filter((r) => r !== role);
       const { [role]: _, ...remainingTokens } = prevState.tokens;
       const { [role]: _1, ...remainingUsers } = prevState.users; 
+
       return {
         roles: updatedRoles,
         users: remainingUsers as Record<Role, UserData>,
