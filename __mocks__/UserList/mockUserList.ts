@@ -1,5 +1,7 @@
+import { Role } from "@/Services/Authentication/AuthService"
+
 export type UserList = {
-    flowType: string,
+    flowType: Role,
 }
 
 export const mockUserList: UserList[] = [

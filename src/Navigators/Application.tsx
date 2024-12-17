@@ -10,9 +10,10 @@ import Walkthrough from '@/Containers/Walkthrough/Walkthrough';
 import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen';
 import { FlowContext } from '@/Context/Types/FlowContext';
 import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
-import Register from '@/Containers/Register/Register';
+import Register from '@/Containers/Authentication/Register/Register';
 import Header from './Header';
 import Verification from '@/Containers/Verification/Verification';
+import Login from '@/Containers/Authentication/Login/Login';
 
 export type RootStackParamList = {
     [RootStacks.OnBoarding]: undefined;
@@ -24,7 +25,8 @@ export type UserStackParamList = {
 };
 export type AuthStackParamList = {
     [AuthStacks.Register]: undefined
-    [AuthStacks.Verification]: undefined
+    [AuthStacks.Login]: undefined
+    [AuthStacks.Verification]: {formData: { username: string, email: string, password: string, role: string}}
 }
 
 
@@ -46,6 +48,7 @@ const AuthStackNavigator = () => {
     return (
     <AuthStack.Navigator screenOptions={{ headerShown: false}}>
         <AuthStack.Screen name={AuthStacks.Register} component={Register}/>
+        <AuthStack.Screen name={AuthStacks.Login} component={Login}/>
         <AuthStack.Screen name={AuthStacks.Verification} component={Verification}/>
     </AuthStack.Navigator>)
 }

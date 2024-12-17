@@ -6,10 +6,12 @@ import NEADropdown from '@/Components/DropDown/NEADropDown';
 import { Apple, Google } from '@/Assets/icons';
 import NEAHeart from '@/Assets/icons/NEAHeart';
 import { register } from '@/Services/Authentication/AuthService';
+import { useNavigation } from '@react-navigation/native';
+import { AuthStacks } from '@/Navigators/utils';
 
 interface AuthFormProps {
   mode: 'register' | 'login' | 'reset';
-  onSubmit: (data: any) => void;
+  onSubmit: () => void;
   buttonLabel: string;
   showDropdown?: boolean;
   email: string;
@@ -17,11 +19,40 @@ interface AuthFormProps {
   username?: string;
   place?: string
   handleInput?: (text: string,inputType: string) => void
+  navigation?: any
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password, email, place, handleInput  }) => {
+const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password, email, place, handleInput, navigation  }) => {
   const [focusElement, setFocusElement] = useState<string>('')
   const [error, setError] = useState('');
+
+  const validateInputs = (email: string, username?:string, password?:string) => {
+    const errors: { email?: string, username?: string, password?: string} = {};
+  
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      errors.email = "Invalid email format";
+    }
+  
+    // Username validation
+    if ((mode === 'register') &&  username && username.length < 8) {
+      errors.username = "Username must be at least 8 characters long";
+    }
+  
+    // Password validation
+    if ((mode === 'register' || mode === 'login') && password && password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    }
+  
+    // Additional password checks (optional)
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // if (!passwordRegex.test(password)) {
+    //   errors.password = "Password must include uppercase, lowercase, number, and special character";
+    // }
+  
+    return errors;
+  }
 
   const handleTextChange = (text:string) => {
     handleInput && handleInput(text,focusElement)
@@ -32,12 +63,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
   };
 
   const handleSubmit = () => {
-    if (!email || (mode === 'register' && !password) || (mode === 'register')) {
+    if (!email || ((mode === 'register' || mode === 'login') && !password) || (mode === 'register' && !username)) {
       setError('All fields are required');
       return;
     }
     setError('');
-    onSubmit({ email, username, password });
+
+    onSubmit();
   };
 
   const getAuthTitle = () => {
@@ -209,7 +241,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
               letterSpacing: -0.14,
               lineHeight: 22.4
 
-            }}>Already registered? <TouchableWithoutFeedback><Text style={{
+            }}>Already registered? <TouchableWithoutFeedback onPress={()=>{ navigation.navigate(AuthStacks.Login)}}><Text style={{
               color: "#147952",
               textAlign: 'center',
               fontFamily: 'Montserrat',

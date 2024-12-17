@@ -1,23 +1,28 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { register as loginRegister, Role } from '@/Services/Authentication/AuthService';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { getTokens, register as loginRegister, Role } from '@/Services/Authentication/AuthService';
 import { FlowProvider } from '../FlowProvider/FlowProvider';
+import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
 
 interface AuthTokens {
   idToken: string;
   accessToken: string;
+  refreshToken: string;
+}
+
+interface UserData {
+  username: string
 }
 
 interface AuthState {
   roles: string[];
-  user: { username: string } | null;
-  tokens: { [role: string]: AuthTokens };
+  users: Record<Role, UserData>;
+  tokens: Record<Role, AuthTokens>; 
 }
 
 interface AuthContextProps {
   authState: AuthState;
-  login: (role: string, user: { username: string }, tokens: AuthTokens) => void;
-  logout: (role: string) => void;
-  register: ({role,username, password, email}: AuthRegisterParams) => void;
+  login: (role: Role, user: { username: string, password: string }, tokens: AuthTokens) => void;
+  logout: (role: Role) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -36,40 +41,54 @@ export type AuthRegisterParams = {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
     roles: [],
-    user: null,
-    tokens: {},
+    users: {} as Record<Role, UserData>,
+    tokens: {} as Record<Role, AuthTokens>,
   });
 
-  const { flowType, setFlowType } = useContext(FlowProvider)
+  const {flowType} = useContext(FlowProvider)
+  useEffect(()=>{
+      if(flowType && flowType !== 'loading')
+      getUserTokens(flowType)
+  },[flowType])
 
-  const register = async ({role,username, password, email}: AuthRegisterParams) => {
+  const getUserTokens = async (flowType: Role) => {
+    try {
+      const creds = await getTokens(flowType)
+      setAuthState((prevState) => ({
+        roles: Array.from(new Set([...prevState.roles, flowType])),
+        users: {...prevState.users,[flowType]: creds?.username},
+        tokens: { ...prevState.tokens, [flowType]: creds?.tokens },
+      }));
+    } catch (error) {
+      console.log(error)
+    }
 
-    const response = await loginRegister(username, password, email, role)
-    console.log(response)
   }
 
-  const login = (role: string, user: { username: string }, tokens: AuthTokens) => {
+
+  const login = (role: string, user: UserData, tokens: AuthTokens) => {
     setAuthState((prevState) => ({
       roles: Array.from(new Set([...prevState.roles, role])),
-      user: user || prevState.user,
+      users: {...prevState.users,[role]: user},
       tokens: { ...prevState.tokens, [role]: tokens },
     }));
   };
 
-  const logout = (role: string) => {
+  const logout = (role: Role) => {
     setAuthState((prevState) => {
       const updatedRoles = prevState.roles.filter((r) => r !== role);
       const { [role]: _, ...remainingTokens } = prevState.tokens;
+      const { [role]: _1, ...remainingUsers } = prevState.users; 
       return {
         roles: updatedRoles,
-        user: updatedRoles.length > 0 ? prevState.user : null,
-        tokens: remainingTokens,
+        users: remainingUsers as Record<Role, UserData>,
+        tokens: remainingTokens as Record<Role, AuthTokens>,
       };
     });
   };
 
   return (
-    <AuthContext.Provider value={{ authState, login, logout, register }}>
+    <AuthContext.Provider value={{ authState, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
