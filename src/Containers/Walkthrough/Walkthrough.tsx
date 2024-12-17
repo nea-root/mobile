@@ -2,7 +2,7 @@ import NeaButton from '@/Components/Button/NeaButton';
 import LoadingSpinner from '@/Components/Shared/LoadingSpinner';
 import WalkthroughCarousel from '@/Components/WalkthroughCarousal/WalkthroughCarousal';
 import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
-import { UserStackParamList } from '@/Navigators/Application';
+import { AuthStackParamList, UserStackParamList } from '@/Navigators/Application';
 import { AuthStacks, UserStacks } from '@/Navigators/utils';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -58,7 +58,7 @@ const Walkthrough = () => {
                     letterSpacing: -0.14,
                     lineHeight: 22.4
 
-                }}>Already registered? <TouchableWithoutFeedback><Text style={{
+                }}>Already registered? <TouchableWithoutFeedback onPress={()=>{ navigation.navigate(UserStacks.AuthStack, {screen: AuthStacks.Login})}}><Text style={{
                     color: "#147952",
                     textAlign: 'center',
                     fontFamily: 'Montserrat',
