@@ -7,6 +7,7 @@ import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
 import { AuthStackParamList } from '@/Navigators/Application';
 import { AuthStacks, UserFlowTypes } from '@/Navigators/utils';
 import { getTokens, register, signIn } from '@/Services/Authentication/AuthService';
+import { cognitoErrorHandler } from '@/Services/Authentication/utils';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useState } from 'react';
@@ -26,19 +27,11 @@ const Register: React.FC = () => {
 
 
 
-    const handleSubmit = () => {
-        if (!email || !password) {
-            setError('All fields are required');
-        } else {
-            setError('');
-            console.log({ email, password });
-        }
-    };
 
     const handleRegisterClick = async () => {
         if (flowType === UserFlowTypes.lawyer || flowType === UserFlowTypes.volunteer || flowType === UserFlowTypes.therapist || flowType === UserFlowTypes.victim) {
             try {
-                const response = await register(username, password, email, flowType)
+
                 if (flowType === UserFlowTypes.victim) {
                     showAlert && showAlert(true, '', 'Do we have your permission to send an Email with verification code?', [
                         {
@@ -49,19 +42,27 @@ const Register: React.FC = () => {
                         },
                         {
                             label: 'Yes',
-                            action: () => {
+                            action: async () => {
                                 hideModal && hideModal()
+                                await register(username, password, email, place, flowType)
                                 navigation.navigate(AuthStacks.Verification, { formData: { username: username, password: password, email: email, role: flowType } })
                             },
                         },
                     ])
                 }
                 else {
-
+                    await register(username, password, email, place, flowType)
                     navigation.navigate(AuthStacks.Verification, { formData: { username: username, password: password, email: email, role: flowType } })
                 }
             } catch (error) {
-                console.log(error)
+                    showAlert && showAlert(true, 'Error', cognitoErrorHandler(error), [
+                        {
+                            label: 'OK',
+                            action: () => {
+                                hideModal && hideModal()
+                            },
+                        },
+                    ])
             }
         }
 
@@ -83,9 +84,13 @@ const Register: React.FC = () => {
         }
     }
 
+    const handleDropDownChange = (val:string) => {
+        setPlace(val)
+    }
+
     return (
         <View style={{ flex: 1 }}>
-            <AuthForm mode={'register'} onSubmit={handleRegisterClick} buttonLabel={'Register'} showDropdown={true} email={email} username={username} password={password} place={place} handleInput={handleInput} navigation={navigation} />
+            <AuthForm mode={'register'} onSubmit={handleRegisterClick} buttonLabel={'Register'} showDropdown={true} email={email} username={username} password={password} place={place} handleInput={handleInput} navigation={navigation} handleDropDownChange={handleDropDownChange}/>
         </View>
     );
 };

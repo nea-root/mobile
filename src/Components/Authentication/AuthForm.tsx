@@ -8,52 +8,51 @@ import NEAHeart from '@/Assets/icons/NEAHeart';
 import { register } from '@/Services/Authentication/AuthService';
 import { useNavigation } from '@react-navigation/native';
 import { AuthStacks } from '@/Navigators/utils';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 interface AuthFormProps {
-  mode: 'register' | 'login' | 'reset';
+  mode: 'register' | 'login' | 'reset' | 'passwordReset';
   onSubmit: () => void;
   buttonLabel: string;
   showDropdown?: boolean;
   email: string;
   password?: string;
   username?: string;
+  confirmPassword?: string;
   place?: string
   handleInput?: (text: string,inputType: string) => void
   navigation?: any
+  handleDropDownChange?: (text:string)=>void
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password, email, place, handleInput, navigation  }) => {
+const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPassword, password, email, place, handleInput, navigation, handleDropDownChange  }) => {
   const [focusElement, setFocusElement] = useState<string>('')
   const [error, setError] = useState('');
 
 
-  const validateInputs = (email: string, username?:string, password?:string) => {
-    const errors: { email?: string, username?: string, password?: string} = {};
-  
-    // Email validation
+  const validateInputs = () => {
+    const errors: { [key: string]: string } = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
-      errors.email = "Invalid email format";
+      errors.email = 'Invalid email format';
     }
-  
-    // Username validation
-    if ((mode === 'register') &&  username && username.length < 8) {
-      errors.username = "Username must be at least 8 characters long";
+
+    if (mode === 'register' && username && username.length < 8) {
+      errors.username = 'Username must be at least 8 characters long';
     }
-  
-    // Password validation
-    if ((mode === 'register' || mode === 'login') && password && password.length < 8) {
-      errors.password = "Password must be at least 8 characters long";
+
+    if ((mode === 'register' || mode === 'login' || mode === 'passwordReset') && password && password.length < 8) {
+      errors.password = 'Password must be at least 8 characters long';
     }
-  
-    // Additional password checks (optional)
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    // if (!passwordRegex.test(password)) {
-    //   errors.password = "Password must include uppercase, lowercase, number, and special character";
-    // }
-  
+
+    if (mode === 'passwordReset' && confirmPassword !== password) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
     return errors;
-  }
+  };
+
 
   const handleTextChange = (text:string) => {
     handleInput && handleInput(text,focusElement)
@@ -64,7 +63,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
   };
 
   const handleSubmit = () => {
-    if (!email || ((mode === 'register' || mode === 'login') && !password) || (mode === 'register' && !username)) {
+    if (!email || ((mode === 'register' || mode === 'login') && !password) || (mode === 'register' && !username) || (mode === 'register' && !place)) {
       setError('All fields are required');
       return;
     }
@@ -74,19 +73,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
   };
 
   const getAuthTitle = () => {
-    const titles: { login: string, register: string, reset: string } = {
+    const titles: { login: string, register: string, reset: string, passwordReset: string } = {
       login: 'Login to your account',
       register: "Let’s get you started",
-      reset: "Reset password"
+      reset: "Reset password",
+      passwordReset: "Create new password"
     }
     return titles[mode];
   }
 
   const getButtonLabel = () => {
-    const lables: { login: string, register: string, reset: string } = {
+    const lables: { login: string, register: string, reset: string, passwordReset: string } = {
       login: 'Login',
       register: "Register",
-      reset: "Send Code"
+      reset: "Send Code",
+      passwordReset: "Reset password"
     }
     return lables[mode];
   }
@@ -127,7 +128,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
     </>)
     else if(mode === 'login')
     return (<TouchableOpacity onPress={()=>{
-
+        navigation.navigate(AuthStacks.Reset)
     }}><Text style={{
       color: '#147952',
       textAlign: 'center',
@@ -140,6 +141,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
 
     }}>Forgot password?</Text></TouchableOpacity>)
   }
+
+  const getResetDesc = () => {
+      return "Don’t worry it happens. Please enter the email associated with your NEA account to receive a verification code."
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
@@ -155,14 +161,25 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
             letterSpacing: -0.48,
           }}>{`${getAuthTitle()}`}</Text>
         </View>
+        {mode === 'reset' ? <View style={{ marginRight: 16, marginTop: -24, marginBottom: 40,alignSelf: 'flex-start' }}>
+            <Text style={{
+            color: '#0B0B14',
+            fontFamily: 'Montserrat',
+            fontSize: 14,
+            fontStyle: 'normal',
+            fontWeight: 500,
+            lineHeight: 22.4, /* 28.8px */
+            letterSpacing: -0.14,
+          }}>{getResetDesc()}</Text>
+          </View> : <></>}
         {mode === 'register' ? <NEADropdown
           label="Country"
-          options={['Option 1', 'Option 2', 'Option 3']}
+          options={['United States']}
           placeholder="Choose one"
-          onSelect={() => { }}
+          onSelect={handleDropDownChange?handleDropDownChange:()=>{}}
           required
         /> : <></>}
-        <NEATextField
+        {mode !== 'passwordReset' && <NEATextField
           label="Email address"
           value={email}
           onChangeText={handleTextChange}
@@ -170,8 +187,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
           type="email"
           error={error && !email ? 'Email is required' : ''}
           required
-          style={{ backgroundColor: '#ffffff' }}
-        />
+          style={mode === 'reset'?{ backgroundColor: '#ffffff', marginBottom: 24 }: {backgroundColor: '#ffffff'}}
+        />}
         {mode === 'register' ? <NEATextField
           label="User name"
           value={username}
@@ -181,18 +198,34 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, password,
           required
           style={{ backgroundColor: '#ffffff' }}
         /> : <></>}
-        {mode === 'register' || mode === 'login' ? <NEATextField
-          label="Password"
-          value={password}
-          onChangeText={handleTextChange}
-          onFocus={()=>{ handleFocus('password')}}
-          placeholder="Enter your password"
-          type="password"
-          error={error && !password ? 'Password is required' : ''}
-          secureTextEntry
-          style={{ backgroundColor: '#ffffff' }}
-          required
-        /> : <></>}
+        {(mode === 'register' || mode === 'login' || mode === 'passwordReset') && (
+          <NEATextField
+            label="Password"
+            value={password}
+            onChangeText={handleTextChange}
+            onFocus={() => handleFocus('password')}
+            placeholder="Enter your password"
+            type="password"
+            error={error && !password ? 'Password is required' : ''}
+            secureTextEntry
+            style={styles.input}
+            required
+          />
+        )}
+        {mode === 'passwordReset' && (
+          <NEATextField
+            label="Confirm Password"
+            value={confirmPassword}
+            onChangeText={handleTextChange}
+            onFocus={() => handleFocus('confirmPassword')}
+            placeholder="Confirm your password"
+            type="password"
+            error={error && confirmPassword !== password ? 'Passwords do not match' : ''}
+            secureTextEntry
+            style={styles.input}
+            required
+          />
+        )}
         <View style={{ flexDirection: 'column', marginBottom: 40 }}>
           <NeaButton title={getButtonLabel()} onPress={handleSubmit} style={{
             display: 'flex',
@@ -332,6 +365,9 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   socialContainer: { flexDirection: 'row', marginVertical: 20, justifyContent: 'space-around' },
   link: { color: '#147952', fontWeight: 'bold' },
+  input: {
+    backgroundColor: '#ffffff',
+  },
 });
 
 export default AuthForm;

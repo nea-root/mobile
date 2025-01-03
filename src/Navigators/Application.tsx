@@ -16,6 +16,9 @@ import Verification from '@/Containers/Verification/Verification';
 import Login from '@/Containers/Authentication/Login/Login';
 import { AuthProvider, useAuth } from '@/Context/AuthProvider/AuthProvider';
 import { signOut } from '@/Services/Authentication/AuthService';
+import Reset from '@/Containers/Authentication/Reset/Reset';
+import ResetVerification from '@/Containers/Authentication/Reset/ResetVerification';
+import ResetPassword from '@/Containers/Authentication/Reset/ResetPassword';
 
 export type RootStackParamList = {
     [RootStacks.OnBoarding]: undefined;
@@ -29,6 +32,9 @@ export type AuthStackParamList = {
     [AuthStacks.Register]: undefined
     [AuthStacks.Login]: undefined
     [AuthStacks.Verification]: { formData: { username: string, email: string, password: string, role: string } }
+    [AuthStacks.Reset]: undefined
+    [AuthStacks.ResetVerification]: { formData: { username: string, email: string, password: string, role: string } }
+    [AuthStacks.ResetPassword]: { formData: { username: string, email: string, password: string, role: string } }
 }
 
 
@@ -63,6 +69,9 @@ const AuthStackNavigator = () => {
             <AuthStack.Screen name={AuthStacks.Register} component={Register} />
             <AuthStack.Screen name={AuthStacks.Login} component={Login} />
             <AuthStack.Screen name={AuthStacks.Verification} component={Verification} />
+            <AuthStack.Screen name={AuthStacks.Reset} component={Reset} />
+            <AuthStack.Screen name={AuthStacks.ResetVerification} component={ResetVerification} />
+            <AuthStack.Screen name={AuthStacks.ResetPassword} component={ResetPassword} />
         </AuthStack.Navigator>)
 }
 

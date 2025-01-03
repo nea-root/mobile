@@ -13,14 +13,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, Button, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
-import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
 
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList, AuthStacks.Register>;
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, AuthStacks.ResetPassword>;
 
-const Login: React.FC = () => {
+const ResetPassword: React.FC = () => {
     const [email, setEmail] = useState('');
 
     const [password, setPassword] = useState('');
+
+    const [confirmPassword, setConfirmPassword] = useState('')
 
 
     const { flowType } = useContext(FlowProvider)
@@ -57,15 +58,18 @@ const Login: React.FC = () => {
             case 'password':
                 setPassword(text)
                 break;
+            case 'confirmPassword':
+                setConfirmPassword(text)
+                break;
         }
     }
 
     return (
         <View style={{ flex: 1 }}>
-            <AuthForm mode={'login'} onSubmit={handleLoginClick} buttonLabel={'login'} showDropdown={true} email={email} password={password} handleInput={handleInput} navigation={navigation} />
+            <AuthForm mode={'passwordReset'} onSubmit={handleLoginClick} buttonLabel={'login'} showDropdown={true} email={email} password={password} confirmPassword={confirmPassword} handleInput={handleInput} navigation={navigation} />
         </View>
     );
 };
 
 
-export default Login;
+export default ResetPassword;

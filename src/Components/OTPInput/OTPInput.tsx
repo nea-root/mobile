@@ -19,9 +19,10 @@ import NeaButton from "../Button/NeaButton";
 interface OTPInputProps {
     length?: number; // Number of OTP digits
     onSubmit: (otp: string) => void; // Callback when OTP is submitted
+    mode?: string
 }
 
-const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit }) => {
+const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'register' }) => {
     const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
     const inputsRefs = useRef<Array<TextInput | null>>([]);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -148,7 +149,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit }) => {
                 }}>Resend Code</Text></TouchableWithoutFeedback></Text>
             </View>
 
-            <Animated.View
+            {mode && mode === 'reset'?<></>:<Animated.View
                 style={[
                     styles.switchContainer,
                     {
@@ -185,7 +186,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit }) => {
                     lineHeight: 16
 
                 }}>When enabled, you will need to use Face ID to unlock app. You can change this anytime through privacy and settings.</Text>
-            </Animated.View>
+            </Animated.View>}
         </KeyboardAvoidingView>
     );
 };

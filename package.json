@@ -5,6 +5,8 @@
   "scripts": {
     "android:dev": "react-native run-android --mode=devDebug --appIdSuffix=dev",
     "android:prod": "react-native run-android --mode=prodDebug",
+    "export:android:dev": "sh export-android.sh assembleDev",
+    "export:android:prod": "sh export-android.sh assembleProd",
     "ios:dev": "react-native run-ios --scheme mobileDev",
     "ios:prod": "react-native run-ios --scheme mobile",
     "ios:stag": "react-native run-ios --scheme mobileStag",
@@ -33,6 +35,7 @@
     "axios": "^1.7.7",
     "react": "18.3.1",
     "react-native": "0.76.5",
+    "react-native-biometrics": "^3.0.1",
     "react-native-get-random-values": "^1.11.0",
     "react-native-keychain": "^9.2.2",
     "react-native-paper": "^5.12.5",

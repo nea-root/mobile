@@ -103,6 +103,7 @@ export const signIn = async (
 export const register = (username: string,
   password: string,
   email: string,
+  country: string,
   role: Role) => {
   if (role === 'loading') {
     return Promise.reject()
@@ -114,17 +115,19 @@ export const register = (username: string,
       reject(new Error('Invalid role'));
       return;
     }
-    var dataEmail = {
+    const dataEmail = {
       Name: 'email',
       Value: email,
     };
 
+    const dataCountry = { Name: 'custom:country', Value: country }
+
     const attributeEmail = new CognitoUserAttribute(dataEmail);
+    const attributeCountry = new CognitoUserAttribute(dataCountry)
 
-
-    const attributes: CognitoUserAttribute[] = [
-      attributeEmail
-    ];
+    const attributes: CognitoUserAttribute[] = [];
+    attributes.push(attributeEmail)
+    // attributes.push(attributeCountry) still working
 
     const validateAttributes: CognitoUserAttribute[] = [
     ]
@@ -139,6 +142,7 @@ export const register = (username: string,
           username: username,
           password: password,
           email: email,
+          country: country,
           role: role
         });
       });
@@ -164,7 +168,7 @@ export const verifySignIn = async (
     user.confirmRegistration(verificationCode, true, function (err, result) {
       if (err) {
         // alert(err.message || JSON.stringify(err));
-        reject(new Error(err))
+        reject(err)
         return;
       }
       resolve(result)
@@ -201,4 +205,114 @@ export const signOut = async (role: Role): Promise<void> => {
   } catch (error) {
     throw new Error('Error clearing tokens');
   }
+};
+
+
+/**
+ * Initiates the forgot password process for the user.
+ *
+ * @param username - The username of the user.
+ * @param role - The role to determine the Cognito pool (e.g., 'victim', 'volunteer').
+ * @returns A Promise that resolves when the reset code is sent.
+ */
+export const forgotPassword = async (username: string, role: Role): Promise<void> => {
+  if (role === 'loading') {
+    return Promise.reject(new Error('Invalid role'));
+  }
+
+  return new Promise((resolve, reject) => {
+    const userPool: CognitoUserPool = Pools[role];
+    if (!userPool) {
+      reject(new Error('Invalid role'));
+      return;
+    }
+
+    const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+
+    user.forgotPassword({
+      onSuccess: () => {
+        resolve();
+      },
+      onFailure: (err) => {
+        reject(err);
+      },
+    });
+  });
+};
+
+
+/**
+ * Verifies the password reset code sent to the user.
+ *
+ * @param username - The username of the user.
+ * @param verificationCode - The verification code sent to the user's email or phone.
+ * @param role - The role to determine the Cognito pool (e.g., 'victim', 'volunteer').
+ * @returns A Promise that resolves if the verification code is valid.
+ */
+export const verifyResetCode = async (
+  username: string,
+  verificationCode: string,
+  role: Role
+): Promise<void> => {
+  if (role === 'loading') {
+    return Promise.reject(new Error('Invalid role'));
+  }
+
+  return new Promise((resolve, reject) => {
+    const userPool: CognitoUserPool = Pools[role];
+    if (!userPool) {
+      reject(new Error('Invalid role'));
+      return;
+    }
+
+    const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+
+    // Use the confirmPassword method to verify the code
+    user.confirmPassword(verificationCode, '', {
+      onSuccess: () => {
+        resolve(); // Verification successful
+      },
+      onFailure: (err) => {
+        reject(err); // Verification failed
+      },
+    });
+  });
+};
+
+
+/**
+ * Resets the user's password after the verification code has been validated.
+ *
+ * @param username - The username of the user.
+ * @param newPassword - The new password for the user.
+ * @param role - The role to determine the Cognito pool (e.g., 'victim', 'volunteer').
+ * @returns A Promise that resolves when the password is successfully reset.
+ */
+export const resetPasswordAfterVerification = async (
+  username: string,
+  newPassword: string,
+  role: Role
+): Promise<void> => {
+  if (role === 'loading') {
+    return Promise.reject(new Error('Invalid role'));
+  }
+
+  return new Promise((resolve, reject) => {
+    const userPool: CognitoUserPool = Pools[role];
+    if (!userPool) {
+      reject(new Error('Invalid role'));
+      return;
+    }
+
+    const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+
+    user.confirmPassword('', newPassword, {
+      onSuccess: () => {
+        resolve(); // Password reset successful
+      },
+      onFailure: (err) => {
+        reject(err); // Password reset failed
+      },
+    });
+  });
 };

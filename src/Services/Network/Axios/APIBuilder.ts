@@ -1,4 +1,4 @@
-import { APIClient } from '@/Services/Network/axios/APIClient'
+import { APIClient } from '@/Services/Network/Axios/APIClient'
 import { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export class APIBuilder {
