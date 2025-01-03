@@ -24,7 +24,10 @@ export enum UserStacks {
 export enum AuthStacks {
     Register = 'Register',
     Login = 'Login',
-    Verification = 'Verification'
+    Verification = 'Verification',
+    Reset = 'Reset',
+    ResetVerification = 'ResetVerification',
+    ResetPassword = 'ResetPassword'
 }
 
 

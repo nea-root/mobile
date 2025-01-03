@@ -3,7 +3,7 @@ import OTPInput from '@/Components/OTPInput/OTPInput';
 import { AlertModalProvider } from '@/Context/AlertModal/AlertModalProvider';
 import { AuthStackParamList } from '@/Navigators/Application';
 import { AuthStacks } from '@/Navigators/utils';
-import { verifySignIn } from '@/Services/Authentication/AuthService';
+import { verifyResetCode, verifySignIn } from '@/Services/Authentication/AuthService';
 import { cognitoErrorHandler } from '@/Services/Authentication/utils';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,23 +12,22 @@ import { ISignUpResult } from 'amazon-cognito-identity-js';
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList, AuthStacks.Login>;
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, AuthStacks.ResetPassword>;
 
 
-const Verification: React.FC = ({ route }: any) => {
+const ResetVerification: React.FC = ({ route }: any) => {
 
     const [length, setLength] = useState(6);
 
     const navigation = useNavigation<NavigationProp>();
     const { alertModalData, hideModal, showAlert } = useContext(AlertModalProvider)
-    
+
     const handleSubmit = async (inputValue: string) => {
         if (inputValue.length === length) {
             const { username, email, password, role } = route?.params?.formData
             try {
-                const response: string = await verifySignIn(username, inputValue, role)
-                if (response === 'SUCCESS')
-                    navigation.navigate(AuthStacks.Login)             
+                // await verifyResetCode(username, inputValue, role)
+                navigation.navigate(AuthStacks.ResetPassword, { formData: { username, email, password, role }})
             } catch (error) {
                 showAlert && showAlert(true, 'Error', cognitoErrorHandler(error), [
                     {
@@ -45,7 +44,7 @@ const Verification: React.FC = ({ route }: any) => {
 
     return (
         <View style={styles.screen}>
-            <OTPInput onSubmit={handleSubmit} length={length} mode='register'/>
+            <OTPInput onSubmit={handleSubmit} length={length} mode='reset' />
         </View>
     );
 };
@@ -57,4 +56,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Verification;
+export default ResetVerification;
