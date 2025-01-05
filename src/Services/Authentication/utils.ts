@@ -52,3 +52,16 @@ export const cognitoErrorHandler = (error: CognitoError | any): string => {
     return errorMessages[error.code] || "An unexpected error occurred. Please try again.";
 };
 
+
+export const generateComplexPassword = (length: number = 12): string => {
+    const charset: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
+    let password: string = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex: number = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+    }
+
+    return password;
+};
+

@@ -15,14 +15,16 @@ import {
     TouchableWithoutFeedback,
 } from "react-native";
 import NeaButton from "../Button/NeaButton";
+import { resendVerificationCode, Role } from "@/Services/Authentication/AuthService";
 
 interface OTPInputProps {
     length?: number; // Number of OTP digits
     onSubmit: (otp: string) => void; // Callback when OTP is submitted
-    mode?: string
+    mode?: string;
+    handleReset?: () => void;
 }
 
-const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'register' }) => {
+const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'register', handleReset }) => {
     const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
     const inputsRefs = useRef<Array<TextInput | null>>([]);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -136,7 +138,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
                     letterSpacing: -0.14,
                     lineHeight: 22.4
 
-                }}>Did not receive code yet? <TouchableWithoutFeedback><Text style={{
+                }}>Did not receive code yet? <TouchableWithoutFeedback onPress={handleReset}><Text style={{
                     color: "#147952",
                     textAlign: 'center',
                     fontFamily: 'Montserrat',

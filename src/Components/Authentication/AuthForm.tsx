@@ -63,10 +63,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
   };
 
   const handleSubmit = () => {
-    if (!email || ((mode === 'register' || mode === 'login') && !password) || (mode === 'register' && !username) || (mode === 'register' && !place)) {
+    console.log("hello")
+    if ((mode !== 'passwordReset' && !email) || ((mode === 'register' || mode === 'login') && !password) || (mode === 'register' && !username) || (mode === 'register' && !place) || (mode === 'passwordReset' && !password) || (mode === 'passwordReset' && !confirmPassword)) {
+      console.log("hellob")
       setError('All fields are required');
       return;
     }
+    console.log("hello")
     setError('');
 
     onSubmit();

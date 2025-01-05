@@ -1,6 +1,8 @@
 import { CognitoUser, AuthenticationDetails, CognitoUserPool, ICognitoUserPoolData, CognitoUserAttribute, ISignUpResult, CognitoUserSession, ICognitoUserSessionData, CognitoIdToken } from 'amazon-cognito-identity-js';
+import { CognitoIdentityProviderClient, ChangePasswordCommand } from "@aws-sdk/client-cognito-identity-provider";
 import * as Keychain from 'react-native-keychain';
 import { Pools } from './cognitoConfig';
+import { generateComplexPassword } from './utils';
 
 export interface CognitoTokenPayload {
   sub: string;
@@ -44,6 +46,8 @@ interface Tokens {
 }
 
 export type Role = 'victim' | 'volunteer' | 'lawyer' | 'therapist' | 'loading';
+
+const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
 
 
 /**
@@ -165,6 +169,7 @@ export const verifySignIn = async (
     }
 
     const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+
     user.confirmRegistration(verificationCode, true, function (err, result) {
       if (err) {
         // alert(err.message || JSON.stringify(err));
@@ -174,6 +179,35 @@ export const verifySignIn = async (
       resolve(result)
       console.log('call result: ' + result);
     });
+  });
+};
+
+export const resendVerificationCode = async (
+  username: string,
+  role: Role
+): Promise<any> => {
+  if (role === 'loading') {
+    return Promise.reject()
+  }
+  return new Promise((resolve, reject) => {
+    const userPool: CognitoUserPool = Pools[role];
+    if (!userPool) {
+      reject(new Error('Invalid role'));
+      return;
+    }
+    console.log(username+role)
+
+    const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+
+    user.resendConfirmationCode( (err, result) =>{
+      if (err) {
+        // alert(err.message || JSON.stringify(err));
+        reject(err)
+        return;
+      }
+      resolve(result)
+      console.log('call result: ' + result);
+    })
   });
 };
 
@@ -246,12 +280,14 @@ export const forgotPassword = async (username: string, role: Role): Promise<void
  *
  * @param username - The username of the user.
  * @param verificationCode - The verification code sent to the user's email or phone.
+ * @param tempPassword - The temporary password.
  * @param role - The role to determine the Cognito pool (e.g., 'victim', 'volunteer').
  * @returns A Promise that resolves if the verification code is valid.
  */
 export const verifyResetCode = async (
   username: string,
   verificationCode: string,
+  tempPassword: string,
   role: Role
 ): Promise<void> => {
   if (role === 'loading') {
@@ -266,13 +302,13 @@ export const verifyResetCode = async (
     }
 
     const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
-
     // Use the confirmPassword method to verify the code
-    user.confirmPassword(verificationCode, '', {
+    user.confirmPassword(verificationCode, tempPassword, {
       onSuccess: () => {
         resolve(); // Verification successful
       },
       onFailure: (err) => {
+        console.log(err)
         reject(err); // Verification failed
       },
     });
@@ -290,29 +326,31 @@ export const verifyResetCode = async (
  */
 export const resetPasswordAfterVerification = async (
   username: string,
+  tempPassword: string,
   newPassword: string,
+  accessToken: string,
   role: Role
-): Promise<void> => {
+): Promise<any> => {
+  // Validate the role
   if (role === 'loading') {
-    return Promise.reject(new Error('Invalid role'));
+    throw new Error('Invalid role');
   }
 
-  return new Promise((resolve, reject) => {
-    const userPool: CognitoUserPool = Pools[role];
-    if (!userPool) {
-      reject(new Error('Invalid role'));
-      return;
-    }
 
-    const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+  // Prepare input for the ChangePasswordCommand
+  const input = {
+    PreviousPassword: tempPassword,
+    ProposedPassword: newPassword,
+    AccessToken: accessToken,
+  };
 
-    user.confirmPassword('', newPassword, {
-      onSuccess: () => {
-        resolve(); // Password reset successful
-      },
-      onFailure: (err) => {
-        reject(err); // Password reset failed
-      },
-    });
-  });
+  // Execute the change password command
+  try {
+    const command = new ChangePasswordCommand(input);
+    return await client.send(command);
+  } catch (error) {
+    // Log and rethrow the error
+    console.error('Error changing password:', error);
+    throw error;
+  }
 };

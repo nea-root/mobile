@@ -33,7 +33,7 @@ const Login: React.FC = () => {
             // const response = await signIn(email, password, flowType)
             // login(flowType, { username: response.username }, response.tokens)
             if(flowType === UserFlowTypes.lawyer || flowType === UserFlowTypes.volunteer || flowType === UserFlowTypes.therapist || flowType === UserFlowTypes.victim){
-                // await forgotPassword(email,flowType)
+                await forgotPassword(email,flowType)
                 navigation.navigate(AuthStacks.ResetVerification,{ formData:{  username:email, email, password, role: flowType }})
             }
             
