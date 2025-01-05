@@ -12,6 +12,11 @@ import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen'
 import WalkthroughCarousal from '@/Components/WalkthroughCarousal/WalkthroughCarousal'
 import Walkthrough from '@/Containers/Walkthrough/Walkthrough'
 import OTPInput from '@/Components/OTPInput/OTPInput'
+
+// Polyfills
+import 'react-native-url-polyfill/auto';
+import 'react-native-get-random-values';
+
 const App = () => {
   const [isLoading,setIsLoading] = useState(true);
   const [splashScreen, setSplashScreen]  = useState(true)

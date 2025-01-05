@@ -3,7 +3,7 @@ import OTPInput from '@/Components/OTPInput/OTPInput';
 import { AlertModalProvider } from '@/Context/AlertModal/AlertModalProvider';
 import { AuthStackParamList } from '@/Navigators/Application';
 import { AuthStacks } from '@/Navigators/utils';
-import { verifySignIn } from '@/Services/Authentication/AuthService';
+import { resendVerificationCode, verifySignIn } from '@/Services/Authentication/AuthService';
 import { cognitoErrorHandler } from '@/Services/Authentication/utils';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -43,9 +43,14 @@ const Verification: React.FC = ({ route }: any) => {
         }
     }
 
+    const handleReset = async () => {
+        const { username, email, password, role } = route?.params?.formData
+        await resendVerificationCode(username, role)
+    }
+
     return (
         <View style={styles.screen}>
-            <OTPInput onSubmit={handleSubmit} length={length} mode='register'/>
+            <OTPInput onSubmit={handleSubmit} length={length} mode='register' handleReset={handleReset}/>
         </View>
     );
 };

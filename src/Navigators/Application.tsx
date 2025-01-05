@@ -34,7 +34,7 @@ export type AuthStackParamList = {
     [AuthStacks.Verification]: { formData: { username: string, email: string, password: string, role: string } }
     [AuthStacks.Reset]: undefined
     [AuthStacks.ResetVerification]: { formData: { username: string, email: string, password: string, role: string } }
-    [AuthStacks.ResetPassword]: { formData: { username: string, email: string, password: string, role: string } }
+    [AuthStacks.ResetPassword]: { formData: { username: string,tempPassword: string, email: string, password: string, accessToken: string | undefined ,role: string } }
 }
 
 

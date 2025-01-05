@@ -7,7 +7,7 @@ import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
 
 import { AuthStackParamList } from '@/Navigators/Application';
 import { AuthStacks, UserFlowTypes } from '@/Navigators/utils';
-import { getTokens, register, signIn } from '@/Services/Authentication/AuthService';
+import { getTokens, register, resetPasswordAfterVerification, signIn, signOut } from '@/Services/Authentication/AuthService';
 import { cognitoErrorHandler } from '@/Services/Authentication/utils';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,7 +16,7 @@ import { View, StyleSheet, Button, Text, TouchableWithoutFeedback, ScrollView } 
 
 type NavigationProp = NativeStackNavigationProp<AuthStackParamList, AuthStacks.ResetPassword>;
 
-const ResetPassword: React.FC = () => {
+const ResetPassword: React.FC = ({ route }: any) => {
     const [email, setEmail] = useState('');
 
     const [password, setPassword] = useState('');
@@ -32,11 +32,15 @@ const ResetPassword: React.FC = () => {
 
 
     const handleLoginClick = async () => {
+        const { username, email, tempPassword, password, accessToken, role } = route?.params?.formData
+        console.log(username)
         if (flowType === UserFlowTypes.lawyer || flowType === UserFlowTypes.volunteer || flowType === UserFlowTypes.therapist || flowType === UserFlowTypes.victim) {
             try {
-                const response = await signIn(email, password, flowType)
-                login(flowType, { username: response.username }, response.tokens)
-
+                await resetPasswordAfterVerification(username,tempPassword, confirmPassword, accessToken, flowType)
+                // const response = await signIn(email, password, flowType)
+                // login(flowType, { username: response.username }, response.tokens)
+                // navigation.navigate(AuthStacks.Login)
+                navigation.popToTop()
             } catch (error) {
                 showAlert && showAlert(true, 'Error', cognitoErrorHandler(error), [
                     {
