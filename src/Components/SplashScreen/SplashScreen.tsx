@@ -13,15 +13,27 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const SpashScreen = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateYAnim = useRef(new Animated.Value(50)).current; // Y-axis translation animation
 
   useEffect(() => {
     // Trigger fade-in animation
     const timeout = setTimeout(() => {
-      Animated.timing(fadeAnim, {
+      Animated.parallel([Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 1000,
         useNativeDriver: true,
-      }).start();
+      }),
+      Animated.timing(translateYAnim, {
+        toValue: 0, // Move to original position
+        duration: 1000,
+        useNativeDriver: true,
+      })
+    ]).start()
+      // Animated.timing(fadeAnim, {
+      //   toValue: 1,
+      //   duration: 1000,
+      //   useNativeDriver: true,
+      // }).start();
     }, 2000);
 
     return () => clearTimeout(timeout);
@@ -40,7 +52,9 @@ const SpashScreen = () => {
             source={SplashImage}
             style={[
               styles.overlayImage,
-              { opacity: fadeAnim }, // Fade-in animation
+              { opacity: fadeAnim, 
+                transform: [{ translateY: translateYAnim }], // Fade-in from bottom
+               }, // Fade-in animation
             ]}
           />
         </ImageBackground>
