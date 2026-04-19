@@ -4,10 +4,10 @@
 
 import 'react-native';
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import {render} from '@testing-library/react-native';
 import App from '../src/App';
 
-jest.mock('../specs/NativeRNConfig', () => ({ getEnv: jest.fn(() => 'test') }));
+jest.mock('../specs/NativeRNConfig', () => ({getEnv: jest.fn(() => 'test')}));
 jest.mock('../specs/NativeLocalStorage', () => ({
   getItem: jest.fn(() => null),
   setItem: jest.fn(),
@@ -24,24 +24,27 @@ jest.mock('@/Store', () => ({
     dispatch: jest.fn(),
     subscribe: jest.fn(() => jest.fn()),
   },
-  persistor: { subscribe: jest.fn(), getState: jest.fn(() => ({ bootstrapped: true })) },
+  persistor: {
+    subscribe: jest.fn(),
+    getState: jest.fn(() => ({bootstrapped: true})),
+  },
 }));
 
 jest.mock('redux-persist/lib/integration/react', () => ({
-  PersistGate: ({ children }: any) => children,
+  PersistGate: ({children}: any) => children,
 }));
 
 jest.mock('react-native-paper', () => ({
-  Provider: ({ children }: any) => children,
+  Provider: ({children}: any) => children,
 }));
 
 jest.mock('@/Navigators/Application', () => {
-  const { View } = require('react-native');
+  const {View} = require('react-native');
   return () => <View testID="app-navigator" />;
 });
 
 jest.mock('@/Components/SplashScreen/SplashScreen', () => {
-  const { View } = require('react-native');
+  const {View} = require('react-native');
   return () => <View testID="splash-screen" />;
 });
 

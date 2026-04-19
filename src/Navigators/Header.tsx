@@ -6,9 +6,9 @@ import {
   StyleSheet,
   GestureResponderEvent,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useTheme } from '@/Hooks';
+import {useTheme} from '@/Hooks';
 
 interface HeaderProps {
   title: string; // Title to be displayed in the center
@@ -36,15 +36,20 @@ const Header: React.FC<HeaderProps> = ({
       {/* Left Icon or Button */}
       <TouchableOpacity
         style={styles.left}
-        onPress={onLeftPress || (() => navigation.goBack())}
-      >
-        {leftIcon ||         <Icon
-          name={'chevron-left'}
-          size={theme.MetricsSizes.large}
-          style={{height:  theme.MetricsSizes.large, width: theme.MetricsSizes.large, flexShrink: 0 }}
-          onPress={onLeftPress}
-          testID="iconChevronLeft"
-        />}
+        onPress={onLeftPress || (() => navigation.goBack())}>
+        {leftIcon || (
+          <Icon
+            name={'chevron-left'}
+            size={theme.MetricsSizes.large}
+            style={{
+              height: theme.MetricsSizes.large,
+              width: theme.MetricsSizes.large,
+              flexShrink: 0,
+            }}
+            onPress={onLeftPress}
+            testID="iconChevronLeft"
+          />
+        )}
       </TouchableOpacity>
 
       {/* Title */}

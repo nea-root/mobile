@@ -1,18 +1,24 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { render } from '@testing-library/react-native';
-import { FadeInView } from '@/Components/Animations/FadeAnimation';
+import {Text} from 'react-native';
+import {render} from '@testing-library/react-native';
+import {FadeInView} from '@/Components/Animations/FadeAnimation';
 
 describe('FadeInView', () => {
   it('renders without crashing', () => {
-    expect(() => render(<FadeInView><Text>Hello</Text></FadeInView>)).not.toThrow();
+    expect(() =>
+      render(
+        <FadeInView>
+          <Text>Hello</Text>
+        </FadeInView>,
+      ),
+    ).not.toThrow();
   });
 
   it('renders children', () => {
-    const { getByText } = render(
+    const {getByText} = render(
       <FadeInView>
         <Text>Fading content</Text>
-      </FadeInView>
+      </FadeInView>,
     );
     expect(getByText('Fading content')).toBeTruthy();
   });
@@ -22,16 +28,16 @@ describe('FadeInView', () => {
       render(
         <FadeInView duration={500}>
           <Text>Fast fade</Text>
-        </FadeInView>
-      )
+        </FadeInView>,
+      ),
     ).not.toThrow();
   });
 
   it('renders with custom style', () => {
-    const { getByText } = render(
-      <FadeInView style={{ flex: 1 }}>
+    const {getByText} = render(
+      <FadeInView style={{flex: 1}}>
         <Text>Styled</Text>
-      </FadeInView>
+      </FadeInView>,
     );
     expect(getByText('Styled')).toBeTruthy();
   });
@@ -41,8 +47,8 @@ describe('FadeInView', () => {
       render(
         <FadeInView>
           <Text>Default duration</Text>
-        </FadeInView>
-      )
+        </FadeInView>,
+      ),
     ).not.toThrow();
   });
 });

@@ -1,9 +1,8 @@
-
 import {
   AlertModalActionData,
   AlertModalData,
 } from '@/Data/Models/Application/AlertModalData';
-import { useCallback, useState } from 'react';
+import {useCallback, useState} from 'react';
 
 export default function () {
   const [alertModalData, setAlertModalData] = useState<AlertModalData>({
@@ -12,7 +11,7 @@ export default function () {
 
   // Quick call the dismiss the dialog
   const hideModal = useCallback(() => {
-    setAlertModalData({ isShow: false });
+    setAlertModalData({isShow: false});
   }, []);
 
   // Build and show alert modal
@@ -26,7 +25,7 @@ export default function () {
         {
           label: 'OK',
           action: () => {
-            setAlertModalData({ isShow: false });
+            setAlertModalData({isShow: false});
           },
         },
       ],

@@ -1,4 +1,4 @@
-import { Color } from './Colors';
+import {Color} from './Colors';
 
 export const Colors = {
   ...Color,

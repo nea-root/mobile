@@ -1,6 +1,5 @@
-
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
+import {setupListeners} from '@reduxjs/toolkit/query';
 import {
   persistStore,
   FLUSH,
@@ -13,12 +12,11 @@ import {
 
 import theme from './Theme';
 import dummy from './Slices/DummySlice';
-import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
-
+import {useDispatch, TypedUseSelectorHook, useSelector} from 'react-redux';
 
 const reducers = combineReducers({
-    theme,
-    dummy,
+  theme,
+  dummy,
 });
 
 // const persistConfig = {
@@ -52,9 +50,11 @@ const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 
-export type StoreStateType = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useSelectorHook: TypedUseSelectorHook<StoreStateType> = useSelector.withTypes<StoreStateType>();
+export type StoreStateType = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch =
+  useDispatch.withTypes<AppDispatch>();
+export const useSelectorHook: TypedUseSelectorHook<StoreStateType> =
+  useSelector.withTypes<StoreStateType>();
 
-export { store, persistor };
+export {store, persistor};

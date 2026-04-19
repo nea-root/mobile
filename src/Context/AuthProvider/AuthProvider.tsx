@@ -1,10 +1,20 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
-import { CognitoTokenResponse, getTokens, Role } from '@/Services/Authentication/AuthService';
-import { FlowProvider } from '../FlowProvider/FlowProvider';
-
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+  useCallback,
+} from 'react';
+import {
+  CognitoTokenResponse,
+  getTokens,
+  Role,
+} from '@/Services/Authentication/AuthService';
+import {FlowProvider} from '../FlowProvider/FlowProvider';
 
 interface UserData {
-  username: string
+  username: string;
 }
 
 interface AuthState {
@@ -26,13 +36,13 @@ interface AuthProviderProps {
 }
 
 export type AuthRegisterParams = {
-    role: Role
-    username: string
-    password: string
-    email: string
-}
+  role: Role;
+  username: string;
+  password: string;
+  email: string;
+};
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const [authState, setAuthState] = useState<AuthState>({
     roles: [],
     users: {} as Record<Role, UserData>,
@@ -40,39 +50,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
 
   const {flowType} = useContext(FlowProvider);
-  useEffect(()=>{
-      if(flowType && flowType !== 'loading')
-      {getUserTokens(flowType);}
-  },[flowType]);
+  useEffect(() => {
+    if (flowType && flowType !== 'loading') {
+      getUserTokens(flowType);
+    }
+  }, [flowType]);
 
   const getUserTokens = async (flowType: Role) => {
     try {
       const creds = await getTokens(flowType);
-      setAuthState((prevState) => ({
+      setAuthState(prevState => ({
         roles: Array.from(new Set([...prevState.roles, flowType])),
-        users: {...prevState.users,[flowType]: creds?.username},
-        tokens: { ...prevState.tokens, [flowType]: creds?.tokens },
+        users: {...prevState.users, [flowType]: creds?.username},
+        tokens: {...prevState.tokens, [flowType]: creds?.tokens},
       }));
     } catch (error) {
       console.log(error);
     }
-
   };
 
-
-  const login = useCallback((role: string, user: UserData, tokens: CognitoTokenResponse) => {
-    setAuthState((prevState) => ({
-      roles: Array.from(new Set([...prevState.roles, role])),
-      users: {...prevState.users,[role]: user},
-      tokens: { ...prevState.tokens, [role]: tokens },
-    }));
-  },[]);
+  const login = useCallback(
+    (role: string, user: UserData, tokens: CognitoTokenResponse) => {
+      setAuthState(prevState => ({
+        roles: Array.from(new Set([...prevState.roles, role])),
+        users: {...prevState.users, [role]: user},
+        tokens: {...prevState.tokens, [role]: tokens},
+      }));
+    },
+    [],
+  );
 
   const logout = useCallback((role: Role) => {
-    setAuthState((prevState) => {
-      const updatedRoles = prevState.roles.filter((r) => r !== role);
-      const { [role]: _, ...remainingTokens } = prevState.tokens;
-      const { [role]: _1, ...remainingUsers } = prevState.users;
+    setAuthState(prevState => {
+      const updatedRoles = prevState.roles.filter(r => r !== role);
+      const {[role]: _, ...remainingTokens} = prevState.tokens;
+      const {[role]: _1, ...remainingUsers} = prevState.users;
 
       return {
         roles: updatedRoles,
@@ -80,10 +92,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         tokens: remainingTokens as Record<Role, CognitoTokenResponse>,
       };
     });
-  },[]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ authState, login, logout }}>
+    <AuthContext.Provider value={{authState, login, logout}}>
       {children}
     </AuthContext.Provider>
   );

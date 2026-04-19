@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  GestureResponderEvent,
-} from 'react-native';
+import {Text, TouchableOpacity, GestureResponderEvent} from 'react-native';
 import createStyles from './styles';
 
 interface NeaButtonProps {
@@ -27,8 +23,7 @@ export default function NeaButton({
     <TouchableOpacity
       onPress={onPress}
       style={[styles.container, style, disabled && styles.disabledContainer]}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       <Text style={[styles.text, textStyle]} numberOfLines={1}>
         {title}
       </Text>

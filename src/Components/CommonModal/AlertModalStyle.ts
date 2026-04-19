@@ -1,5 +1,5 @@
-import { CommonParams } from '@/Theme/theme';
-import { StyleSheet } from 'react-native';
+import {CommonParams} from '@/Theme/theme';
+import {StyleSheet} from 'react-native';
 
 export default function <C>({
   Colors,

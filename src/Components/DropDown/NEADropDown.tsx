@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -29,7 +29,6 @@ const NEADropdown: React.FC<DropdownProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showOptions, setShowOptions] = useState(false);
 
-
   const handleSelect = (value: string) => {
     setSelectedOption(value);
     setShowOptions(false);
@@ -38,7 +37,8 @@ const NEADropdown: React.FC<DropdownProps> = ({
   return (
     <View style={[styles.container, style]}>
       {label && (
-        <Animated.Text style={{
+        <Animated.Text
+          style={{
             position: 'absolute',
             left: 10,
             top: 2,
@@ -50,14 +50,10 @@ const NEADropdown: React.FC<DropdownProps> = ({
         </Animated.Text>
       )}
       <TouchableOpacity
-        style={[
-          styles.input,
-          isFocused && styles.inputFocused,
-        ]}
+        style={[styles.input, isFocused && styles.inputFocused]}
         onPress={() => {
           setShowOptions(!showOptions);
-        }}
-      >
+        }}>
         <Text style={selectedOption ? styles.selectedText : styles.placeholder}>
           {selectedOption || placeholder}
         </Text>
@@ -66,12 +62,11 @@ const NEADropdown: React.FC<DropdownProps> = ({
         <View style={styles.optionsContainer}>
           <FlatList
             data={options}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
+            keyExtractor={(_item, index) => index.toString()}
+            renderItem={({item}) => (
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => handleSelect(item)}
-              >
+                onPress={() => handleSelect(item)}>
                 <Text style={styles.optionText}>{item}</Text>
               </TouchableOpacity>
             )}

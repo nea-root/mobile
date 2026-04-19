@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen';
-import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
+import {FlowProvider} from '@/Context/FlowProvider/FlowProvider';
 
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({ navigate: mockNavigate }),
+  useNavigation: () => ({navigate: mockNavigate}),
 }));
 
 const mockSetFlowType = jest.fn();
@@ -18,7 +18,7 @@ const renderWithContext = (contextValue = mockFlowContext) =>
   render(
     <FlowProvider.Provider value={contextValue}>
       <OnBoardingScreen />
-    </FlowProvider.Provider>
+    </FlowProvider.Provider>,
   );
 
 beforeEach(() => {
@@ -31,7 +31,7 @@ describe('OnBoardingScreen', () => {
   });
 
   it('displays all 4 role cards', () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     expect(getByText(/Help/)).toBeTruthy();
     expect(getByText(/Volunteer/)).toBeTruthy();
     expect(getByText(/Lawyer/)).toBeTruthy();
@@ -39,57 +39,59 @@ describe('OnBoardingScreen', () => {
   });
 
   it('navigates directly when victim card is pressed', () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Help/));
     expect(mockSetFlowType).toHaveBeenCalledWith('loading');
-    expect(mockNavigate).toHaveBeenCalledWith('WalkthroughStack', { flowType: 'victim' });
+    expect(mockNavigate).toHaveBeenCalledWith('WalkthroughStack', {
+      flowType: 'victim',
+    });
   });
 
   it('shows warning modal when volunteer card is pressed', async () => {
-    const { getByText, queryByText } = renderWithContext();
+    const {getByText, queryByText} = renderWithContext();
     expect(queryByText('Remember')).toBeNull();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() => expect(getByText('Remember')).toBeTruthy());
   });
 
   it('shows correct volunteer disclaimer text in modal', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() =>
-      expect(getByText(/NEA Volunteer is only offering/)).toBeTruthy()
+      expect(getByText(/NEA Volunteer is only offering/)).toBeTruthy(),
     );
   });
 
   it('shows warning modal when lawyer card is pressed', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Lawyer/));
     await waitFor(() => expect(getByText('Remember')).toBeTruthy());
   });
 
   it('shows correct lawyer disclaimer text', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Lawyer/));
     await waitFor(() =>
-      expect(getByText(/legal representation agreement/)).toBeTruthy()
+      expect(getByText(/legal representation agreement/)).toBeTruthy(),
     );
   });
 
   it('shows warning modal when therapist card is pressed', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Therapist/));
     await waitFor(() => expect(getByText('Remember')).toBeTruthy());
   });
 
   it('shows correct therapist disclaimer text', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Therapist/));
     await waitFor(() =>
-      expect(getByText(/professional services agreement/)).toBeTruthy()
+      expect(getByText(/professional services agreement/)).toBeTruthy(),
     );
   });
 
   it('Proceed button is disabled initially (checkbox unchecked)', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() => {
       const proceedBtn = getByText('Proceed');
@@ -99,7 +101,7 @@ describe('OnBoardingScreen', () => {
   });
 
   it('enables Proceed button after checking checkbox', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() => getByText('I understand and agree to proceed'));
     fireEvent.press(getByText('I understand and agree to proceed'));
@@ -109,19 +111,21 @@ describe('OnBoardingScreen', () => {
   });
 
   it('navigates after checking checkbox and pressing Proceed', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() => getByText('I understand and agree to proceed'));
     fireEvent.press(getByText('I understand and agree to proceed'));
     fireEvent.press(getByText('Proceed'));
     await waitFor(() => {
       expect(mockSetFlowType).toHaveBeenCalledWith('loading');
-      expect(mockNavigate).toHaveBeenCalledWith('WalkthroughStack', { flowType: 'volunteer' });
+      expect(mockNavigate).toHaveBeenCalledWith('WalkthroughStack', {
+        flowType: 'volunteer',
+      });
     });
   });
 
   it('closes modal when ✕ is pressed', async () => {
-    const { getByText, queryByText } = renderWithContext();
+    const {getByText, queryByText} = renderWithContext();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() => getByText('Remember'));
     fireEvent.press(getByText('✕'));
@@ -129,7 +133,7 @@ describe('OnBoardingScreen', () => {
   });
 
   it('does not navigate when modal is dismissed without proceeding', async () => {
-    const { getByText } = renderWithContext();
+    const {getByText} = renderWithContext();
     fireEvent.press(getByText(/Volunteer/));
     await waitFor(() => getByText('Remember'));
     fireEvent.press(getByText('✕'));

@@ -5,8 +5,8 @@
  * That allows to change them more easily later on.
  */
 
-import { Dimensions } from 'react-native';
-import { Color } from './Colors';
+import {Dimensions} from 'react-native';
+import {Color} from './Colors';
 const windowHeight = Dimensions.get('window').height;
 
 export const Colors = {

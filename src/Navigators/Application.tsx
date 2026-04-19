@@ -1,60 +1,79 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MasterContext } from '@/Context/MasterContext';
-import { AuthStacks, MainStacks, RootStacks, Tabs, UserFlowTypes, UserStacks } from './utils';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {MasterContext} from '@/Context/MasterContext';
+import {
+  AuthStacks,
+  MainStacks,
+  RootStacks,
+  Tabs,
+  UserFlowTypes,
+  UserStacks,
+} from './utils';
 
 import Walkthrough from '@/Containers/Walkthrough/Walkthrough';
 import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen';
-import { FlowContext } from '@/Context/Types/FlowContext';
-import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
+import {FlowContext} from '@/Context/Types/FlowContext';
+import {FlowProvider} from '@/Context/FlowProvider/FlowProvider';
 import Register from '@/Containers/Authentication/Register/Register';
 import Header from './Header';
 import Verification from '@/Containers/Verification/Verification';
 import Login from '@/Containers/Authentication/Login/Login';
-import { useAuth } from '@/Context/AuthProvider/AuthProvider';
+import {useAuth} from '@/Context/AuthProvider/AuthProvider';
 
 import Reset from '@/Containers/Authentication/Reset/Reset';
 import ResetVerification from '@/Containers/Authentication/Reset/ResetVerification';
 import ResetPassword from '@/Containers/Authentication/Reset/ResetPassword';
 
-import { HomeScreen } from '@/Containers/HomeScreen/HomeScreen';
-import { VolunteerHomeScreen } from '@/Containers/HomeScreen/VolunteerHomeScreen';
-import { ChatScreen } from '@/Containers/ChatScreen/ChatScreen';
+import {HomeScreen} from '@/Containers/HomeScreen/HomeScreen';
+import {VolunteerHomeScreen} from '@/Containers/HomeScreen/VolunteerHomeScreen';
+import {ChatScreen} from '@/Containers/ChatScreen/ChatScreen';
 
 export type RootStackParamList = {
-    [RootStacks.OnBoarding]: undefined;
-    [RootStacks.Walkthrough]: { flowType: string };
+  [RootStacks.OnBoarding]: undefined;
+  [RootStacks.Walkthrough]: {flowType: string};
 };
 export type UserStackParamList = {
-    [UserStacks.Walkthrough]: undefined;
-    [UserStacks.AuthStack]: { screen: keyof AuthStackParamList } | undefined;
+  [UserStacks.Walkthrough]: undefined;
+  [UserStacks.AuthStack]: {screen: keyof AuthStackParamList} | undefined;
 };
 export type AuthStackParamList = {
-    [AuthStacks.Register]: undefined
-    [AuthStacks.Login]: undefined
-    [AuthStacks.Verification]: { formData: { username: string, email: string, password: string, role: string } }
-    [AuthStacks.Reset]: undefined
-    [AuthStacks.ResetVerification]: { formData: { username: string, email: string, password: string, role: string } }
-    [AuthStacks.ResetPassword]: { formData: { username: string, tempPassword: string, email: string, password: string, accessToken: string | undefined, role: string } }
-}
+  [AuthStacks.Register]: undefined;
+  [AuthStacks.Login]: undefined;
+  [AuthStacks.Verification]: {
+    formData: {username: string; email: string; password: string; role: string};
+  };
+  [AuthStacks.Reset]: undefined;
+  [AuthStacks.ResetVerification]: {
+    formData: {username: string; email: string; password: string; role: string};
+  };
+  [AuthStacks.ResetPassword]: {
+    formData: {
+      username: string;
+      tempPassword: string;
+      email: string;
+      password: string;
+      accessToken: string | undefined;
+      role: string;
+    };
+  };
+};
 
 export type MainStackParamList = {
-    [MainStacks.TabStack]: undefined
-    [MainStacks.ChatScreen]: undefined
-}
+  [MainStacks.TabStack]: undefined;
+  [MainStacks.ChatScreen]: undefined;
+};
 
 export type TabStackParamList = {
-    [Tabs.Home]: undefined
-    [Tabs.Awareness]: undefined
-    [Tabs.Evidence]: undefined
-    [Tabs.Help]: undefined
-    [Tabs.Messages]: undefined
-    [Tabs.Clients]: undefined
-    [Tabs.Appointments]: undefined
-}
-
+  [Tabs.Home]: undefined;
+  [Tabs.Awareness]: undefined;
+  [Tabs.Evidence]: undefined;
+  [Tabs.Help]: undefined;
+  [Tabs.Messages]: undefined;
+  [Tabs.Clients]: undefined;
+  [Tabs.Appointments]: undefined;
+};
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -62,111 +81,148 @@ const Tab = createBottomTabNavigator<TabStackParamList>();
 const UserStack = createNativeStackNavigator<UserStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
-
 const AuthStackNavigator = () => {
-    return (
-        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-            <AuthStack.Screen name={AuthStacks.Register} component={Register} />
-            <AuthStack.Screen name={AuthStacks.Login} component={Login} />
-            <AuthStack.Screen name={AuthStacks.Verification} component={Verification} />
-            <AuthStack.Screen name={AuthStacks.Reset} component={Reset} />
-            <AuthStack.Screen name={AuthStacks.ResetVerification} component={ResetVerification} />
-            <AuthStack.Screen name={AuthStacks.ResetPassword} component={ResetPassword} />
-        </AuthStack.Navigator>);
+  return (
+    <AuthStack.Navigator screenOptions={{headerShown: false}}>
+      <AuthStack.Screen name={AuthStacks.Register} component={Register} />
+      <AuthStack.Screen name={AuthStacks.Login} component={Login} />
+      <AuthStack.Screen
+        name={AuthStacks.Verification}
+        component={Verification}
+      />
+      <AuthStack.Screen name={AuthStacks.Reset} component={Reset} />
+      <AuthStack.Screen
+        name={AuthStacks.ResetVerification}
+        component={ResetVerification}
+      />
+      <AuthStack.Screen
+        name={AuthStacks.ResetPassword}
+        component={ResetPassword}
+      />
+    </AuthStack.Navigator>
+  );
 };
 
 const MainStackNavigator = () => {
-    const { flowType } = React.useContext(FlowProvider);
-    const isVolunteerRole = flowType === UserFlowTypes.volunteer ||
-        flowType === UserFlowTypes.lawyer ||
-        flowType === UserFlowTypes.therapist;
-    return (
-        <MainStack.Navigator screenOptions={{ headerShown: false }}>
-            <MainStack.Screen
-                name={MainStacks.TabStack}
-                component={isVolunteerRole ? VolunteerTabStackNavigator : TabStackNavigator}
-            />
-            <MainStack.Screen name={MainStacks.ChatScreen} component={ChatScreen} />
-        </MainStack.Navigator>
-    );
+  const {flowType} = React.useContext(FlowProvider);
+  const isVolunteerRole =
+    flowType === UserFlowTypes.volunteer ||
+    flowType === UserFlowTypes.lawyer ||
+    flowType === UserFlowTypes.therapist;
+  return (
+    <MainStack.Navigator screenOptions={{headerShown: false}}>
+      <MainStack.Screen
+        name={MainStacks.TabStack}
+        component={
+          isVolunteerRole ? VolunteerTabStackNavigator : TabStackNavigator
+        }
+      />
+      <MainStack.Screen name={MainStacks.ChatScreen} component={ChatScreen} />
+    </MainStack.Navigator>
+  );
 };
 
 const TabStackNavigator = () => {
-    return (<Tab.Navigator screenOptions={{
-        header: ({ navigation, route: _route, options: _options }) => (
-            <Header
-                onLeftPress={navigation.goBack}
-                onRightPress={() => console.log('Right Action Pressed')} title={''} />
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        header: ({navigation, route: _route, options: _options}) => (
+          <Header
+            onLeftPress={navigation.goBack}
+            onRightPress={() => console.log('Right Action Pressed')}
+            title={''}
+          />
         ),
-    }}>
-        <Tab.Screen name={Tabs.Home} component={HomeScreen} />
-        <Tab.Screen name={Tabs.Awareness} component={HomeScreen} />
-        <Tab.Screen name={Tabs.Evidence} component={HomeScreen} />
-        <Tab.Screen name={Tabs.Help} component={HomeScreen} />
-    </Tab.Navigator>);
+      }}>
+      <Tab.Screen name={Tabs.Home} component={HomeScreen} />
+      <Tab.Screen name={Tabs.Awareness} component={HomeScreen} />
+      <Tab.Screen name={Tabs.Evidence} component={HomeScreen} />
+      <Tab.Screen name={Tabs.Help} component={HomeScreen} />
+    </Tab.Navigator>
+  );
 };
 
 const VolunteerTabStackNavigator = () => {
-    return (<Tab.Navigator screenOptions={{
-        header: ({ navigation, route: _route, options: _options }) => (
-            <Header
-                onLeftPress={navigation.goBack}
-                onRightPress={() => console.log('Right Action Pressed')} title={''} />
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        header: ({navigation, route: _route, options: _options}) => (
+          <Header
+            onLeftPress={navigation.goBack}
+            onRightPress={() => console.log('Right Action Pressed')}
+            title={''}
+          />
         ),
-    }}>
-        <Tab.Screen name={Tabs.Home} component={VolunteerHomeScreen} />
-        <Tab.Screen name={Tabs.Messages} component={VolunteerHomeScreen} />
-        <Tab.Screen name={Tabs.Clients} component={VolunteerHomeScreen} />
-        <Tab.Screen name={Tabs.Appointments} component={VolunteerHomeScreen} />
-    </Tab.Navigator>);
+      }}>
+      <Tab.Screen name={Tabs.Home} component={VolunteerHomeScreen} />
+      <Tab.Screen name={Tabs.Messages} component={VolunteerHomeScreen} />
+      <Tab.Screen name={Tabs.Clients} component={VolunteerHomeScreen} />
+      <Tab.Screen name={Tabs.Appointments} component={VolunteerHomeScreen} />
+    </Tab.Navigator>
+  );
 };
 
-const UserStackNavigator = ({ route }: any) => {
-    const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
-    const { flowType, setFlowType }: FlowContext = React.useContext(FlowProvider);
-    const { authState } = useAuth();
-    React.useEffect(() => {
-        setFlowType(route?.params?.flowType);
-    }, [setFlowType, route]);
-    React.useEffect(() => {
-        if (authState && flowType && authState.users[flowType]) {
-            setIsLoggedIn(true);
-        }
-        else if (authState && flowType && !authState.users[flowType]) {
-            setIsLoggedIn(false);
-        }
-    }, [authState, authState.users, authState.tokens, authState.roles.length, flowType]);
-    if (!isLoggedIn) {
-        return <MainStackNavigator />;
+const UserStackNavigator = ({route}: any) => {
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+  const {flowType, setFlowType}: FlowContext = React.useContext(FlowProvider);
+  const {authState} = useAuth();
+  React.useEffect(() => {
+    setFlowType(route?.params?.flowType);
+  }, [setFlowType, route]);
+  React.useEffect(() => {
+    if (authState && flowType && authState.users[flowType]) {
+      setIsLoggedIn(true);
+    } else if (authState && flowType && !authState.users[flowType]) {
+      setIsLoggedIn(false);
     }
-    return (
-        <UserStack.Navigator screenOptions={{
-            header: ({ navigation }) => (
-                <Header
-                    onLeftPress={navigation.goBack} // Handles back navigation
-                    onRightPress={() => console.log('Right Action Pressed')} title={''} />
-            ),
-            headerTransparent: true,
-        }}>
-            <UserStack.Screen name={UserStacks.Walkthrough} component={Walkthrough} />
-            <UserStack.Screen name={UserStacks.AuthStack} component={AuthStackNavigator} />
-        </UserStack.Navigator>
-    );
+  }, [
+    authState,
+    authState.users,
+    authState.tokens,
+    authState.roles.length,
+    flowType,
+  ]);
+  if (!isLoggedIn) {
+    return <MainStackNavigator />;
+  }
+  return (
+    <UserStack.Navigator
+      screenOptions={{
+        header: ({navigation}) => (
+          <Header
+            onLeftPress={navigation.goBack} // Handles back navigation
+            onRightPress={() => console.log('Right Action Pressed')}
+            title={''}
+          />
+        ),
+        headerTransparent: true,
+      }}>
+      <UserStack.Screen name={UserStacks.Walkthrough} component={Walkthrough} />
+      <UserStack.Screen
+        name={UserStacks.AuthStack}
+        component={AuthStackNavigator}
+      />
+    </UserStack.Navigator>
+  );
 };
-
-
 
 const ApplicationNavigator = () => {
-    return (
-        <NavigationContainer>
-            <MasterContext>
-                <RootStack.Navigator screenOptions={{ headerShown: false }}>
-                    <RootStack.Screen name={RootStacks.OnBoarding} component={OnBoardingScreen} />
-                    <RootStack.Screen name={RootStacks.Walkthrough} component={UserStackNavigator} />
-                </RootStack.Navigator>
-            </MasterContext>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      <MasterContext>
+        <RootStack.Navigator screenOptions={{headerShown: false}}>
+          <RootStack.Screen
+            name={RootStacks.OnBoarding}
+            component={OnBoardingScreen}
+          />
+          <RootStack.Screen
+            name={RootStacks.Walkthrough}
+            component={UserStackNavigator}
+          />
+        </RootStack.Navigator>
+      </MasterContext>
+    </NavigationContainer>
+  );
 };
 
 export default ApplicationNavigator;

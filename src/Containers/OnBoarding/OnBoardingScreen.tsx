@@ -5,12 +5,12 @@
  *
  * @format
  */
-import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
-import { RootStackParamList } from '@/Navigators/Application';
-import { RootStacks, UserFlowTypes } from '@/Navigators/utils';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useContext, useState } from 'react';
+import {FlowProvider} from '@/Context/FlowProvider/FlowProvider';
+import {RootStackParamList} from '@/Navigators/Application';
+import {RootStacks, UserFlowTypes} from '@/Navigators/utils';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -22,11 +22,14 @@ import {
   Pressable,
 } from 'react-native';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, RootStacks.Walkthrough>;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  RootStacks.Walkthrough
+>;
 
 const ROLE_WARNINGS: Partial<Record<UserFlowTypes, string>> = {
   [UserFlowTypes.volunteer]:
-    'Before proceeding, please note that a person volunteering as an NEA Volunteer is only offering to provide a safe listening experience for you and may only render such advice as may relate to the Volunteer\'s own experience or in their non-professional judgment. NEA disclaims all liability for any actions of any NEA Volunteer; however, please notify NEA if you have any negative experiences with your Volunteer.',
+    "Before proceeding, please note that a person volunteering as an NEA Volunteer is only offering to provide a safe listening experience for you and may only render such advice as may relate to the Volunteer's own experience or in their non-professional judgment. NEA disclaims all liability for any actions of any NEA Volunteer; however, please notify NEA if you have any negative experiences with your Volunteer.",
   [UserFlowTypes.lawyer]:
     'Before proceeding, please note that a person volunteering as a Lawyer will make their own legal representation agreement and financial arrangements with you, which shall not in any way involve NEA. NEA disclaims all liability for any actions of any Lawyer; however, please notify NEA if you have any negative experiences with your Lawyer. NEA does not assume the role of your attorney by making these matching services available to you, and such services do not constitute legal advice in any form.',
   [UserFlowTypes.therapist]:
@@ -35,7 +38,7 @@ const ROLE_WARNINGS: Partial<Record<UserFlowTypes, string>> = {
 
 export default function OnBoardingScreen(): React.JSX.Element {
   const navigation = useNavigation<NavigationProp>();
-  const { setFlowType } = useContext(FlowProvider);
+  const {setFlowType} = useContext(FlowProvider);
   const [pendingRole, setPendingRole] = useState<UserFlowTypes | null>(null);
   const [agreed, setAgreed] = useState(false);
 
@@ -45,14 +48,16 @@ export default function OnBoardingScreen(): React.JSX.Element {
       setAgreed(false);
     } else {
       setFlowType('loading');
-      navigation.navigate(RootStacks.Walkthrough, { flowType: role });
+      navigation.navigate(RootStacks.Walkthrough, {flowType: role});
     }
   };
 
   const handleProceed = () => {
-    if (!pendingRole) {return;}
+    if (!pendingRole) {
+      return;
+    }
     setFlowType('loading');
-    navigation.navigate(RootStacks.Walkthrough, { flowType: pendingRole });
+    navigation.navigate(RootStacks.Walkthrough, {flowType: pendingRole});
     setPendingRole(null);
   };
 
@@ -67,8 +72,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
         visible={!!pendingRole}
         transparent
         animationType="fade"
-        onRequestClose={handleDismiss}
-      >
+        onRequestClose={handleDismiss}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalCard}>
             <Pressable style={styles.closeButton} onPress={handleDismiss}>
@@ -81,18 +85,21 @@ export default function OnBoardingScreen(): React.JSX.Element {
             <TouchableOpacity
               style={styles.checkboxRow}
               onPress={() => setAgreed(prev => !prev)}
-              activeOpacity={0.7}
-            >
+              activeOpacity={0.7}>
               <View style={[styles.checkbox, agreed && styles.checkboxChecked]}>
                 {agreed && <Text style={styles.checkmark}>✓</Text>}
               </View>
-              <Text style={styles.checkboxLabel}>I understand and agree to proceed</Text>
+              <Text style={styles.checkboxLabel}>
+                I understand and agree to proceed
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.proceedButton, !agreed && styles.proceedButtonDisabled]}
+              style={[
+                styles.proceedButton,
+                !agreed && styles.proceedButtonDisabled,
+              ]}
               onPress={handleProceed}
-              disabled={!agreed}
-            >
+              disabled={!agreed}>
               <Text style={styles.proceedButtonText}>Proceed</Text>
             </TouchableOpacity>
           </View>
@@ -100,160 +107,99 @@ export default function OnBoardingScreen(): React.JSX.Element {
       </Modal>
       <ScrollView
         scrollEnabled={true}
-        contentInsetAdjustmentBehavior="automatic"
-      >
-      <View
-        style={styles.container}
-      >
-        <View
-          style={styles.subContainerStyle}
-        >
-          <TouchableOpacity style={{width: '100%'}} onPress={()=>handlePress(UserFlowTypes.victim)}>
-            <View
-              style={styles.cardStyle}
-            >
-              <View
-                style={styles.imageContainer}
-              >
-                <ImageBackground
-                  style={styles.imageStyle}
-                  source={require('@/Assets/images/survivor.png')}
-                  resizeMode="cover"
-                />
+        contentInsetAdjustmentBehavior="automatic">
+        <View style={styles.container}>
+          <View style={styles.subContainerStyle}>
+            <TouchableOpacity
+              style={{width: '100%'}}
+              onPress={() => handlePress(UserFlowTypes.victim)}>
+              <View style={styles.cardStyle}>
+                <View style={styles.imageContainer}>
+                  <ImageBackground
+                    style={styles.imageStyle}
+                    source={require('@/Assets/images/survivor.png')}
+                    resizeMode="cover"
+                  />
+                </View>
+                <Text style={styles.textParaStyle}>
+                  <Text style={styles.textStyle}>I am here to get&nbsp;</Text>
+                  <Text style={styles.textEmpStyle}>Help</Text>
+                  <Text style={styles.textStyle}>, Talk, Access Resources</Text>
+                </Text>
               </View>
-              <Text
-                style={styles.textParaStyle}
-              >
-                <Text
-                  style={styles.textStyle}
-                >
-                  I am here to get&nbsp;
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{width: '100%'}}
+              onPress={() =>
+                handlePress(UserFlowTypes.volunteer as UserFlowTypes)
+              }>
+              <View style={styles.cardStyle}>
+                <View style={styles.imageContainer}>
+                  <ImageBackground
+                    style={styles.imageStyle}
+                    source={require('@/Assets/images/volunteer.png')}
+                    resizeMode="cover"
+                  />
+                </View>
+                <Text style={styles.textParaStyle}>
+                  <Text style={styles.textStyle}>I want to&nbsp;</Text>
+                  <Text style={styles.textEmpStyle}>Volunteer</Text>
+                  <Text style={styles.textStyle}>
+                    to Chat, Offer Emotional Support
+                  </Text>
                 </Text>
-                <Text
-                  style={styles.textEmpStyle}
-                >
-                  Help
-                </Text>
-                <Text
-                  style={styles.textStyle}
-                >
-                  , Talk, Access Resources
-                </Text>
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={{width: '100%'}} onPress={()=>handlePress(UserFlowTypes.volunteer as UserFlowTypes)}>
-            <View
-              style={styles.cardStyle}
-            >
-              <View
-                style={styles.imageContainer}
-              >
-                <ImageBackground
-                  style={styles.imageStyle}
-                  source={require('@/Assets/images/volunteer.png')}
-                  resizeMode="cover"
-                />
               </View>
-              <Text
-                style={styles.textParaStyle}
-              >
-                <Text
-                  style={styles.textStyle}
-                >
-                  I want to&nbsp;
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{width: '100%'}}
+              onPress={() =>
+                handlePress(UserFlowTypes.lawyer as UserFlowTypes)
+              }>
+              <View style={styles.cardStyle}>
+                <View style={styles.imageContainer}>
+                  <ImageBackground
+                    style={styles.imageStyle}
+                    source={require('@/Assets/images/lawyer.png')}
+                    resizeMode="cover"
+                  />
+                </View>
+                <Text style={styles.textParaStyle}>
+                  <Text style={styles.textStyle}>I am a&nbsp;</Text>
+                  <Text style={styles.textEmpStyle}>Lawyer</Text>
+                  <Text style={styles.textStyle}>
+                    offering legal aid for DV victims
+                  </Text>
                 </Text>
-                <Text
-                  style={styles.textEmpStyle}
-                >
-                  Volunteer
-                </Text>
-                <Text
-                  style={styles.textStyle}
-                >
-
-                  to Chat, Offer Emotional Support
-                </Text>
-              </Text>
-            </View>
-          </TouchableOpacity >
-          <TouchableOpacity style={{width: '100%'}} onPress={()=>handlePress(UserFlowTypes.lawyer as UserFlowTypes)}>
-            <View
-              style={styles.cardStyle}
-            >
-              <View
-                style={styles.imageContainer}
-              >
-                <ImageBackground
-                  style={styles.imageStyle}
-                  source={require('@/Assets/images/lawyer.png')}
-                  resizeMode="cover"
-                />
               </View>
-              <Text
-                style={styles.textParaStyle}
-              >
-                <Text
-                  style={styles.textStyle}
-                >
-                  I am a&nbsp;
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{width: '100%'}}
+              onPress={() =>
+                handlePress(UserFlowTypes.therapist as UserFlowTypes)
+              }>
+              <View style={styles.cardStyle}>
+                <View style={styles.imageContainer}>
+                  <ImageBackground
+                    style={styles.imageStyle}
+                    source={require('@/Assets/images/therapist.png')}
+                    resizeMode="cover"
+                  />
+                </View>
+                <Text style={styles.textParaStyle}>
+                  <Text style={styles.textStyle}>I am a&nbsp;</Text>
+                  <Text style={styles.textEmpStyle}>Therapist</Text>
+                  <Text style={styles.textStyle}>
+                    offering counseling for DV survivors
+                  </Text>
                 </Text>
-                <Text
-                  style={styles.textEmpStyle}
-                >
-                  Lawyer
-                </Text>
-                <Text
-                  style={styles.textStyle}
-                >
-
-                  offering legal aid for DV victims
-                </Text>
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={{width: '100%'}} onPress={()=>handlePress(UserFlowTypes.therapist as UserFlowTypes)}>
-            <View
-              style={styles.cardStyle}
-            >
-              <View
-                style={styles.imageContainer}
-              >
-                <ImageBackground
-                  style={styles.imageStyle}
-                  source={require('@/Assets/images/therapist.png')}
-                  resizeMode="cover"
-                />
               </View>
-              <Text
-                style={styles.textParaStyle}
-              >
-                <Text
-                  style={styles.textStyle}
-                >
-                  I am a&nbsp;
-                </Text>
-                <Text
-                  style={styles.textEmpStyle}
-                >
-                  Therapist
-                </Text>
-                <Text
-                  style={styles.textStyle}
-                >
-
-                  offering counseling for DV survivors
-                </Text>
-              </Text>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
     </>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

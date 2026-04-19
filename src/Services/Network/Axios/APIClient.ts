@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 
 export class APIClient {
   constructor(url: string) {
@@ -49,7 +49,7 @@ export class APIClient {
     const qs = require('qs');
     return this.api.post(url, qs.stringify(data), {
       ...{
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
       },
       ...config,
     });
