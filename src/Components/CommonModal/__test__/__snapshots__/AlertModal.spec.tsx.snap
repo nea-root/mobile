@@ -21,17 +21,17 @@ exports[`should render AlertModel correctly 1`] = `
         {
           "alignSelf": "stretch",
           "backgroundColor": "#ffffff",
-          "borderRadius": undefined,
-          "elevation": undefined,
+          "borderRadius": 20,
+          "elevation": 5,
           "marginHorizontal": 24,
           "paddingTop": 24,
           "shadowColor": "#000",
           "shadowOffset": {
-            "height": undefined,
-            "width": undefined,
+            "height": 2,
+            "width": 0,
           },
-          "shadowOpacity": undefined,
-          "shadowRadius": undefined,
+          "shadowOpacity": 0.25,
+          "shadowRadius": 4,
         }
       }
     >
@@ -42,7 +42,7 @@ exports[`should render AlertModel correctly 1`] = `
               "color": "#25042D",
               "fontFamily": "NunitoSans-Bold",
               "fontSize": 20,
-              "marginHorizontal": undefined,
+              "marginHorizontal": 18,
               "textAlign": "center",
             },
           ]
@@ -59,7 +59,7 @@ exports[`should render AlertModel correctly 1`] = `
               "fontSize": 16,
               "fontWeight": "600",
               "marginHorizontal": 24,
-              "marginTop": undefined,
+              "marginTop": 14,
               "textAlign": "center",
             },
           ]
@@ -81,8 +81,8 @@ exports[`should render AlertModel correctly 1`] = `
               {
                 "alignSelf": "stretch",
                 "backgroundColor": "#A09BFF",
-                "height": undefined,
-                "marginTop": undefined,
+                "height": 0.4,
+                "marginTop": 26,
               },
             ],
           ]
@@ -92,7 +92,7 @@ exports[`should render AlertModel correctly 1`] = `
         style={
           {
             "flexDirection": "row",
-            "height": undefined,
+            "height": 54,
             "justifyContent": "space-evenly",
           }
         }
@@ -102,7 +102,7 @@ exports[`should render AlertModel correctly 1`] = `
           style={
             {
               "backgroundColor": "transparent",
-              "borderRadius": undefined,
+              "borderRadius": 0,
               "flex": 1,
               "shadowColor": "#000",
               "shadowOffset": {
@@ -122,7 +122,7 @@ exports[`should render AlertModel correctly 1`] = `
               {
                 "backgroundColor": "transparent",
                 "borderColor": "transparent",
-                "borderRadius": undefined,
+                "borderRadius": 0,
                 "borderStyle": "solid",
                 "borderWidth": 0,
                 "flex": undefined,
@@ -175,7 +175,7 @@ exports[`should render AlertModel correctly 1`] = `
                     "overflow": "hidden",
                   },
                   {
-                    "borderRadius": 20,
+                    "borderRadius": 0,
                   },
                 ]
               }
@@ -199,13 +199,6 @@ exports[`should render AlertModel correctly 1`] = `
                   style={
                     [
                       {
-                        "fontFamily": "System",
-                        "fontSize": 14,
-                        "fontWeight": "500",
-                        "letterSpacing": 0.1,
-                        "lineHeight": 20,
-                      },
-                      {
                         "textAlign": "left",
                       },
                       {
@@ -214,30 +207,39 @@ exports[`should render AlertModel correctly 1`] = `
                       },
                       [
                         {
-                          "marginHorizontal": 16,
-                          "marginVertical": 9,
-                          "textAlign": "center",
-                        },
-                        false,
-                        {
-                          "marginHorizontal": 12,
-                        },
-                        undefined,
-                        false,
-                        {
-                          "color": "rgba(103, 80, 164, 1)",
                           "fontFamily": "System",
                           "fontSize": 14,
                           "fontWeight": "500",
                           "letterSpacing": 0.1,
                           "lineHeight": 20,
                         },
-                        {
-                          "color": "#25042D",
-                          "fontFamily": "NunitoSans-Regular",
-                          "fontSize": 20,
-                          "padding": undefined,
-                        },
+                        [
+                          {
+                            "marginHorizontal": 16,
+                            "marginVertical": 9,
+                            "textAlign": "center",
+                          },
+                          false,
+                          {
+                            "marginHorizontal": 12,
+                          },
+                          undefined,
+                          false,
+                          {
+                            "color": "rgba(103, 80, 164, 1)",
+                            "fontFamily": "System",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "letterSpacing": 0.1,
+                            "lineHeight": 20,
+                          },
+                          {
+                            "color": "#25042D",
+                            "fontFamily": "NunitoSans-Regular",
+                            "fontSize": 20,
+                            "padding": 10,
+                          },
+                        ],
                       ],
                     ]
                   }
