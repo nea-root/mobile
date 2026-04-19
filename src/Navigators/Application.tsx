@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, Pressable } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MasterContext } from '@/Context/MasterContext';
-import { AuthStacks, RootStacks, Tabs, UserStacks } from './utils';
+import { AuthStacks, MainStacks, RootStacks, Tabs, UserStacks } from './utils';
 
 import Walkthrough from '@/Containers/Walkthrough/Walkthrough';
 import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen';
@@ -14,11 +13,14 @@ import Register from '@/Containers/Authentication/Register/Register';
 import Header from './Header';
 import Verification from '@/Containers/Verification/Verification';
 import Login from '@/Containers/Authentication/Login/Login';
-import { AuthProvider, useAuth } from '@/Context/AuthProvider/AuthProvider';
-import { signOut } from '@/Services/Authentication/AuthService';
+import { useAuth } from '@/Context/AuthProvider/AuthProvider';
+
 import Reset from '@/Containers/Authentication/Reset/Reset';
 import ResetVerification from '@/Containers/Authentication/Reset/ResetVerification';
 import ResetPassword from '@/Containers/Authentication/Reset/ResetPassword';
+
+import { HomeScreen } from '@/Containers/HomeScreen/HomeScreen';
+import { ChatScreen } from '@/Containers/ChatScreen/ChatScreen';
 
 export type RootStackParamList = {
     [RootStacks.OnBoarding]: undefined;
@@ -34,34 +36,28 @@ export type AuthStackParamList = {
     [AuthStacks.Verification]: { formData: { username: string, email: string, password: string, role: string } }
     [AuthStacks.Reset]: undefined
     [AuthStacks.ResetVerification]: { formData: { username: string, email: string, password: string, role: string } }
-    [AuthStacks.ResetPassword]: { formData: { username: string,tempPassword: string, email: string, password: string, accessToken: string | undefined ,role: string } }
+    [AuthStacks.ResetPassword]: { formData: { username: string, tempPassword: string, email: string, password: string, accessToken: string | undefined, role: string } }
+}
+
+export type MainStackParamList = {
+    [MainStacks.TabStack]: undefined
+    [MainStacks.ChatScreen]: undefined
+}
+
+export type TabStackParamList = {
+    [Tabs.Home]: undefined
+    [Tabs.Awareness]: undefined
+    [Tabs.Evidence]: undefined
+    [Tabs.Help]: undefined
 }
 
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator();
+const MainStack = createNativeStackNavigator<MainStackParamList>();
+const Tab = createBottomTabNavigator<TabStackParamList>();
 const UserStack = createNativeStackNavigator<UserStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
-// Dummy Screems
-const DummyScreen = () => {
-    const { logout, authState } =  useAuth()
-    const { flowType } = React.useContext(FlowProvider)
-    React.useEffect(()=>{
-        if(flowType)
-            console.log(JSON.stringify(authState.tokens[flowType]?.idToken?.payload?.exp))
-    },[])
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Pressable onPress={async ()=>{
-                if(flowType){
-                    await signOut(flowType)
-                    logout(flowType)
-                }
-            }} style={{height: 40, width: '80%', borderColor: '#000', borderWidth: 1, alignContent: 'center', justifyContent: 'center' }}><Text style={{alignSelf: 'center', textAlign: 'center'}}>Logout</Text></Pressable>
-        </View>
-    );
-}
 
 const AuthStackNavigator = () => {
     return (
@@ -75,34 +71,47 @@ const AuthStackNavigator = () => {
         </AuthStack.Navigator>)
 }
 
+const MainStackNavigator = () => {
+    return (
+        <MainStack.Navigator screenOptions={{ headerShown: false }}>
+            <MainStack.Screen name={MainStacks.TabStack} component={TabStackNavigator} />
+            <MainStack.Screen name={MainStacks.ChatScreen} component={ChatScreen} />
+        </MainStack.Navigator>
+    )
+}
+
+const TabStackNavigator = () => {
+    return (<Tab.Navigator screenOptions={{
+        header: ({ navigation, route, options }) => (
+            <Header
+                onLeftPress={navigation.goBack} // Handles back navigation
+                onRightPress={() => console.log("Right Action Pressed")} title={''} />
+        ),
+    }}>
+        <Tab.Screen name={Tabs.Home} component={HomeScreen} />
+        <Tab.Screen name={Tabs.Awareness} component={HomeScreen} />
+        <Tab.Screen name={Tabs.Evidence} component={HomeScreen} />
+        <Tab.Screen name={Tabs.Help} component={HomeScreen} />
+    </Tab.Navigator>)
+}
+
 const UserStackNavigator = ({ route }: any) => {
     const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false)
     const { flowType, setFlowType }: FlowContext = React.useContext(FlowProvider)
     const { authState } = useAuth()
     React.useEffect(() => {
         setFlowType(route?.params?.flowType)
-    }, [setFlowType,route])
+    }, [setFlowType, route])
     React.useEffect(() => {
         if (authState && flowType && authState.users[flowType]) {
             setIsLoggedIn(true)
         }
-        else if(authState && flowType && !authState.users[flowType]){
+        else if (authState && flowType && !authState.users[flowType]) {
             setIsLoggedIn(false)
         }
     }, [authState, authState.users, authState.tokens, authState.roles.length])
-    if (isLoggedIn) {
-        return (<Tab.Navigator screenOptions={{
-            header: ({ navigation, route, options }) => (
-                <Header
-                    onLeftPress={navigation.goBack} // Handles back navigation
-                    onRightPress={() => console.log("Right Action Pressed")} title={''} />
-            ),
-        }}>
-            <Tab.Screen name={Tabs.Home} component={DummyScreen} />
-            <Tab.Screen name={Tabs.Awareness} component={DummyScreen} />
-            <Tab.Screen name={Tabs.Evidence} component={DummyScreen} />
-            <Tab.Screen name={Tabs.Help} component={DummyScreen} />
-        </Tab.Navigator>)
+    if (!isLoggedIn) {
+        return <MainStackNavigator />
     }
     return (
         <UserStack.Navigator screenOptions={{

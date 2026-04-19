@@ -1,23 +1,23 @@
 import { CognitoUserPool, ICognitoUserPoolData } from 'amazon-cognito-identity-js';
 
 const victimPoolConfig : ICognitoUserPoolData = {
-  UserPoolId: 'us-east-1_ANSjwJvCM',
-  ClientId: '368lddkptbolvmjc0s6vv725e2',
+  UserPoolId: 'us-east-1_QJHCbnAJi',
+  ClientId: '54eg0fp2msaudf8ho0ajndtcst',
 };
 
 const volunteerPoolConfig: ICognitoUserPoolData = {
-  UserPoolId: 'us-east-1_nvvAmwPxF',
-  ClientId: '70shb2qu6tsaaq51d82pdajs1t',
+  UserPoolId: 'us-east-1_8yrWUGhjK',
+  ClientId: '2h2f5bim21jfgq5ns8lhjrvvo6',
 };
 
 const lawyerPoolConfig: ICognitoUserPoolData = {
-  UserPoolId: 'us-east-1_rc0Wcp2J5',
-  ClientId: '3gvul1477gqkjp4uha7r8svutb',
+  UserPoolId: 'us-east-1_k25cagoH7',
+  ClientId: '1jrvumfj8pai24bd22dl3g4e5e',
 };
 
 const therapistPoolConfig: ICognitoUserPoolData = {
-  UserPoolId: 'us-east-1_bltGmzy7M',
-  ClientId: '2egrs2v4lbgromehb6go6i7dat',
+  UserPoolId: 'us-east-1_aMlwqA3QY',
+  ClientId: '78f4c4u3b8s95cstre90hkf1g6',
 };
 
 export const Pools = {

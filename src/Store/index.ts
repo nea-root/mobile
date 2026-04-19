@@ -56,7 +56,7 @@ setupListeners(store.dispatch)
 
 export type StoreStateType = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
-export const useSelectorHook: TypedUseSelectorHook<StoreStateType> = useSelector
+export const useAppDispatch: () => AppDispatch = useDispatch.withTypes<AppDispatch>()
+export const useSelectorHook: TypedUseSelectorHook<StoreStateType> = useSelector.withTypes<StoreStateType>()
 
 export { store, persistor }

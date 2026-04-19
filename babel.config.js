@@ -14,6 +14,7 @@ plugins.push(
     },
   ],
   '@babel/plugin-proposal-export-namespace-from',
+  'react-native-reanimated/plugin', // add this to the last of the list
 )
 
 module.exports = {

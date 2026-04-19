@@ -8,8 +8,8 @@ interface IconProps {
   height?: number;
   style?: StyleProp<TextStyle>;
 }
-const NEAHeart:React.FC<IconProps> = ({  width = 20, height = 20, ...props })=>{
-    return (    <Svg xmlns="http://www.w3.org/2000/svg" width={55} height={48} viewBox="0 0 55 48" fill="none">
+const NEAHeart: React.FC<IconProps> = ({ width = 20, height = 20, ...props }) => {
+  return (<Svg width={55} height={48} viewBox="0 0 55 48" fill="none">
     <Path
       d="M14.8656 40.2474V0.462404C14.8656 0.245242 15.0461 0.068785 15.2632 0.073328C23.5908 0.247579 26.0733 5.89277 26.2686 8.7374V47.4925C26.2686 47.8084 25.9147 47.9954 25.6537 47.8172L15.0372 40.5722C14.9298 40.499 14.8656 40.3774 14.8656 40.2474Z"
       fill="url(#paint0_linear_625_6471)"

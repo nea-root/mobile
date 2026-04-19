@@ -37,3 +37,8 @@ export enum UserFlowTypes {
     lawyer = 'lawyer',
     therapist = 'therapist'
 }
+
+export enum MainStacks {
+    TabStack =  'TabStack',
+    ChatScreen = 'ChatScreen'
+}

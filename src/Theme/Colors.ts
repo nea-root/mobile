@@ -43,6 +43,15 @@ export const Color = {
   transparentLight65: 'rgba(255, 255, 255, 0.3)',
   transparentLight13: 'rgba(255, 255, 255, 0.13)',
   /**
+   * The Primary Container Color
+   */
+  primaryBackground: '#F6FCF8',
+
+  /**
+   * Primary Green Color
+   */
+  primaryGreenColor: '#A5E0B5',
+  /**
    * The video screen background.
    */
   videoBackground: Palette.deepPurple,
