@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { render } from '@testing-library/react-native';
+import {Text} from 'react-native';
+import {render} from '@testing-library/react-native';
 import GradientBox from '@/Components/StylingComponents/GradientBox';
 
 describe('GradientBox', () => {
@@ -9,10 +9,10 @@ describe('GradientBox', () => {
   });
 
   it('renders children', () => {
-    const { getByText } = render(
+    const {getByText} = render(
       <GradientBox>
         <Text>Box content</Text>
-      </GradientBox>
+      </GradientBox>,
     );
     expect(getByText('Box content')).toBeTruthy();
   });
@@ -22,28 +22,34 @@ describe('GradientBox', () => {
       render(
         <GradientBox colors={['#ff0000', '#0000ff']}>
           <Text>Colored box</Text>
-        </GradientBox>
-      )
+        </GradientBox>,
+      ),
     ).not.toThrow();
   });
 
   it('renders with custom padding', () => {
     expect(() =>
       render(
-        <GradientBox padding={{ vertical: 10, horizontal: 20 }}>
+        <GradientBox padding={{vertical: 10, horizontal: 20}}>
           <Text>Custom padding</Text>
-        </GradientBox>
-      )
+        </GradientBox>,
+      ),
     ).not.toThrow();
   });
 
   it('renders with custom borderRadius', () => {
     expect(() =>
       render(
-        <GradientBox borderRadius={{ topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 }}>
+        <GradientBox
+          borderRadius={{
+            topLeft: 10,
+            topRight: 10,
+            bottomLeft: 0,
+            bottomRight: 0,
+          }}>
           <Text>Rounded</Text>
-        </GradientBox>
-      )
+        </GradientBox>,
+      ),
     ).not.toThrow();
   });
 
@@ -52,8 +58,8 @@ describe('GradientBox', () => {
       render(
         <GradientBox width={200}>
           <Text>Fixed width</Text>
-        </GradientBox>
-      )
+        </GradientBox>,
+      ),
     ).not.toThrow();
   });
 
@@ -64,10 +70,10 @@ describe('GradientBox', () => {
   it('renders with custom style', () => {
     expect(() =>
       render(
-        <GradientBox style={{ margin: 10 }}>
+        <GradientBox style={{margin: 10}}>
           <Text>Extra style</Text>
-        </GradientBox>
-      )
+        </GradientBox>,
+      ),
     ).not.toThrow();
   });
 });

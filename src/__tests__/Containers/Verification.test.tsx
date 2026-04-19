@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
+import {render, fireEvent, act} from '@testing-library/react-native';
 import Verification from '@/Containers/Verification/Verification';
-import { AlertModalProvider } from '@/Context/AlertModal/AlertModalProvider';
+import {AlertModalProvider} from '@/Context/AlertModal/AlertModalProvider';
 
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({ navigate: mockNavigate }),
+  useNavigation: () => ({navigate: mockNavigate}),
 }));
 
 jest.mock('@/Services/Authentication/AuthService', () => ({
@@ -14,8 +14,8 @@ jest.mock('@/Services/Authentication/AuthService', () => ({
 }));
 
 jest.mock('@/Components/OTPInput/OTPInput', () => {
-  const { View, TouchableOpacity, Text } = require('react-native');
-  return ({ onSubmit, handleReset }: any) => (
+  const {View, TouchableOpacity, Text} = require('react-native');
+  return ({onSubmit, handleReset}: any) => (
     <View>
       <TouchableOpacity testID="submit-otp" onPress={() => onSubmit('123456')}>
         <Text>Verify</Text>
@@ -33,14 +33,19 @@ jest.mock('@/Components/OTPInput/OTPInput', () => {
 const mockShowAlert = jest.fn();
 const mockHideModal = jest.fn();
 const alertCtxValue = {
-  alertModalData: { isShow: false, title: '', description: '', actions: [] },
+  alertModalData: {isShow: false, title: '', description: '', actions: []},
   showAlert: mockShowAlert,
   hideModal: mockHideModal,
 };
 
 const mockRoute = {
   params: {
-    formData: { username: 'alice', email: 'alice@test.com', password: 'Pass1!', role: 'victim' },
+    formData: {
+      username: 'alice',
+      email: 'alice@test.com',
+      password: 'Pass1!',
+      role: 'victim',
+    },
   },
 };
 
@@ -48,7 +53,7 @@ const renderVerification = () =>
   render(
     <AlertModalProvider.Provider value={alertCtxValue}>
       <Verification route={mockRoute} />
-    </AlertModalProvider.Provider>
+    </AlertModalProvider.Provider>,
   );
 
 beforeEach(() => jest.clearAllMocks());
@@ -59,10 +64,10 @@ describe('Verification screen', () => {
   });
 
   it('calls verifySignIn with username, OTP, and role', async () => {
-    const { verifySignIn } = require('@/Services/Authentication/AuthService');
+    const {verifySignIn} = require('@/Services/Authentication/AuthService');
     (verifySignIn as jest.Mock).mockResolvedValue('SUCCESS');
 
-    const { getByTestId } = renderVerification();
+    const {getByTestId} = renderVerification();
     await act(async () => {
       fireEvent.press(getByTestId('submit-otp'));
     });
@@ -70,10 +75,10 @@ describe('Verification screen', () => {
   });
 
   it('navigates to Login on SUCCESS response', async () => {
-    const { verifySignIn } = require('@/Services/Authentication/AuthService');
+    const {verifySignIn} = require('@/Services/Authentication/AuthService');
     (verifySignIn as jest.Mock).mockResolvedValue('SUCCESS');
 
-    const { getByTestId } = renderVerification();
+    const {getByTestId} = renderVerification();
     await act(async () => {
       fireEvent.press(getByTestId('submit-otp'));
     });
@@ -81,10 +86,10 @@ describe('Verification screen', () => {
   });
 
   it('does not navigate when response is not SUCCESS', async () => {
-    const { verifySignIn } = require('@/Services/Authentication/AuthService');
+    const {verifySignIn} = require('@/Services/Authentication/AuthService');
     (verifySignIn as jest.Mock).mockResolvedValue('PENDING');
 
-    const { getByTestId } = renderVerification();
+    const {getByTestId} = renderVerification();
     await act(async () => {
       fireEvent.press(getByTestId('submit-otp'));
     });
@@ -92,20 +97,27 @@ describe('Verification screen', () => {
   });
 
   it('shows alert when verifySignIn throws', async () => {
-    const { verifySignIn } = require('@/Services/Authentication/AuthService');
-    (verifySignIn as jest.Mock).mockRejectedValue({ code: 'CodeMismatchException' });
+    const {verifySignIn} = require('@/Services/Authentication/AuthService');
+    (verifySignIn as jest.Mock).mockRejectedValue({
+      code: 'CodeMismatchException',
+    });
 
-    const { getByTestId } = renderVerification();
+    const {getByTestId} = renderVerification();
     await act(async () => {
       fireEvent.press(getByTestId('submit-otp'));
     });
-    expect(mockShowAlert).toHaveBeenCalledWith(true, 'Error', expect.any(String), expect.any(Array));
+    expect(mockShowAlert).toHaveBeenCalledWith(
+      true,
+      'Error',
+      expect.any(String),
+      expect.any(Array),
+    );
   });
 
   it('does not call verifySignIn when OTP length is wrong', async () => {
-    const { verifySignIn } = require('@/Services/Authentication/AuthService');
+    const {verifySignIn} = require('@/Services/Authentication/AuthService');
 
-    const { getByTestId } = renderVerification();
+    const {getByTestId} = renderVerification();
     await act(async () => {
       fireEvent.press(getByTestId('submit-short'));
     });
@@ -113,9 +125,11 @@ describe('Verification screen', () => {
   });
 
   it('calls resendVerificationCode on handleReset', async () => {
-    const { resendVerificationCode } = require('@/Services/Authentication/AuthService');
+    const {
+      resendVerificationCode,
+    } = require('@/Services/Authentication/AuthService');
 
-    const { getByTestId } = renderVerification();
+    const {getByTestId} = renderVerification();
     await act(async () => {
       fireEvent.press(getByTestId('resend-otp'));
     });

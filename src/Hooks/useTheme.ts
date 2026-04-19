@@ -1,4 +1,4 @@
-import { ThemeState } from '@/Store/Theme';
+import {ThemeState} from '@/Store/Theme';
 import {
   Common,
   DefaultVariables,
@@ -14,16 +14,16 @@ import {
   ThemeNavigationTheme,
   ThemeVariables,
 } from '@/Theme/theme';
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import {DarkTheme, DefaultTheme} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 export default function () {
   // Get current theme from the store
   const currentTheme = useSelector(
-    (state: { theme: ThemeState }) => state.theme.theme,
+    (state: {theme: ThemeState}) => state.theme.theme,
   );
   const isDark = useSelector(
-    (state: { theme: ThemeState }) => state.theme.darkMode,
+    (state: {theme: ThemeState}) => state.theme.darkMode,
   );
 
   const darkMode = isDark === null ? false : isDark; // currently we force light theme for the app
@@ -45,7 +45,7 @@ export default function () {
   }
 
   if (darkMode) {
-    const { Variables, ...darkThemeConfig } =
+    const {Variables, ...darkThemeConfig} =
       themes[`${currentTheme}_dark` as keyof typeof themes] || {};
 
     darkVariables = Variables;

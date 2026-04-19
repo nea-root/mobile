@@ -1,9 +1,9 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
-import { AlertModal } from '@/Components/CommonModal/AlertModal';
-import { RenderResult } from '@testing-library/react-native/build/render';
-import { AlertModalData } from '@/Data/Models/Application/AlertModalData';
-import { Provider } from 'react-redux';
-import { store } from '@/Store';
+import {fireEvent, render, waitFor} from '@testing-library/react-native';
+import {AlertModal} from '@/Components/CommonModal/AlertModal';
+import {RenderResult} from '@testing-library/react-native/build/render';
+import {AlertModalData} from '@/Data/Models/Application/AlertModalData';
+import {Provider} from 'react-redux';
+import {store} from '@/Store';
 
 const props: AlertModalData = {
   isShow: true,

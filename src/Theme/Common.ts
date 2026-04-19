@@ -3,13 +3,13 @@
  *
  * Use it to define generic component styles (e.g. the default text styles, default button styles...).
  */
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import buttonStyles from './components/Buttons';
-import { CommonParams } from './theme';
+import {CommonParams} from './theme';
 
-export default function <C>({ Colors, ...args }: CommonParams<C>) {
+export default function <C>({Colors, ...args}: CommonParams<C>) {
   return {
-    button: buttonStyles({ Colors, ...args }),
+    button: buttonStyles({Colors, ...args}),
     ...StyleSheet.create({
       backgroundPrimary: {
         backgroundColor: Colors.primary,

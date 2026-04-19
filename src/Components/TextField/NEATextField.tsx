@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {
   View,
   TextInput,
@@ -15,7 +15,7 @@ interface TextFieldProps extends Omit<TextInputProps, 'style'> {
   type?: 'text' | 'email' | 'password' | 'number';
   style?: ViewStyle;
   required?: boolean;
-  onFocus?: ()=>void
+  onFocus?: () => void;
 }
 
 const NEATextField: React.FC<TextFieldProps> = ({
@@ -54,15 +54,23 @@ const NEATextField: React.FC<TextFieldProps> = ({
     }
   };
 
-  const top = useMemo(()=> animation.interpolate({
-    inputRange:[0,1],
-    outputRange: [12,2],
-  }),[animation]);
+  const top = useMemo(
+    () =>
+      animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [12, 2],
+      }),
+    [animation],
+  );
 
-  const fontSize = useMemo(()=> animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [14, 10],
-  }),[animation]);
+  const fontSize = useMemo(
+    () =>
+      animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [14, 10],
+      }),
+    [animation],
+  );
 
   const getKeyboardType = (): TextInputProps['keyboardType'] => {
     switch (type) {
@@ -80,16 +88,14 @@ const NEATextField: React.FC<TextFieldProps> = ({
   return (
     <View style={[styles.container, style]}>
       {label && (
-        <Animated.Text style={[styles.labelStyle,{top: top,fontSize: fontSize}]}>
+        <Animated.Text
+          style={[styles.labelStyle, {top: top, fontSize: fontSize}]}>
           {label}
           {required && <Text style={styles.required}>*</Text>}
         </Animated.Text>
       )}
       <TextInput
-        style={[
-          styles.input,
-          isFocused && styles.inputFocused,
-        ]}
+        style={[styles.input, isFocused && styles.inputFocused]}
         value={value}
         onChangeText={onChangeText}
         keyboardType={getKeyboardType()}

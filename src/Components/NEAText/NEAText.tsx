@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { Text, StyleSheet, TextProps, TextStyle } from 'react-native';
+import React, {ReactNode} from 'react';
+import {Text, StyleSheet, TextProps, TextStyle} from 'react-native';
 
 // Define the component's props with TypeScript
 interface NeaTextProps extends TextProps {
@@ -8,7 +8,7 @@ interface NeaTextProps extends TextProps {
 }
 
 // Reusable NeaText Component
-const NeaText: React.FC<NeaTextProps> = ({ children, style, ...props }) => {
+const NeaText: React.FC<NeaTextProps> = ({children, style, ...props}) => {
   return (
     <Text style={[styles.text, style]} {...props}>
       {children}

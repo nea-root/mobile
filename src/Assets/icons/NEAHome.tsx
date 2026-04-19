@@ -1,13 +1,7 @@
-import * as React from 'react';
-import Svg, { SvgProps, G, Path } from 'react-native-svg';
-import { memo } from 'react';
+import Svg, {SvgProps, G, Path} from 'react-native-svg';
+import {memo} from 'react';
 const SvgComponent = (props: SvgProps) => (
-  <Svg
-    width={254}
-    height={202}
-    fill="none"
-    {...props}
-  >
+  <Svg width={254} height={202} fill="none" {...props}>
     <G opacity={0.95}>
       <Path
         fill="#F3F3F3"

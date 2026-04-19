@@ -1,4 +1,4 @@
-import { Palette } from './Palette';
+import {Palette} from './Palette';
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 /**

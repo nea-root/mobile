@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
-import { Text } from 'react-native';
-import { render, act } from '@testing-library/react-native';
-import { FlowProvider, FlowProviderContext } from '@/Context/FlowProvider/FlowProvider';
+import React, {useContext} from 'react';
+import {Text} from 'react-native';
+import {render, act} from '@testing-library/react-native';
+import {
+  FlowProvider,
+  FlowProviderContext,
+} from '@/Context/FlowProvider/FlowProvider';
 
 const TestConsumer = () => {
-  const { flowType } = useContext(FlowProvider);
+  const {flowType} = useContext(FlowProvider);
   return <Text testID="flow-type">{flowType ?? 'none'}</Text>;
 };
 
@@ -14,16 +17,16 @@ describe('FlowProviderContext', () => {
       render(
         <FlowProviderContext>
           <Text>Child</Text>
-        </FlowProviderContext>
-      )
+        </FlowProviderContext>,
+      ),
     ).not.toThrow();
   });
 
   it('provides a flowType value to consumers', async () => {
-    const { getByTestId } = render(
+    const {getByTestId} = render(
       <FlowProviderContext>
         <TestConsumer />
-      </FlowProviderContext>
+      </FlowProviderContext>,
     );
     // FlowProviderContext initializes from mockUserList
     const el = getByTestId('flow-type');
@@ -41,16 +44,16 @@ describe('FlowProviderContext', () => {
     render(
       <FlowProviderContext>
         <CaptureSetter />
-      </FlowProviderContext>
+      </FlowProviderContext>,
     );
 
     expect(typeof contextSetFlowType).toBe('function');
   });
 
   it('default context throws when setFlowType is called outside provider', () => {
-    expect(() => FlowProvider._currentValue.setFlowType('victim' as any)).toThrow(
-      'setFlowType is not implemented'
-    );
+    expect(() =>
+      FlowProvider._currentValue.setFlowType('victim' as any),
+    ).toThrow('setFlowType is not implemented');
   });
 
   it('default context flowType is undefined', () => {
@@ -65,10 +68,10 @@ describe('FlowProviderContext', () => {
       return <Text testID="type">{ctx.flowType ?? 'none'}</Text>;
     };
 
-    const { getByTestId } = render(
+    const {getByTestId} = render(
       <FlowProviderContext>
         <Captor />
-      </FlowProviderContext>
+      </FlowProviderContext>,
     );
 
     await act(async () => {

@@ -1,11 +1,22 @@
 import React from 'react';
-import { StyleSheet, ViewStyle, Dimensions, StyleProp, DimensionValue } from 'react-native';
+import {
+  StyleSheet,
+  ViewStyle,
+  Dimensions,
+  StyleProp,
+  DimensionValue,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 interface GradientBoxProps {
   width?: DimensionValue | undefined; // Custom width if provided
-  padding?: { vertical: number; horizontal: number };
-  borderRadius?: { topLeft: number; topRight: number; bottomLeft: number; bottomRight: number };
+  padding?: {vertical: number; horizontal: number};
+  borderRadius?: {
+    topLeft: number;
+    topRight: number;
+    bottomLeft: number;
+    bottomRight: number;
+  };
   colors?: string[]; // Gradient colors
   children?: React.ReactNode; // Components or elements to display inside
   style?: StyleProp<ViewStyle>; // Additional styles for the container
@@ -13,8 +24,8 @@ interface GradientBoxProps {
 
 const GradientBox: React.FC<GradientBoxProps> = ({
   width,
-  padding = { vertical: 24, horizontal: 17 },
-  borderRadius = { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 110 },
+  padding = {vertical: 24, horizontal: 17},
+  borderRadius = {topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 110},
   colors = ['#4AC16A', '#147952'],
   children,
   style,
@@ -25,8 +36,8 @@ const GradientBox: React.FC<GradientBoxProps> = ({
   return (
     <LinearGradient
       colors={colors}
-      start={{ x: 0.5, y: -0.3 }} // Adjust for gradient angle
-      end={{ x: 0.5, y: 1 }}
+      start={{x: 0.5, y: -0.3}} // Adjust for gradient angle
+      end={{x: 0.5, y: 1}}
       style={[
         styles.container,
         {
@@ -39,8 +50,7 @@ const GradientBox: React.FC<GradientBoxProps> = ({
           borderBottomRightRadius: borderRadius.bottomRight,
         },
         style,
-      ]}
-    >
+      ]}>
       {children}
     </LinearGradient>
   );

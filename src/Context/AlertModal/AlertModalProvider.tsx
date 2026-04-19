@@ -1,10 +1,10 @@
-import { ReactNode, createContext, useCallback, useMemo, useRef } from 'react';
-import { AlertModalContext } from '../Types/AlertModalContext';
-import { AlertModal } from '@/Components/CommonModal/AlertModal';
-import { useModal, useTheme } from '@/Hooks';
-import { AlertModalActionData } from '@/Data/Models/Application/AlertModalData';
+import {ReactNode, createContext, useCallback, useMemo, useRef} from 'react';
+import {AlertModalContext} from '../Types/AlertModalContext';
+import {AlertModal} from '@/Components/CommonModal/AlertModal';
+import {useModal, useTheme} from '@/Hooks';
+import {AlertModalActionData} from '@/Data/Models/Application/AlertModalData';
 
-import { BlurView } from '@react-native-community/blur';
+import {BlurView} from '@react-native-community/blur';
 import createStyles from './Styles';
 
 export const AlertModalProvider = createContext<AlertModalContext>({
@@ -14,11 +14,11 @@ export const AlertModalProvider = createContext<AlertModalContext>({
 });
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
-export const AlertModalProviderContext = ({ children }: Props) => {
-  const { alertModalData, showAlert, hideModal } = useModal();
+export const AlertModalProviderContext = ({children}: Props) => {
+  const {alertModalData, showAlert, hideModal} = useModal();
   const isReady = useRef<boolean>(true);
 
   const theme = useTheme();
@@ -66,18 +66,17 @@ export const AlertModalProviderContext = ({ children }: Props) => {
   return (
     <AlertModalProvider.Provider value={modalProvider}>
       {children}
-      {
-        alertModalData.isShow ?
-          <BlurView
-            autoUpdate={false}
-            blurAmount={theme.Dimens.controlBackgroundBlurAmount}
-            blurRadius={theme.Dimens.controlBackgroundBlurRadius}
-            style={{ position: 'absolute', height: '100%', width: '100%' }}
-          >
-            <AlertModal {...alertModalData} />
-          </BlurView>
-          : <></>
-      }
+      {alertModalData.isShow ? (
+        <BlurView
+          autoUpdate={false}
+          blurAmount={theme.Dimens.controlBackgroundBlurAmount}
+          blurRadius={theme.Dimens.controlBackgroundBlurRadius}
+          style={{position: 'absolute', height: '100%', width: '100%'}}>
+          <AlertModal {...alertModalData} />
+        </BlurView>
+      ) : (
+        <></>
+      )}
     </AlertModalProvider.Provider>
   );
 };

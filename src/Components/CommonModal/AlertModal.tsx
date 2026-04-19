@@ -1,11 +1,11 @@
-import { AlertModalData } from '@/Data/Models/Application/AlertModalData';
-import { useTheme } from '@/Hooks';
-import { Modal, Text, View, ViewStyle } from 'react-native';
-import { Button, Divider } from 'react-native-paper';
+import {AlertModalData} from '@/Data/Models/Application/AlertModalData';
+import {useTheme} from '@/Hooks';
+import {Modal, Text, View, ViewStyle} from 'react-native';
+import {Button, Divider} from 'react-native-paper';
 import createStyles from './AlertModalStyle';
 
 export const AlertModal = (props: AlertModalData) => {
-  const { isShow, title, description, actions } = props;
+  const {isShow, title, description, actions} = props;
   const theme = useTheme();
   const styles = createStyles(theme);
 
@@ -32,8 +32,7 @@ export const AlertModal = (props: AlertModalData) => {
                         'alert_action_button_' +
                         (data.testID ? data.testID : data.label)
                       }
-                      onPress={data.action}
-                    >
+                      onPress={data.action}>
                       {data.label}
                     </Button>
                   );

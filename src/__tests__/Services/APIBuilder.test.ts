@@ -1,5 +1,5 @@
-import { APIBuilder } from '@/Services/Network/Axios/APIBuilder';
-import { APIClient } from '@/Services/Network/Axios/APIClient';
+import {APIBuilder} from '@/Services/Network/Axios/APIBuilder';
+import {APIClient} from '@/Services/Network/Axios/APIClient';
 
 jest.mock('@/Services/Network/Axios/APIClient', () => {
   const mockGet = jest.fn();
@@ -8,10 +8,10 @@ jest.mock('@/Services/Network/Axios/APIClient', () => {
   const mockResponseInterceptorUse = jest.fn();
   const mockApi = {
     interceptors: {
-      request: { use: mockRequestInterceptorUse },
-      response: { use: mockResponseInterceptorUse },
+      request: {use: mockRequestInterceptorUse},
+      response: {use: mockResponseInterceptorUse},
     },
-    defaults: { timeout: 0 },
+    defaults: {timeout: 0},
     get: mockGet,
     post: mockPost,
   };
@@ -20,10 +20,19 @@ jest.mock('@/Services/Network/Axios/APIClient', () => {
     get: mockGet,
     post: mockPost,
   }));
-  return { APIClient: APIClientMock, __mockApi: mockApi, __mockRequestUse: mockRequestInterceptorUse, __mockResponseUse: mockResponseInterceptorUse };
+  return {
+    APIClient: APIClientMock,
+    __mockApi: mockApi,
+    __mockRequestUse: mockRequestInterceptorUse,
+    __mockResponseUse: mockResponseInterceptorUse,
+  };
 });
 
-const { __mockApi, __mockRequestUse, __mockResponseUse } = require('@/Services/Network/Axios/APIClient');
+const {
+  __mockApi,
+  __mockRequestUse,
+  __mockResponseUse,
+} = require('@/Services/Network/Axios/APIClient');
 
 describe('APIBuilder', () => {
   let builder: APIBuilder;
@@ -52,14 +61,20 @@ describe('APIBuilder', () => {
     const onFulfilled = jest.fn(res => res);
     const onError = jest.fn(err => Promise.reject(err));
     const result = builder.attachResponseInterceptor(onFulfilled, onError);
-    expect(__mockApi.interceptors.response.use).toHaveBeenCalledWith(onFulfilled, onError);
+    expect(__mockApi.interceptors.response.use).toHaveBeenCalledWith(
+      onFulfilled,
+      onError,
+    );
     expect(result).toBe(builder);
   });
 
   it('attachResponseInterceptor with null onError defaults to null', () => {
     const onFulfilled = jest.fn(res => res);
     builder.attachResponseInterceptor(onFulfilled);
-    expect(__mockApi.interceptors.response.use).toHaveBeenCalledWith(onFulfilled, null);
+    expect(__mockApi.interceptors.response.use).toHaveBeenCalledWith(
+      onFulfilled,
+      null,
+    );
   });
 
   it('setTimeout sets api default timeout and returns builder', () => {

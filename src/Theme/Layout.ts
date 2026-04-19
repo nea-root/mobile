@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { ThemeVariables } from './theme';
+import {StyleSheet} from 'react-native';
+import {ThemeVariables} from './theme';
 
 export default function ({}: ThemeVariables) {
   return StyleSheet.create({
@@ -169,26 +169,26 @@ export default function ({}: ThemeVariables) {
     },
     /* Operation Layout */
     mirror: {
-      transform: [{ scaleX: -1 }],
+      transform: [{scaleX: -1}],
     },
     rotate90: {
-      transform: [{ rotate: '90deg' }],
+      transform: [{rotate: '90deg'}],
     },
     rotate90Inverse: {
-      transform: [{ rotate: '-90deg' }],
+      transform: [{rotate: '-90deg'}],
     },
     rotate30: {
-      transform: [{ rotate: '30deg' }],
+      transform: [{rotate: '30deg'}],
     },
     rotate30Inverse: {
-      transform: [{ rotate: '-30deg' }],
+      transform: [{rotate: '-30deg'}],
     },
     rotate35: {
-      transform: [{ rotate: '35deg' }],
+      transform: [{rotate: '35deg'}],
     },
     rotate35Inverse: {
-      transform: [{ rotate: '-35deg' }],
+      transform: [{rotate: '-35deg'}],
     },
-    overflowhidden: { overflow: 'hidden' },
+    overflowhidden: {overflow: 'hidden'},
   });
 }
