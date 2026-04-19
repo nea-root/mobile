@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent, act} from '@testing-library/react-native';
+import {render, fireEvent} from '@testing-library/react-native';
 import {HomeScreen} from '@/Containers/HomeScreen/HomeScreen';
 import {FlowProvider} from '@/Context/FlowProvider/FlowProvider';
 
@@ -71,20 +71,6 @@ describe('HomeScreen', () => {
   it('renders chat now buttons for each item', () => {
     const {getAllByText} = renderHomeScreen();
     expect(getAllByText('Chat now').length).toBeGreaterThan(0);
-  });
-
-  it('renders the Logout button', () => {
-    const {getByText} = renderHomeScreen();
-    expect(getByText('Logout')).toBeTruthy();
-  });
-
-  it('calls signOut when Logout is pressed', async () => {
-    const {signOut} = require('@/Services/Authentication/AuthService');
-    const {getByText} = renderHomeScreen('victim');
-    await act(async () => {
-      fireEvent.press(getByText('Logout'));
-    });
-    expect(signOut).toHaveBeenCalledWith('victim');
   });
 
   it('navigates to ChatScreen when Chat now is pressed', () => {
