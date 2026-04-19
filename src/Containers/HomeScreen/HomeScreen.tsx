@@ -8,9 +8,8 @@ import GradientBox from '@/Components/StylingComponents/GradientBox';
 import {useAuth} from '@/Context/AuthProvider/AuthProvider';
 import {FlowProvider} from '@/Context/FlowProvider/FlowProvider';
 import {MainStacks} from '@/Navigators/utils';
-import {signOut} from '@/Services/Authentication/AuthService';
 import React, {useRef} from 'react';
-import {Animated, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Animated, StyleSheet, Text, View} from 'react-native';
 
 interface Item {
   id: string;
@@ -23,7 +22,7 @@ const sampleData: Item[] = Array.from({length: 2}, (_, i) => ({
 }));
 
 export const HomeScreen: React.FC = ({navigation}: any) => {
-  const {logout, authState} = useAuth();
+  const {authState} = useAuth();
   const {flowType} = React.useContext(FlowProvider);
   React.useEffect(() => {
     if (flowType) {
@@ -34,16 +33,15 @@ export const HomeScreen: React.FC = ({navigation}: any) => {
   }, [flowType, authState.tokens]);
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  // Interpolate flex values for the top section
   const topFlex = scrollY.interpolate({
-    inputRange: [0, 200], // Adjust the range based on scroll distance
-    outputRange: [0.9, 0.3], // Shrink from 90% to 30% of available space
-    extrapolate: 'clamp', // Prevent overshooting values
+    inputRange: [0, 200],
+    outputRange: [0.9, 0.3],
+    extrapolate: 'clamp',
   });
 
   const bottomFlex = scrollY.interpolate({
     inputRange: [0, 200],
-    outputRange: [1.1, 1.7], // Expand from 1.1 to 1.7 as the top shrinks
+    outputRange: [1.1, 1.7],
     extrapolate: 'clamp',
   });
 
@@ -60,25 +58,16 @@ export const HomeScreen: React.FC = ({navigation}: any) => {
 
   return (
     <View style={styles.screen}>
-      <Animated.View style={{flex: topFlex, width: '100%'}}>
-        <View
-          style={{
-            opacity: 0.8,
-            backgroundColor: '#000',
-            width: '100%',
-            paddingVertical: 8,
-            paddingHorizontal: 17,
-            position: 'absolute',
-            bottom: 0,
-          }}>
+      <Animated.View style={[styles.fullWidth, {flex: topFlex}]}>
+        <View style={styles.quoteOverlay}>
           <NeaText>
-            “The best revenge is creating your own happiness despite a person’s
-            wish to take you down.”
+            "The best revenge is creating your own happiness despite a person's
+            wish to take you down."
           </NeaText>
           <NeaText>- Melinda Longtin</NeaText>
         </View>
       </Animated.View>
-      <Animated.View style={{flex: bottomFlex, width: '100%'}}>
+      <Animated.View style={[styles.fullWidth, {flex: bottomFlex}]}>
         <GradientBox
           padding={{vertical: 20, horizontal: 15}}
           borderRadius={{
@@ -94,30 +83,12 @@ export const HomeScreen: React.FC = ({navigation}: any) => {
         <LazyGrid<Item>
           data={sampleData}
           renderItem={renderItem}
-          numColumns={2} // Adjust the number of columns dynamically
+          numColumns={2}
           keyExtractor={item => item.id}
           ListFooterComponent={
             <View>
-              <Pressable
-                onPress={async () => {
-                  if (flowType) {
-                    await signOut(flowType);
-                    logout(flowType);
-                  }
-                }}
-                style={{
-                  height: 40,
-                  width: '80%',
-                  borderColor: '#000',
-                  borderWidth: 1,
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={{alignSelf: 'center', textAlign: 'center'}}>
-                  Logout
-                </Text>
-              </Pressable>
-              <View style={{marginHorizontal: 54, alignItems: 'center'}}>
+              {/* TODO: Add logout button and other home screen content here for the developers to test with. This is just a placeholder for now. */}
+              <View style={styles.footer}>
                 <NEAHeart width={'100%'} />
                 <NEAHomeTitle />
               </View>
@@ -131,17 +102,28 @@ export const HomeScreen: React.FC = ({navigation}: any) => {
       </Animated.View>
     </View>
   );
-  // return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-  //     </View>
-  // );
 };
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fullWidth: {
+    width: '100%',
+  },
+  quoteOverlay: {
+    opacity: 0.8,
+    backgroundColor: '#000',
+    width: '100%',
+    paddingVertical: 8,
+    paddingHorizontal: 17,
+    position: 'absolute',
+    bottom: 0,
+  },
+  footer: {
+    marginHorizontal: 54,
     alignItems: 'center',
   },
   item: {
@@ -164,7 +146,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 12,
     shadowOpacity: 1,
-    elevation: 2, // This elevation value is needed for Android shadows
+    elevation: 2,
   },
   text: {
     color: '#000',
