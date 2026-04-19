@@ -13,13 +13,14 @@ import {
 import { ImageSource } from 'react-native-vector-icons/Icon';
 
 export type WalkthroughCarouselProps = {
-  flowType : String
+  flowType: String;
+  onActiveIndexChange?: (index: number) => void;
 }
 
 const screenWidth = Dimensions.get('window').width;
 
 
-const WalkthroughCarousel = ({flowType}: WalkthroughCarouselProps) => {
+const WalkthroughCarousel = ({ flowType, onActiveIndexChange }: WalkthroughCarouselProps) => {
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -46,7 +47,8 @@ const WalkthroughCarousel = ({flowType}: WalkthroughCarouselProps) => {
     const ind = event.nativeEvent.contentOffset.x / screenWidth;
     const roundIndex = Math.round(ind);
     setActiveIndex(roundIndex);
-  }, []);
+    onActiveIndexChange?.(roundIndex);
+  }, [onActiveIndexChange]);
 
   // Memoize the renderItem function
   const renderItem = useCallback(

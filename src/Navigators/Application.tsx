@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MasterContext } from '@/Context/MasterContext';
-import { AuthStacks, MainStacks, RootStacks, Tabs, UserStacks } from './utils';
+import { AuthStacks, MainStacks, RootStacks, Tabs, UserFlowTypes, UserStacks } from './utils';
 
 import Walkthrough from '@/Containers/Walkthrough/Walkthrough';
 import OnBoardingScreen from '@/Containers/OnBoarding/OnBoardingScreen';
@@ -20,6 +20,7 @@ import ResetVerification from '@/Containers/Authentication/Reset/ResetVerificati
 import ResetPassword from '@/Containers/Authentication/Reset/ResetPassword';
 
 import { HomeScreen } from '@/Containers/HomeScreen/HomeScreen';
+import { VolunteerHomeScreen } from '@/Containers/HomeScreen/VolunteerHomeScreen';
 import { ChatScreen } from '@/Containers/ChatScreen/ChatScreen';
 
 export type RootStackParamList = {
@@ -49,6 +50,9 @@ export type TabStackParamList = {
     [Tabs.Awareness]: undefined
     [Tabs.Evidence]: undefined
     [Tabs.Help]: undefined
+    [Tabs.Messages]: undefined
+    [Tabs.Clients]: undefined
+    [Tabs.Appointments]: undefined
 }
 
 
@@ -72,9 +76,16 @@ const AuthStackNavigator = () => {
 }
 
 const MainStackNavigator = () => {
+    const { flowType } = React.useContext(FlowProvider)
+    const isVolunteerRole = flowType === UserFlowTypes.volunteer ||
+        flowType === UserFlowTypes.lawyer ||
+        flowType === UserFlowTypes.therapist
     return (
         <MainStack.Navigator screenOptions={{ headerShown: false }}>
-            <MainStack.Screen name={MainStacks.TabStack} component={TabStackNavigator} />
+            <MainStack.Screen
+                name={MainStacks.TabStack}
+                component={isVolunteerRole ? VolunteerTabStackNavigator : TabStackNavigator}
+            />
             <MainStack.Screen name={MainStacks.ChatScreen} component={ChatScreen} />
         </MainStack.Navigator>
     )
@@ -84,7 +95,7 @@ const TabStackNavigator = () => {
     return (<Tab.Navigator screenOptions={{
         header: ({ navigation, route, options }) => (
             <Header
-                onLeftPress={navigation.goBack} // Handles back navigation
+                onLeftPress={navigation.goBack}
                 onRightPress={() => console.log("Right Action Pressed")} title={''} />
         ),
     }}>
@@ -92,6 +103,21 @@ const TabStackNavigator = () => {
         <Tab.Screen name={Tabs.Awareness} component={HomeScreen} />
         <Tab.Screen name={Tabs.Evidence} component={HomeScreen} />
         <Tab.Screen name={Tabs.Help} component={HomeScreen} />
+    </Tab.Navigator>)
+}
+
+const VolunteerTabStackNavigator = () => {
+    return (<Tab.Navigator screenOptions={{
+        header: ({ navigation, route, options }) => (
+            <Header
+                onLeftPress={navigation.goBack}
+                onRightPress={() => console.log("Right Action Pressed")} title={''} />
+        ),
+    }}>
+        <Tab.Screen name={Tabs.Home} component={VolunteerHomeScreen} />
+        <Tab.Screen name={Tabs.Messages} component={VolunteerHomeScreen} />
+        <Tab.Screen name={Tabs.Clients} component={VolunteerHomeScreen} />
+        <Tab.Screen name={Tabs.Appointments} component={VolunteerHomeScreen} />
     </Tab.Navigator>)
 }
 
