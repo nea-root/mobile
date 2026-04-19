@@ -8,6 +8,15 @@ require Pod::Executable.execute_command('node', ['-p',
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
+project 'mobile', {
+  'DebugDev' => :debug,
+  'DebugStaging' => :debug,
+  'DebugProd' => :debug,
+  'ReleaseDev' => :release,
+  'ReleaseStaging' => :release,
+  'ReleaseProd' => :release,
+}
+
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
@@ -36,5 +45,18 @@ target 'mobile' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        if config.name == 'DebugStaging'
+          # Apply any specific settings or flags for Staging debug builds
+          config.build_settings['SOME_FLAG'] = 'STAGING_VALUE'
+          puts "Applying Staging-specific configurations for #{config.name}"
+        elsif config.name == 'DebugProd' || config.name == 'ReleaseProd'
+          # Apply production-specific settings
+          config.build_settings['SOME_FLAG'] = 'PRODUCTION_VALUE'
+          puts "Applying Production-specific configurations for #{config.name}"
+        end
+      end
+    end
   end
 end

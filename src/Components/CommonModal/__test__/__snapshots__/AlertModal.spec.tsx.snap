@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render AlertModel correctly 1`] = `
+<Modal
+  hardwareAccelerated={false}
+  testID="alertModal"
+  transparent={true}
+  visible={true}
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignSelf": "stretch",
+          "backgroundColor": "#ffffff",
+          "borderRadius": 20,
+          "elevation": 5,
+          "marginHorizontal": 24,
+          "paddingTop": 24,
+          "shadowColor": "#000",
+          "shadowOffset": {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.25,
+          "shadowRadius": 4,
+        }
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#25042D",
+              "fontFamily": "NunitoSans-Bold",
+              "fontSize": 20,
+              "marginHorizontal": 18,
+              "textAlign": "center",
+            },
+          ]
+        }
+      >
+        AlertModel Title
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#25042D",
+              "fontFamily": "NunitoSans-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+              "marginHorizontal": 24,
+              "marginTop": 14,
+              "textAlign": "center",
+            },
+          ]
+        }
+      >
+        AlertModal description
+      </Text>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "rgba(202, 196, 208, 1)",
+              "height": 0.5,
+            },
+            undefined,
+            false,
+            false,
+            [
+              {
+                "alignSelf": "stretch",
+                "backgroundColor": "#A09BFF",
+                "height": 0.4,
+                "marginTop": 26,
+              },
+            ],
+          ]
+        }
+      />
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "height": 54,
+            "justifyContent": "space-evenly",
+          }
+        }
+      >
+        <View
+          collapsable={false}
+          style={
+            {
+              "backgroundColor": "transparent",
+              "borderRadius": 0,
+              "flex": 1,
+              "shadowColor": "#000",
+              "shadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 0,
+              "shadowRadius": 0,
+            }
+          }
+          testID="alert_action_button_ok-container-outer-layer"
+        >
+          <View
+            collapsable={false}
+            removeClippedSubviews={false}
+            style={
+              {
+                "backgroundColor": "transparent",
+                "borderColor": "transparent",
+                "borderRadius": 0,
+                "borderStyle": "solid",
+                "borderWidth": 0,
+                "flex": undefined,
+                "minWidth": 64,
+                "shadowColor": "#000",
+                "shadowOffset": {
+                  "height": 0,
+                  "width": 0,
+                },
+                "shadowOpacity": 0,
+                "shadowRadius": 0,
+              }
+            }
+            testID="alert_action_button_ok-container"
+          >
+            <View
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                [
+                  {
+                    "overflow": "hidden",
+                  },
+                  {
+                    "borderRadius": 0,
+                  },
+                ]
+              }
+              testID="alert_action_button_ok"
+            >
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "center",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  selectable={false}
+                  style={
+                    [
+                      {
+                        "textAlign": "left",
+                      },
+                      {
+                        "color": "rgba(28, 27, 31, 1)",
+                        "writingDirection": "ltr",
+                      },
+                      [
+                        {
+                          "fontFamily": "System",
+                          "fontSize": 14,
+                          "fontWeight": "500",
+                          "letterSpacing": 0.1,
+                          "lineHeight": 20,
+                        },
+                        [
+                          {
+                            "marginHorizontal": 16,
+                            "marginVertical": 9,
+                            "textAlign": "center",
+                          },
+                          false,
+                          {
+                            "marginHorizontal": 12,
+                          },
+                          undefined,
+                          false,
+                          {
+                            "color": "rgba(103, 80, 164, 1)",
+                            "fontFamily": "System",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "letterSpacing": 0.1,
+                            "lineHeight": 20,
+                          },
+                          {
+                            "color": "#25042D",
+                            "fontFamily": "NunitoSans-Regular",
+                            "fontSize": 20,
+                            "padding": 10,
+                          },
+                        ],
+                      ],
+                    ]
+                  }
+                  testID="alert_action_button_ok-text"
+                >
+                  Ok
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;
