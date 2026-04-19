@@ -15,7 +15,6 @@ import {
   View,
   Text,
   ImageBackground,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -36,7 +35,7 @@ const ROLE_WARNINGS: Partial<Record<UserFlowTypes, string>> = {
 
 export default function OnBoardingScreen(): React.JSX.Element {
   const navigation = useNavigation<NavigationProp>();
-  const { flowType, setFlowType } = useContext(FlowProvider);
+  const { setFlowType } = useContext(FlowProvider);
   const [pendingRole, setPendingRole] = useState<UserFlowTypes | null>(null);
   const [agreed, setAgreed] = useState(false);
 
@@ -51,7 +50,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
   };
 
   const handleProceed = () => {
-    if (!pendingRole) return;
+    if (!pendingRole) {return;}
     setFlowType('loading');
     navigation.navigate(RootStacks.Walkthrough, { flowType: pendingRole });
     setPendingRole(null);
@@ -101,7 +100,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
       </Modal>
       <ScrollView
         scrollEnabled={true}
-        contentInsetAdjustmentBehavior='automatic'
+        contentInsetAdjustmentBehavior="automatic"
       >
       <View
         style={styles.container}
@@ -119,7 +118,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
                 <ImageBackground
                   style={styles.imageStyle}
                   source={require('@/Assets/images/survivor.png')}
-                  resizeMode='cover'
+                  resizeMode="cover"
                 />
               </View>
               <Text
@@ -153,7 +152,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
                 <ImageBackground
                   style={styles.imageStyle}
                   source={require('@/Assets/images/volunteer.png')}
-                  resizeMode='cover'
+                  resizeMode="cover"
                 />
               </View>
               <Text
@@ -188,7 +187,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
                 <ImageBackground
                   style={styles.imageStyle}
                   source={require('@/Assets/images/lawyer.png')}
-                  resizeMode='cover'
+                  resizeMode="cover"
                 />
               </View>
               <Text
@@ -223,7 +222,7 @@ export default function OnBoardingScreen(): React.JSX.Element {
                 <ImageBackground
                   style={styles.imageStyle}
                   source={require('@/Assets/images/therapist.png')}
-                  resizeMode='cover'
+                  resizeMode="cover"
                 />
               </View>
               <Text
@@ -270,7 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 24,
     paddingTop: 40,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   cardStyle: {
     display: 'flex',
@@ -311,7 +310,7 @@ const styles = StyleSheet.create({
     height: 55,
     position: 'relative',
     zIndex: 3,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   imageContainer: {
     width: 56,
@@ -421,4 +420,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#ffffff',
   },
-})
+});

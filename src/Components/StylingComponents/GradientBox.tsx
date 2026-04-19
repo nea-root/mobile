@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet, ViewStyle, Dimensions, StyleProp, DimensionValue } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import React from 'react';
+import { StyleSheet, ViewStyle, Dimensions, StyleProp, DimensionValue } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface GradientBoxProps {
   width?: DimensionValue | undefined; // Custom width if provided
@@ -15,11 +15,11 @@ const GradientBox: React.FC<GradientBoxProps> = ({
   width,
   padding = { vertical: 24, horizontal: 17 },
   borderRadius = { topLeft: 0, topRight: 0, bottomLeft: 0, bottomRight: 110 },
-  colors = ["#4AC16A", "#147952"],
+  colors = ['#4AC16A', '#147952'],
   children,
   style,
 }) => {
-  const screenWidth = Dimensions.get("window").width; // Get screen width
+  const screenWidth = Dimensions.get('window').width; // Get screen width
   const calculatedWidth = width || screenWidth * 0.95; // Default to 80% of screen width if no width is provided
 
   return (
@@ -48,9 +48,9 @@ const GradientBox: React.FC<GradientBoxProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    overflow: "hidden", // Ensures rounded corners are applied
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    overflow: 'hidden', // Ensures rounded corners are applied
   },
 });
 

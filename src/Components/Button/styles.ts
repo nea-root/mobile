@@ -1,17 +1,8 @@
-import { CommonParams } from '@/Theme/theme'
-import { StyleSheet } from 'react-native'
+import { CommonParams } from '@/Theme/theme';
+import { StyleSheet } from 'react-native';
 
 
-export default function <C>({
-  Colors,
-  Gutters,
-  Layout,
-  FontSize,
-  MetricsSizes,
-  ViewSizes,
-  Dimens,
-  Fonts,
-}: Partial<CommonParams<C>> = {}) {
+export default function <C>(_params: Partial<CommonParams<C>> = {}) {
   // let buttonHeight = 40;
   // let buttonPadding = 10;
   // let fontSize = 16;
@@ -69,5 +60,5 @@ export default function <C>({
       disabledContainer: {
         backgroundColor: '#BDBDBD',
       },
-  })
+  });
 }

@@ -16,7 +16,7 @@ jest.mock('@/Services/Authentication/AuthService', () => ({
 
 jest.mock('@/Components/Authentication/AuthForm', () => {
   const { View, TextInput, TouchableOpacity, Text } = require('react-native');
-  return ({ mode, onSubmit, email, username, password, handleInput, handleDropDownChange }: any) => (
+  return ({ onSubmit, email, username, password, handleInput, handleDropDownChange }: any) => (
     <View>
       <TextInput testID="email-input" value={email} onChangeText={(t: string) => handleInput(t, 'email')} />
       <TextInput testID="username-input" value={username} onChangeText={(t: string) => handleInput(t, 'username')} />

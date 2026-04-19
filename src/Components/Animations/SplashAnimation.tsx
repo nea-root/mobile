@@ -15,6 +15,7 @@ export const SplashAnimation = () => {
 
     React.useEffect(() => {
         offset.value = withTiming(-offset.value, { duration: 1500 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

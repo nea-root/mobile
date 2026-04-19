@@ -8,7 +8,7 @@ interface IconProps {
   height?: number;
   style?: StyleProp<TextStyle>;
 }
-const ErrorIcon: React.FC<IconProps> = ({ color = '#FF5722', width = 20, height = 20, ...props }) => (
+const ErrorIcon: React.FC<IconProps> = ({ color = '#FF5722', width = 20 }) => (
     <Icon name="alert-octagon" size={width} color={color} />
 );
 

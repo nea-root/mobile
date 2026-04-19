@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   GestureResponderEvent,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { useTheme } from "@/Hooks";
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTheme } from '@/Hooks';
 
 interface HeaderProps {
   title: string; // Title to be displayed in the center
@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({
   titleStyle,
 }) => {
   const navigation = useNavigation();
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <View style={[styles.container, style]}>
       {/* Left Icon or Button */}
@@ -60,33 +60,33 @@ const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: 56,
     paddingHorizontal: 16,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   left: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   title: {
     flex: 3,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
+    fontWeight: 'bold',
+    color: '#000',
   },
   right: {
     flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "center",
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   defaultIcon: {
     fontSize: 18,
-    color: "#000",
+    color: '#000',
   },
 });
 

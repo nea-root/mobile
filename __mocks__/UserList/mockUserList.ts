@@ -1,4 +1,4 @@
-import { Role } from "@/Services/Authentication/AuthService"
+import { Role } from '@/Services/Authentication/AuthService';
 
 export type UserList = {
     flowType: Role,
@@ -6,15 +6,15 @@ export type UserList = {
 
 export const mockUserList: UserList[] = [
     {
-        flowType: "victim",
+        flowType: 'victim',
     },
     {
-        flowType: "volunteer",
+        flowType: 'volunteer',
     },
     {
-        flowType: "lawyer",
+        flowType: 'lawyer',
     },
     {
-        flowType: "therapist",
-    }
-]
+        flowType: 'therapist',
+    },
+];

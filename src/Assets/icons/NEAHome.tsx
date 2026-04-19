@@ -1,6 +1,6 @@
-import * as React from "react"
-import Svg, { SvgProps, G, Path } from "react-native-svg"
-import { memo } from "react"
+import * as React from 'react';
+import Svg, { SvgProps, G, Path } from 'react-native-svg';
+import { memo } from 'react';
 const SvgComponent = (props: SvgProps) => (
   <Svg
     width={254}
@@ -184,6 +184,6 @@ const SvgComponent = (props: SvgProps) => (
       />
     </G>
   </Svg>
-)
-const NEAHome = memo(SvgComponent)
-export default NEAHome
+);
+const NEAHome = memo(SvgComponent);
+export default NEAHome;

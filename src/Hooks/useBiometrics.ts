@@ -1,4 +1,4 @@
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
+import ReactNativeBiometrics from 'react-native-biometrics';
 import { useState } from 'react';
 
 interface BiometricsResult {

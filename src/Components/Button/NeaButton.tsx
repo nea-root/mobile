@@ -1,9 +1,7 @@
 import React from 'react';
 import {
-  View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   GestureResponderEvent,
 } from 'react-native';
 import createStyles from './styles';

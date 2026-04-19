@@ -20,7 +20,7 @@ jest.mock('@/Context/AuthProvider/AuthProvider', () => ({
 
 jest.mock('@/Components/Authentication/AuthForm', () => {
   const { View, TextInput, TouchableOpacity, Text } = require('react-native');
-  return ({ mode, onSubmit, email, handleInput }: any) => (
+  return ({ onSubmit, email, handleInput }: any) => (
     <View>
       <TextInput testID="email-input" value={email} onChangeText={(t: string) => handleInput(t, 'email')} />
       <TouchableOpacity testID="submit-btn" onPress={onSubmit}>
@@ -30,7 +30,7 @@ jest.mock('@/Components/Authentication/AuthForm', () => {
   );
 });
 
-const mockShowAlert = jest.fn().mockImplementation((_isShow, _title, _desc, actions) => {
+const mockShowAlert = jest.fn().mockImplementation((_isShow, _title, _desc, _actions) => {
   // Simulate clicking "Yes" to trigger the reset password flow
 });
 const mockHideModal = jest.fn();

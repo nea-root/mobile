@@ -15,7 +15,7 @@ jest.mock('@/Components/Shared/LoadingSpinner', () => {
 
 jest.mock('@/Components/WalkthroughCarousal/WalkthroughCarousal', () => {
   const { View } = require('react-native');
-  return ({ onActiveIndexChange }: any) => {
+  return () => {
     // Simulate carousel with a stable index
     return <View testID="carousel" />;
   };

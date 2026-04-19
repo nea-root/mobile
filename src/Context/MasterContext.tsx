@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
-import { SafeAreaView, StyleSheet } from 'react-native'
-import { FlowProviderContext } from '@/Context/FlowProvider/FlowProvider'
-import { AlertModalProviderContext } from '@/Context/AlertModal/AlertModalProvider'
-import { AuthProvider } from '@/Context/AuthProvider/AuthProvider'
+import { ReactNode } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { FlowProviderContext } from '@/Context/FlowProvider/FlowProvider';
+import { AlertModalProviderContext } from '@/Context/AlertModal/AlertModalProvider';
+import { AuthProvider } from '@/Context/AuthProvider/AuthProvider';
 
 type Props = {
     children: ReactNode
@@ -19,8 +19,8 @@ export const MasterContext = ({ children }: Props) => {
                 </AuthProvider>
             </FlowProviderContext>
         </SafeAreaView>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {

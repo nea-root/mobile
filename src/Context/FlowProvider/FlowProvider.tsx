@@ -1,12 +1,12 @@
-import { ReactNode, createContext, useEffect, useMemo, useState } from 'react'
-import { FlowContext } from '../Types/FlowContext'
-import { mockUserList } from '@/../__mocks__/UserList/mockUserList'
+import { ReactNode, createContext, useEffect, useMemo, useState } from 'react';
+import { FlowContext } from '../Types/FlowContext';
+import { mockUserList } from '@/../__mocks__/UserList/mockUserList';
 import { Role } from '@/Services/Authentication/AuthService';
 
 export const FlowProvider = createContext<FlowContext>({
     flowType: undefined,
     setFlowType: () => {
-        throw new Error("setFlowType is not implemented");
+        throw new Error('setFlowType is not implemented');
     },
 });
 

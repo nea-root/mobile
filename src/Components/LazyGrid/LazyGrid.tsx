@@ -1,7 +1,7 @@
-import React from "react";
-import { FlatList, View, StyleSheet, Dimensions, ListRenderItem, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import React from 'react';
+import { FlatList, View, StyleSheet, Dimensions, ListRenderItem, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export type RenderItemParams = {
     item: any
@@ -22,7 +22,7 @@ const LazyGrid = <T extends unknown>({
   numColumns = 2,
   keyExtractor,
   ListFooterComponent,
-  onScroll
+  onScroll,
 }: LazyGridProps<T>) => {
   const ITEM_WIDTH = (SCREEN_WIDTH / numColumns) - 10;
 
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   gridItem: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 5,
   },
 });

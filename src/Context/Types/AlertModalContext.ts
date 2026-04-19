@@ -1,7 +1,7 @@
 import {
   AlertModalActionData,
   AlertModalData,
-} from '@/Data/Models/Application/AlertModalData'
+} from '@/Data/Models/Application/AlertModalData';
 
 export type AlertModalContext = {
   alertModalData?: AlertModalData

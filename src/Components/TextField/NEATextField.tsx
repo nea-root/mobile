@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
   View,
   TextInput,
@@ -23,7 +23,7 @@ const NEATextField: React.FC<TextFieldProps> = ({
   value,
   required = false,
   onChangeText,
-  placeholder,
+  placeholder: _placeholder,
   type = 'text',
   error = '',
   style = {},
@@ -56,19 +56,13 @@ const NEATextField: React.FC<TextFieldProps> = ({
 
   const top = useMemo(()=> animation.interpolate({
     inputRange:[0,1],
-    outputRange: [12,2]
-  }),[])
+    outputRange: [12,2],
+  }),[animation]);
 
   const fontSize = useMemo(()=> animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [14, 10], 
-  }),[])
-
-  const labelStyle = {
-    position: 'absolute',
-    left: 10,
-    color: '#434345',
-  };
+    outputRange: [14, 10],
+  }),[animation]);
 
   const getKeyboardType = (): TextInputProps['keyboardType'] => {
     switch (type) {
@@ -141,7 +135,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 10,
     color: '#434345',
-  }
+  },
 });
 
 export default NEATextField;

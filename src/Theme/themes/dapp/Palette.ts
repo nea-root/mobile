@@ -35,4 +35,4 @@ export const Palette = {
   darkGreen: '#083125',
   darkGray: '#7c7c7c',
   darkGray2: '#4D4D4D',
-}
+};

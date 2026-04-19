@@ -45,7 +45,7 @@ describe('NEADropdown', () => {
 
   it('selects an option and closes dropdown', () => {
     const onSelect = jest.fn();
-    const { getByText, queryByText } = render(
+    const { getByText } = render(
       <NEADropdown options={OPTIONS} onSelect={onSelect} placeholder="Choose one" />
     );
     fireEvent.press(getByText('Choose one'));

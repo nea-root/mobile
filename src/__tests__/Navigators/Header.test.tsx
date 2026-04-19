@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 import Header from '@/Navigators/Header';
 
@@ -9,10 +9,10 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('react-native-vector-icons/FontAwesome', () => {
-  const { TouchableOpacity, Text } = require('react-native');
+  const { TouchableOpacity, Text: RNText } = require('react-native');
   return ({ onPress, testID }: any) => (
     <TouchableOpacity onPress={onPress} testID={testID ?? 'icon'}>
-      <Text>←</Text>
+      <RNText>←</RNText>
     </TouchableOpacity>
   );
 });

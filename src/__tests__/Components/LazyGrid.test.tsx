@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import { render } from '@testing-library/react-native';
 import LazyGrid from '@/Components/LazyGrid/LazyGrid';
 

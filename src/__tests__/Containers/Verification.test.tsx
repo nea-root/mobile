@@ -15,7 +15,7 @@ jest.mock('@/Services/Authentication/AuthService', () => ({
 
 jest.mock('@/Components/OTPInput/OTPInput', () => {
   const { View, TouchableOpacity, Text } = require('react-native');
-  return ({ onSubmit, handleReset, length }: any) => (
+  return ({ onSubmit, handleReset }: any) => (
     <View>
       <TouchableOpacity testID="submit-otp" onPress={() => onSubmit('123456')}>
         <Text>Verify</Text>

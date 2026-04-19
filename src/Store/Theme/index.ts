@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
-import themes from '@/Theme/themes'
-import themeState from '@/Store/States/ThemeState'
+import { createSlice } from '@reduxjs/toolkit';
+import themes from '@/Theme/themes';
+import themeState from '@/Store/States/ThemeState';
 
-export const initialState = themeState
+export const initialState = themeState;
 const ThemeSlice = createSlice({
   name: 'theme',
   initialState: initialState,
   reducers: {
     changeTheme: (state, { payload: { theme, darkMode } }: ThemePayload) => {
       if (typeof theme !== 'undefined') {
-        state.theme = theme
+        state.theme = theme;
       }
       if (typeof darkMode !== 'undefined') {
-        state.darkMode = darkMode
+        state.darkMode = darkMode;
       }
     },
     setDefaultTheme: (
@@ -21,19 +21,19 @@ const ThemeSlice = createSlice({
     ) => {
       if (!state.theme) {
         if (typeof theme !== 'undefined') {
-          state.theme = theme
+          state.theme = theme;
         }
         if (typeof darkMode !== 'undefined') {
-          state.darkMode = darkMode
+          state.darkMode = darkMode;
         }
       }
     },
   },
-})
+});
 
-export const { changeTheme, setDefaultTheme } = ThemeSlice.actions
+export const { changeTheme, setDefaultTheme } = ThemeSlice.actions;
 
-export default ThemeSlice.reducer
+export default ThemeSlice.reducer;
 
 type DarkProps<T> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

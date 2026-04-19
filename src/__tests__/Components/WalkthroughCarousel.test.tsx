@@ -29,7 +29,7 @@ describe('WalkthroughCarousel', () => {
   });
 
   it('renders dot indicators when multiple slides exist', () => {
-    const { UNSAFE_getAllByProps } = render(<WalkthroughCarousel flowType="victim" />);
+    render(<WalkthroughCarousel flowType="victim" />);
     // Victim has 3 slides — 3 dots should be rendered
     // We just verify no crash; dot rendering is conditional
     expect(true).toBe(true);

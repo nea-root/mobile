@@ -1,9 +1,7 @@
 
-import storage from 'redux-persist/lib/storage'
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 import {
-  persistReducer,
   persistStore,
   FLUSH,
   REHYDRATE,
@@ -11,17 +9,17 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
+} from 'redux-persist';
 
-import theme from './Theme'
-import dummy from './Slices/DummySlice'
-import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
+import theme from './Theme';
+import dummy from './Slices/DummySlice';
+import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 
 
 const reducers = combineReducers({
     theme,
-    dummy
-})
+    dummy,
+});
 
 // const persistConfig = {
 //   key: 'root',
@@ -38,7 +36,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
+    });
 
     // // @ts-ignore
     // if (__DEV__ && !process.env.JEST_WORKER_ID) {
@@ -46,17 +44,17 @@ const store = configureStore({
     //   middlewares.push(createDebugger())
     // }
 
-    return middlewares
+    return middlewares;
   },
-})
+});
 
-const persistor = persistStore(store)
+const persistor = persistStore(store);
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);
 
 export type StoreStateType = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch.withTypes<AppDispatch>()
-export const useSelectorHook: TypedUseSelectorHook<StoreStateType> = useSelector.withTypes<StoreStateType>()
+export const useAppDispatch: () => AppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useSelectorHook: TypedUseSelectorHook<StoreStateType> = useSelector.withTypes<StoreStateType>();
 
-export { store, persistor }
+export { store, persistor };

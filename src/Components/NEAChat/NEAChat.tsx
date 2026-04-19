@@ -1,15 +1,11 @@
 import NEASend from '@/Assets/icons/NEASend';
 import useTheme from '@/Hooks/useTheme';
 import { Colors } from '@/Theme/Variables';
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Bubble, BubbleProps, GiftedChat, IMessage, InputToolbarProps } from 'react-native-gifted-chat';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-type User = {
-    _id: number;
-    name: string;
-};
 
 type Message = IMessage;
 
@@ -53,11 +49,11 @@ const NEAChat: React.FC = () => {
             // Mark the message as pending with a clock loader
             pending: true,
             // Any additional custom parameters are passed through
-        }
+        },
     ]);
     const [inputText, setInputText] = useState('');
 
-    const { Colors, Variables} = useTheme()
+    const { Colors, Variables} = useTheme();
     const renderAccessory = (): React.ReactNode => (
         <TouchableOpacity style={styles.accessoryButton}>
             {/* <Ionicons name="camera" size={24} color="#666" /> */}
@@ -99,7 +95,7 @@ const NEAChat: React.FC = () => {
 
     const onSend = (newMessages: IMessage[]): void => {
         setMessages((previousMessages) => GiftedChat.append(previousMessages, newMessages));
-        setInputText('')
+        setInputText('');
     };
     const renderInputToolbar = (props: InputToolbarProps<Message>): React.ReactNode => {
         return (
@@ -109,7 +105,7 @@ const NEAChat: React.FC = () => {
                     style={[styles.textInput, props.primaryStyle]}
                     placeholder="Type a message..."
                     value={inputText}
-                    onChangeText={(text)=>{setInputText(text)}}
+                    onChangeText={(text)=>{setInputText(text);}}
                     onSubmitEditing={() => {
                         if (inputText.trim()) {
                             onSend([
@@ -150,8 +146,8 @@ const NEAChat: React.FC = () => {
             bottomContainerStyle={{left: {backgroundColor: Colors.Palette.white}, right: {backgroundColor: Colors.Palette.white}}}
             containerStyle={{ left: { marginLeft: Variables?.MetricsSizes?.medium, marginVertical:  Variables?.MetricsSizes?.medium}, right: { marginLeft: Variables?.MetricsSizes?.medium, marginVertical:  Variables?.MetricsSizes?.medium} }}
             wrapperStyle={{ left: { padding: Variables?.MetricsSizes?.extraSmall, backgroundColor: Colors.primaryBackground }, right: { padding: Variables?.MetricsSizes?.extraSmall, backgroundColor: Colors.primaryGreenColor} }}
-        />)
-    }
+        />);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -242,8 +238,8 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: 500,
-        lineHeight: 19.2, 
-        letterSpacing: -0.12
+        lineHeight: 19.2,
+        letterSpacing: -0.12,
     },
     textRightStyle: {
         color: '#0B0B14',
@@ -251,9 +247,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: 500,
-        lineHeight: 19.2, 
-        letterSpacing: -0.12
-    }
+        lineHeight: 19.2,
+        letterSpacing: -0.12,
+    },
 });
 
 export default NEAChat;

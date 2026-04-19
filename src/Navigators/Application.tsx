@@ -72,14 +72,14 @@ const AuthStackNavigator = () => {
             <AuthStack.Screen name={AuthStacks.Reset} component={Reset} />
             <AuthStack.Screen name={AuthStacks.ResetVerification} component={ResetVerification} />
             <AuthStack.Screen name={AuthStacks.ResetPassword} component={ResetPassword} />
-        </AuthStack.Navigator>)
-}
+        </AuthStack.Navigator>);
+};
 
 const MainStackNavigator = () => {
-    const { flowType } = React.useContext(FlowProvider)
+    const { flowType } = React.useContext(FlowProvider);
     const isVolunteerRole = flowType === UserFlowTypes.volunteer ||
         flowType === UserFlowTypes.lawyer ||
-        flowType === UserFlowTypes.therapist
+        flowType === UserFlowTypes.therapist;
     return (
         <MainStack.Navigator screenOptions={{ headerShown: false }}>
             <MainStack.Screen
@@ -88,76 +88,75 @@ const MainStackNavigator = () => {
             />
             <MainStack.Screen name={MainStacks.ChatScreen} component={ChatScreen} />
         </MainStack.Navigator>
-    )
-}
+    );
+};
 
 const TabStackNavigator = () => {
     return (<Tab.Navigator screenOptions={{
-        header: ({ navigation, route, options }) => (
+        header: ({ navigation, route: _route, options: _options }) => (
             <Header
                 onLeftPress={navigation.goBack}
-                onRightPress={() => console.log("Right Action Pressed")} title={''} />
+                onRightPress={() => console.log('Right Action Pressed')} title={''} />
         ),
     }}>
         <Tab.Screen name={Tabs.Home} component={HomeScreen} />
         <Tab.Screen name={Tabs.Awareness} component={HomeScreen} />
         <Tab.Screen name={Tabs.Evidence} component={HomeScreen} />
         <Tab.Screen name={Tabs.Help} component={HomeScreen} />
-    </Tab.Navigator>)
-}
+    </Tab.Navigator>);
+};
 
 const VolunteerTabStackNavigator = () => {
     return (<Tab.Navigator screenOptions={{
-        header: ({ navigation, route, options }) => (
+        header: ({ navigation, route: _route, options: _options }) => (
             <Header
                 onLeftPress={navigation.goBack}
-                onRightPress={() => console.log("Right Action Pressed")} title={''} />
+                onRightPress={() => console.log('Right Action Pressed')} title={''} />
         ),
     }}>
         <Tab.Screen name={Tabs.Home} component={VolunteerHomeScreen} />
         <Tab.Screen name={Tabs.Messages} component={VolunteerHomeScreen} />
         <Tab.Screen name={Tabs.Clients} component={VolunteerHomeScreen} />
         <Tab.Screen name={Tabs.Appointments} component={VolunteerHomeScreen} />
-    </Tab.Navigator>)
-}
+    </Tab.Navigator>);
+};
 
 const UserStackNavigator = ({ route }: any) => {
-    const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false)
-    const { flowType, setFlowType }: FlowContext = React.useContext(FlowProvider)
-    const { authState } = useAuth()
+    const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+    const { flowType, setFlowType }: FlowContext = React.useContext(FlowProvider);
+    const { authState } = useAuth();
     React.useEffect(() => {
-        setFlowType(route?.params?.flowType)
-    }, [setFlowType, route])
+        setFlowType(route?.params?.flowType);
+    }, [setFlowType, route]);
     React.useEffect(() => {
         if (authState && flowType && authState.users[flowType]) {
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
         }
         else if (authState && flowType && !authState.users[flowType]) {
-            setIsLoggedIn(false)
+            setIsLoggedIn(false);
         }
-    }, [authState, authState.users, authState.tokens, authState.roles.length])
+    }, [authState, authState.users, authState.tokens, authState.roles.length, flowType]);
     if (!isLoggedIn) {
-        return <MainStackNavigator />
+        return <MainStackNavigator />;
     }
     return (
         <UserStack.Navigator screenOptions={{
-            header: ({ navigation, route, options }) => (
+            header: ({ navigation }) => (
                 <Header
                     onLeftPress={navigation.goBack} // Handles back navigation
-                    onRightPress={() => console.log("Right Action Pressed")} title={''} />
+                    onRightPress={() => console.log('Right Action Pressed')} title={''} />
             ),
-            headerTransparent: true
+            headerTransparent: true,
         }}>
             <UserStack.Screen name={UserStacks.Walkthrough} component={Walkthrough} />
             <UserStack.Screen name={UserStacks.AuthStack} component={AuthStackNavigator} />
         </UserStack.Navigator>
-    )
-}
+    );
+};
 
 
 
 const ApplicationNavigator = () => {
-    const { flowType, setFlowType } = React.useContext(FlowProvider)
     return (
         <NavigationContainer>
             <MasterContext>
@@ -168,6 +167,6 @@ const ApplicationNavigator = () => {
             </MasterContext>
         </NavigationContainer>
     );
-}
+};
 
 export default ApplicationNavigator;

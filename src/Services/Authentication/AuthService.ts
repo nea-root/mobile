@@ -1,14 +1,13 @@
-import { CognitoUser, AuthenticationDetails, CognitoUserPool, ICognitoUserPoolData, CognitoUserAttribute, ISignUpResult, CognitoUserSession, ICognitoUserSessionData, CognitoIdToken } from 'amazon-cognito-identity-js';
-import { CognitoIdentityProviderClient, ChangePasswordCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { CognitoUser, AuthenticationDetails, CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { CognitoIdentityProviderClient, ChangePasswordCommand } from '@aws-sdk/client-cognito-identity-provider';
 import * as Keychain from 'react-native-keychain';
 import { Pools } from './cognitoConfig';
-import { generateComplexPassword } from './utils';
 
 export interface CognitoTokenPayload {
   sub: string;
   email_verified?: boolean;
   iss: string;
-  "cognito:username"?: string;
+  'cognito:username'?: string;
   origin_jti: string;
   aud?: string;
   event_id: string;
@@ -38,16 +37,9 @@ export interface CognitoTokenResponse {
 }
 
 
-interface Tokens {
-  idToken: string;
-  accessToken: string;
-  refreshToken: string;
-  role: string;
-}
-
 export type Role = 'victim' | 'volunteer' | 'lawyer' | 'therapist' | 'loading';
 
-const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
+const client = new CognitoIdentityProviderClient({ region: 'us-east-1' });
 
 
 /**
@@ -64,7 +56,7 @@ export const signIn = async (
   role: Role
 ): Promise<{ tokens: CognitoTokenResponse, username: string }> => {
   if (role === 'loading') {
-    return Promise.reject()
+    return Promise.reject();
   }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
@@ -77,7 +69,7 @@ export const signIn = async (
     const authDetails = new AuthenticationDetails({ Username: username, Password: password });
     user.authenticateUser(authDetails, {
       onSuccess: async (session) => {
-        const serializedSession = JSON.stringify(session)
+        const serializedSession = JSON.stringify(session);
         try {
           // Store role and tokens securely in Keychain
           await Keychain.setGenericPassword(
@@ -87,22 +79,22 @@ export const signIn = async (
           );
           resolve({ tokens: JSON.parse(serializedSession), username: username });
         } catch (error) {
-          console.log(error)
+          console.log(error);
           reject(error);
         }
       },
-      onFailure: (err) => { console.log(err); reject(err) },
+      onFailure: (err) => { console.log(err); reject(err); },
     });
   });
 };
 
 /**
- * 
- * @param username 
- * @param password 
- * @param email 
- * @param role 
- * @returns 
+ *
+ * @param username
+ * @param password
+ * @param email
+ * @param role
+ * @returns
  */
 export const register = (username: string,
   password: string,
@@ -110,7 +102,7 @@ export const register = (username: string,
   country: string,
   role: Role) => {
   if (role === 'loading') {
-    return Promise.reject()
+    return Promise.reject();
   }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
@@ -124,19 +116,16 @@ export const register = (username: string,
       Value: email,
     };
 
-    const dataCountry = { Name: 'custom:country', Value: country }
-
     const attributeEmail = new CognitoUserAttribute(dataEmail);
-    const attributeCountry = new CognitoUserAttribute(dataCountry)
 
     const attributes: CognitoUserAttribute[] = [];
-    attributes.push(attributeEmail)
+    attributes.push(attributeEmail);
     // attributes.push(attributeCountry) still working
 
     const validateAttributes: CognitoUserAttribute[] = [
-    ]
+    ];
     userPool.signUp(username,
-      password, attributes, validateAttributes, ({ err, result }: any) => {
+      password, attributes, validateAttributes, ({ err }: any) => {
         if (err) {
           reject(err);
           return;
@@ -147,7 +136,7 @@ export const register = (username: string,
           password: password,
           email: email,
           country: country,
-          role: role
+          role: role,
         });
       });
   });
@@ -159,7 +148,7 @@ export const verifySignIn = async (
   role: Role
 ): Promise<any> => {
   if (role === 'loading') {
-    return Promise.reject()
+    return Promise.reject();
   }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
@@ -173,10 +162,10 @@ export const verifySignIn = async (
     user.confirmRegistration(verificationCode, true, function (err, result) {
       if (err) {
         // alert(err.message || JSON.stringify(err));
-        reject(err)
+        reject(err);
         return;
       }
-      resolve(result)
+      resolve(result);
       console.log('call result: ' + result);
     });
   });
@@ -187,7 +176,7 @@ export const resendVerificationCode = async (
   role: Role
 ): Promise<any> => {
   if (role === 'loading') {
-    return Promise.reject()
+    return Promise.reject();
   }
   return new Promise((resolve, reject) => {
     const userPool: CognitoUserPool = Pools[role];
@@ -195,19 +184,19 @@ export const resendVerificationCode = async (
       reject(new Error('Invalid role'));
       return;
     }
-    console.log(username+role)
+    console.log(username + role);
 
     const user: CognitoUser = new CognitoUser({ Username: username, Pool: userPool });
 
     user.resendConfirmationCode( (err, result) =>{
       if (err) {
         // alert(err.message || JSON.stringify(err));
-        reject(err)
+        reject(err);
         return;
       }
-      resolve(result)
+      resolve(result);
       console.log('call result: ' + result);
-    })
+    });
   });
 };
 
@@ -308,7 +297,7 @@ export const verifyResetCode = async (
         resolve(); // Verification successful
       },
       onFailure: (err) => {
-        console.log(err)
+        console.log(err);
         reject(err); // Verification failed
       },
     });

@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
     View,
     Text,
     TextInput,
     StyleSheet,
-    TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
     Keyboard,
@@ -13,9 +12,8 @@ import {
     NativeSyntheticEvent,
     Switch,
     TouchableWithoutFeedback,
-} from "react-native";
-import NeaButton from "../Button/NeaButton";
-import { resendVerificationCode, Role } from "@/Services/Authentication/AuthService";
+} from 'react-native';
+import NeaButton from '../Button/NeaButton';
 
 interface OTPInputProps {
     length?: number; // Number of OTP digits
@@ -25,7 +23,7 @@ interface OTPInputProps {
 }
 
 const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'register', handleReset }) => {
-    const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
+    const [otp, setOtp] = useState<string[]>(Array(length).fill(''));
     const inputsRefs = useRef<Array<TextInput | null>>([]);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
     const [isEnabled, setIsEnabled] = useState(false);
@@ -35,7 +33,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
     const translateY = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        const showListener = Keyboard.addListener("keyboardDidShow", () => {
+        const showListener = Keyboard.addListener('keyboardDidShow', () => {
             setIsKeyboardVisible(true);
             Animated.timing(translateY, {
                 toValue: -50, // Move up when the keyboard is visible
@@ -44,7 +42,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
             }).start();
         });
 
-        const hideListener = Keyboard.addListener("keyboardDidHide", () => {
+        const hideListener = Keyboard.addListener('keyboardDidHide', () => {
             setIsKeyboardVisible(false);
             Animated.timing(translateY, {
                 toValue: 0, // Reset position
@@ -60,7 +58,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
     }, [translateY]);
 
     const handleInputChange = (text: string, index: number) => {
-        if (!/^\d*$/.test(text)) return; // Allow only numeric input
+        if (!/^\d*$/.test(text)) {return;} // Allow only numeric input
         const newOtp = [...otp];
         newOtp[index] = text;
 
@@ -72,8 +70,8 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
         }
 
         // Trigger submit if all fields are filled
-        if (newOtp.join("").length === length) {
-            onSubmit(newOtp.join(""));
+        if (newOtp.join('').length === length) {
+            onSubmit(newOtp.join(''));
         }
     };
 
@@ -81,7 +79,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
         event: NativeSyntheticEvent<TextInputKeyPressEventData>,
         index: number
     ) => {
-        if (event.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
+        if (event.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
             inputsRefs.current[index - 1]?.focus();
         }
     };
@@ -89,7 +87,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
             <View style={{ width: '100%' }}>
                 <Text style={styles.title}>Verify your email</Text>
@@ -114,44 +112,44 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
             </View>
             <NeaButton
                 title="Verify"
-                onPress={() => { 
-                    onSubmit(otp.join(""))
+                onPress={() => {
+                    onSubmit(otp.join(''));
                 }}
                 style={{
-                    display: "flex",
+                    display: 'flex',
                     width: '100%',
                     height: 48,
                     paddingVertical: 8,
-                    justifyContent: "center",
-                    alignItems: "center",
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     gap: 8,
                 }}
             />
             <View style={{ flexDirection: 'column', marginBottom: 40 }}>
                 <Text style={{
-                    color: "#0B0B14",
+                    color: '#0B0B14',
                     textAlign: 'center',
                     fontFamily: 'Montserrat',
                     fontSize: 14,
                     fontStyle: 'normal',
                     fontWeight: 500,
                     letterSpacing: -0.14,
-                    lineHeight: 22.4
+                    lineHeight: 22.4,
 
                 }}>Did not receive code yet? <TouchableWithoutFeedback onPress={handleReset}><Text style={{
-                    color: "#147952",
+                    color: '#147952',
                     textAlign: 'center',
                     fontFamily: 'Montserrat',
                     fontSize: 14,
                     fontStyle: 'normal',
                     fontWeight: 500,
                     letterSpacing: -0.14,
-                    lineHeight: 22.4
+                    lineHeight: 22.4,
 
                 }}>Resend Code</Text></TouchableWithoutFeedback></Text>
             </View>
 
-            {mode && mode === 'reset'?<></>:<Animated.View
+            {mode && mode === 'reset' ? <></> : <Animated.View
                 style={[
                     styles.switchContainer,
                     {
@@ -161,15 +159,15 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
                 ]}
             >
                 <View style={{
-                    flexDirection: 'row', alignItems: "center", justifyContent: 'space-between',
-                    paddingVertical: 16, width: '100%'
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    paddingVertical: 16, width: '100%',
                 }}>
 
                     <Text style={styles.switchText}>Enable Face ID app lock</Text>
 
                     <View style={styles.switch}>
                         <Switch
-                            trackColor={{ false: "#767577", true: "#4AC16A" }}
+                            trackColor={{ false: '#767577', true: '#4AC16A' }}
                             thumbColor={'#FFFFFF'}
                             ios_backgroundColor="#3e3e3e"
                             onValueChange={toggleSwitch}
@@ -185,7 +183,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onSubmit, mode = 'regis
                     fontStyle: 'normal',
                     fontWeight: 500,
                     letterSpacing: -0.1,
-                    lineHeight: 16
+                    lineHeight: 16,
 
                 }}>When enabled, you will need to use Face ID to unlock app. You can change this anytime through privacy and settings.</Text>
             </Animated.View>}
@@ -197,50 +195,50 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: "center",
+        alignItems: 'center',
         padding: 20,
     },
     title: {
         fontSize: 20,
-        fontWeight: "600",
+        fontWeight: '600',
         marginBottom: 10,
     },
     subtitle: {
         fontSize: 14,
-        color: "#555",
+        color: '#555',
         textAlign: 'left',
         marginBottom: 20,
     },
     otpContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginBottom: 20,
-        width: "100%",
+        width: '100%',
     },
     input: {
         width: 40,
         height: 50,
         borderWidth: 1,
-        borderColor: "#ccc",
+        borderColor: '#ccc',
         borderRadius: 8,
-        textAlign: "center",
+        textAlign: 'center',
         fontSize: 18,
     },
     resend: {
-        color: "#007bff",
+        color: '#007bff',
         marginTop: 10,
-        textDecorationLine: "underline",
+        textDecorationLine: 'underline',
     },
     switchContainer: {
-        position: "absolute",
+        position: 'absolute',
         left: 20,
         right: 20,
-        flexDirection: "column",
+        flexDirection: 'column',
     },
     switchText: {
         fontSize: 16,
-        fontWeight: "500",
-        alignSelf: 'flex-start'
+        fontWeight: '500',
+        alignSelf: 'flex-start',
     },
     switch: {
         // Add styles for the switch component

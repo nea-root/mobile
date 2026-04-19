@@ -1,5 +1,5 @@
-import { CommonParams } from '@/Theme/theme'
-import { StyleSheet } from 'react-native'
+import { CommonParams } from '@/Theme/theme';
+import { StyleSheet } from 'react-native';
 
 export default function <C>({
   Colors,
@@ -7,7 +7,7 @@ export default function <C>({
   Gutters,
   Fonts,
   MetricsSizes,
-  ViewSizes,
+  ViewSizes: _ViewSizes,
   Dimens,
 }: CommonParams<C>) {
   return StyleSheet.create({
@@ -66,5 +66,5 @@ export default function <C>({
     blurView: {
       ...Layout.fill,
     },
-  })
+  });
 }

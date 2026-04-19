@@ -6,24 +6,23 @@ import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
 
 import { AuthStackParamList } from '@/Navigators/Application';
 import { AuthStacks, UserFlowTypes } from '@/Navigators/utils';
-import { getTokens, register, signIn } from '@/Services/Authentication/AuthService';
+import { register } from '@/Services/Authentication/AuthService';
 import { cognitoErrorHandler } from '@/Services/Authentication/utils';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Button, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View } from 'react-native';
 
 type NavigationProp = NativeStackNavigationProp<AuthStackParamList, AuthStacks.Register>;
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('')
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [place, setPlace] = useState('');
-    const [error, setError] = useState('');
-    const { alertModalData, hideModal, showAlert } = useContext(AlertModalProvider)
-    const { flowType } = useContext(FlowProvider)
-    const navigation = useNavigation<NavigationProp>()
+    const { hideModal, showAlert } = useContext(AlertModalProvider);
+    const { flowType } = useContext(FlowProvider);
+    const navigation = useNavigation<NavigationProp>();
 
 
 
@@ -37,56 +36,56 @@ const Register: React.FC = () => {
                         {
                             label: 'No',
                             action: () => {
-                                hideModal && hideModal()
+                                hideModal && hideModal();
                             },
                         },
                         {
                             label: 'Yes',
                             action: async () => {
-                                hideModal && hideModal()
-                                await register(username, password, email, place, flowType)
-                                navigation.navigate(AuthStacks.Verification, { formData: { username: username, password: password, email: email, role: flowType } })
+                                hideModal && hideModal();
+                                await register(username, password, email, place, flowType);
+                                navigation.navigate(AuthStacks.Verification, { formData: { username: username, password: password, email: email, role: flowType } });
                             },
                         },
-                    ])
+                    ]);
                 }
                 else {
-                    await register(username, password, email, place, flowType)
-                    navigation.navigate(AuthStacks.Verification, { formData: { username: username, password: password, email: email, role: flowType } })
+                    await register(username, password, email, place, flowType);
+                    navigation.navigate(AuthStacks.Verification, { formData: { username: username, password: password, email: email, role: flowType } });
                 }
             } catch (error) {
                     showAlert && showAlert(true, 'Error', cognitoErrorHandler(error), [
                         {
                             label: 'OK',
                             action: () => {
-                                hideModal && hideModal()
+                                hideModal && hideModal();
                             },
                         },
-                    ])
+                    ]);
             }
         }
 
 
 
-    }
+    };
 
     const handleInput = (text: string, inputType: string) => {
         switch (inputType) {
             case 'email':
-                setEmail(text)
+                setEmail(text);
                 break;
             case 'username':
-                setUsername(text)
+                setUsername(text);
                 break;
             case 'password':
-                setPassword(text)
+                setPassword(text);
                 break;
         }
-    }
+    };
 
     const handleDropDownChange = (val:string) => {
-        setPlace(val)
-    }
+        setPlace(val);
+    };
 
     return (
         <View style={{ flex: 1 }}>

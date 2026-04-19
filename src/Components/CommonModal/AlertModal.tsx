@@ -1,13 +1,13 @@
-import { AlertModalData } from '@/Data/Models/Application/AlertModalData'
-import { useTheme } from '@/Hooks'
-import { Modal, Text, View, ViewStyle } from 'react-native'
-import { Button, Divider } from 'react-native-paper'
-import createStyles from './AlertModalStyle'
+import { AlertModalData } from '@/Data/Models/Application/AlertModalData';
+import { useTheme } from '@/Hooks';
+import { Modal, Text, View, ViewStyle } from 'react-native';
+import { Button, Divider } from 'react-native-paper';
+import createStyles from './AlertModalStyle';
 
 export const AlertModal = (props: AlertModalData) => {
-  const { isShow, title, description, actions } = props
-  const theme = useTheme()
-  const styles = createStyles(theme)
+  const { isShow, title, description, actions } = props;
+  const theme = useTheme();
+  const styles = createStyles(theme);
 
   return (
     <Modal testID="alertModal" visible={isShow} transparent={true}>
@@ -36,7 +36,7 @@ export const AlertModal = (props: AlertModalData) => {
                     >
                       {data.label}
                     </Button>
-                  )
+                  );
                 })}
               </View>
             </>
@@ -44,7 +44,7 @@ export const AlertModal = (props: AlertModalData) => {
         </View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export const CONTAINER: ViewStyle = {}
+export const CONTAINER: ViewStyle = {};

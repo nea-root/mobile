@@ -1,8 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
-import { CognitoTokenResponse, getTokens, register as loginRegister, Role } from '@/Services/Authentication/AuthService';
+import { CognitoTokenResponse, getTokens, Role } from '@/Services/Authentication/AuthService';
 import { FlowProvider } from '../FlowProvider/FlowProvider';
-import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
-import { ICognitoUserSessionData } from 'amazon-cognito-identity-js'
 
 
 interface UserData {
@@ -12,7 +10,7 @@ interface UserData {
 interface AuthState {
   roles: string[];
   users: Record<Role, UserData>;
-  tokens: Record<Role, CognitoTokenResponse>; 
+  tokens: Record<Role, CognitoTokenResponse>;
 }
 
 interface AuthContextProps {
@@ -41,25 +39,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     tokens: {} as Record<Role, CognitoTokenResponse>,
   });
 
-  const {flowType} = useContext(FlowProvider)
+  const {flowType} = useContext(FlowProvider);
   useEffect(()=>{
       if(flowType && flowType !== 'loading')
-      getUserTokens(flowType)
-  },[flowType])
+      {getUserTokens(flowType);}
+  },[flowType]);
 
   const getUserTokens = async (flowType: Role) => {
     try {
-      const creds = await getTokens(flowType)
+      const creds = await getTokens(flowType);
       setAuthState((prevState) => ({
         roles: Array.from(new Set([...prevState.roles, flowType])),
         users: {...prevState.users,[flowType]: creds?.username},
         tokens: { ...prevState.tokens, [flowType]: creds?.tokens },
       }));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
-  }
+  };
 
 
   const login = useCallback((role: string, user: UserData, tokens: CognitoTokenResponse) => {
@@ -74,7 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setAuthState((prevState) => {
       const updatedRoles = prevState.roles.filter((r) => r !== role);
       const { [role]: _, ...remainingTokens } = prevState.tokens;
-      const { [role]: _1, ...remainingUsers } = prevState.users; 
+      const { [role]: _1, ...remainingUsers } = prevState.users;
 
       return {
         roles: updatedRoles,

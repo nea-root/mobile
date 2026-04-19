@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -25,7 +25,7 @@ const NEADropdown: React.FC<DropdownProps> = ({
   style = {},
   required = false,
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showOptions, setShowOptions] = useState(false);
 
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginBottom: 16,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   },
   input: {
     width: '100%',

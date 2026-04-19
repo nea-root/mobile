@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { ThemeVariables } from './theme'
+import { StyleSheet } from 'react-native';
+import { ThemeVariables } from './theme';
 
 export default function ({}: ThemeVariables) {
   return StyleSheet.create({
@@ -190,5 +190,5 @@ export default function ({}: ThemeVariables) {
       transform: [{ rotate: '-35deg' }],
     },
     overflowhidden: { overflow: 'hidden' },
-  })
+  });
 }

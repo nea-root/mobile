@@ -1,4 +1,3 @@
-import NeaButton from '@/Components/Button/NeaButton';
 import { useAuth } from '@/Context/AuthProvider/AuthProvider';
 import { FlowProvider } from '@/Context/FlowProvider/FlowProvider';
 import { MainStacks } from '@/Navigators/utils';
@@ -28,11 +27,11 @@ const MOCK_SESSIONS: ChatSession[] = [
 ];
 
 export const VolunteerHomeScreen: React.FC = ({ navigation }: any) => {
-    const { logout, authState } = useAuth();
+    const { logout } = useAuth();
     const { flowType } = useContext(FlowProvider);
     const [isOnline, setIsOnline] = useState(false);
 
-    const handleChatPress = (session: ChatSession) => {
+    const handleChatPress = (_session: ChatSession) => {
         navigation.navigate(MainStacks.ChatScreen);
     };
 

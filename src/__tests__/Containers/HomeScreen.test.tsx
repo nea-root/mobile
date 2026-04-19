@@ -29,8 +29,8 @@ jest.mock('@/Components/StylingComponents/GradientBox', () => {
 });
 
 jest.mock('@/Components/LazyGrid/LazyGrid', () => {
-  const { View, Text, TouchableOpacity } = require('react-native');
-  return ({ data, renderItem, ListFooterComponent, onScroll }: any) => (
+  const { View } = require('react-native');
+  return ({ data, renderItem, ListFooterComponent }: any) => (
     <View>
       {data.map((item: any, i: number) => (
         <View key={i}>{renderItem({ item, index: i })}</View>

@@ -40,8 +40,8 @@ jest.mock('@react-native-community/blur', () => ({
 
 jest.mock('@/Components/CommonModal/AlertModal', () => ({
   AlertModal: ({ title }: any) => {
-    const { Text } = require('react-native');
-    return <Text testID="alert-modal">{title}</Text>;
+    const { Text: RNText } = require('react-native');
+    return <RNText testID="alert-modal">{title}</RNText>;
   },
 }));
 

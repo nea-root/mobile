@@ -1,4 +1,4 @@
-import Svg, { Path, SvgProps } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 interface IconProps {

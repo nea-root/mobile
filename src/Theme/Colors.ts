@@ -1,4 +1,4 @@
-import { Palette } from './Palette'
+import { Palette } from './Palette';
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 /**
@@ -257,4 +257,4 @@ export const Color = {
   checkBoxCardContainerColor: 'rgba(0, 0, 0, 0.29)',
   additionalRed: '#EB5545',
   cardPaymentPlacholderTextColor: '#C0C6D0',
-}
+};

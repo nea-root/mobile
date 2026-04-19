@@ -1,5 +1,5 @@
 import * as Keychain from 'react-native-keychain';
-import { CognitoUser, CognitoUserPool, AuthenticationDetails, CognitoUserAttribute, mockAuthenticateUser, mockConfirmRegistration, mockResendConfirmationCode, mockSignUp, mockForgotPassword, mockConfirmPassword } from 'amazon-cognito-identity-js';
+import { CognitoUser, AuthenticationDetails, CognitoUserAttribute, mockAuthenticateUser, mockConfirmRegistration, mockResendConfirmationCode, mockSignUp, mockForgotPassword, mockConfirmPassword } from 'amazon-cognito-identity-js';
 import { mockSend } from '@aws-sdk/client-cognito-identity-provider';
 
 // Must import after mocks are set up

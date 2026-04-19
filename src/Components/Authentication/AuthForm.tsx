@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Alert, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import NEATextField from '@/Components/TextField/NEATextField';
 import NeaButton from '@/Components/Button/NeaButton';
 import NEADropdown from '@/Components/DropDown/NEADropDown';
 import { Apple, Google } from '@/Assets/icons';
 import NEAHeart from '@/Assets/icons/NEAHeart';
-import { register } from '@/Services/Authentication/AuthService';
-import { useNavigation } from '@react-navigation/native';
 import { AuthStacks } from '@/Navigators/utils';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 interface AuthFormProps {
   mode: 'register' | 'login' | 'reset' | 'passwordReset';
@@ -26,50 +23,26 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPassword, password, email, place, handleInput, navigation, handleDropDownChange  }) => {
-  const [focusElement, setFocusElement] = useState<string>('')
+  const [focusElement, setFocusElement] = useState<string>('');
   const [error, setError] = useState('');
 
 
-  const validateInputs = () => {
-    const errors: { [key: string]: string } = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-      errors.email = 'Invalid email format';
-    }
-
-    if (mode === 'register' && username && username.length < 8) {
-      errors.username = 'Username must be at least 8 characters long';
-    }
-
-    if ((mode === 'register' || mode === 'login' || mode === 'passwordReset') && password && password.length < 8) {
-      errors.password = 'Password must be at least 8 characters long';
-    }
-
-    if (mode === 'passwordReset' && confirmPassword !== password) {
-      errors.confirmPassword = 'Passwords do not match';
-    }
-
-    return errors;
-  };
-
-
   const handleTextChange = (text:string) => {
-    handleInput && handleInput(text,focusElement)
-  }
+    handleInput && handleInput(text,focusElement);
+  };
   // Single onFocus handler
   const handleFocus = (inputType: string) => {
-    setFocusElement(inputType)
+    setFocusElement(inputType);
   };
 
   const handleSubmit = () => {
-    console.log("hello")
+    console.log('hello');
     if ((mode !== 'passwordReset' && !email) || ((mode === 'register' || mode === 'login') && !password) || (mode === 'register' && !username) || (mode === 'register' && !place) || (mode === 'passwordReset' && !password) || (mode === 'passwordReset' && !confirmPassword)) {
-      console.log("hellob")
+      console.log('hellob');
       setError('All fields are required');
       return;
     }
-    console.log("hello")
+    console.log('hello');
     setError('');
 
     onSubmit();
@@ -78,26 +51,26 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
   const getAuthTitle = () => {
     const titles: { login: string, register: string, reset: string, passwordReset: string } = {
       login: 'Login to your account',
-      register: "Let’s get you started",
-      reset: "Reset password",
-      passwordReset: "Create new password"
-    }
+      register: 'Let’s get you started',
+      reset: 'Reset password',
+      passwordReset: 'Create new password',
+    };
     return titles[mode];
-  }
+  };
 
   const getButtonLabel = () => {
     const lables: { login: string, register: string, reset: string, passwordReset: string } = {
       login: 'Login',
-      register: "Register",
-      reset: "Send Code",
-      passwordReset: "Reset password"
-    }
+      register: 'Register',
+      reset: 'Send Code',
+      passwordReset: 'Reset password',
+    };
     return lables[mode];
-  }
+  };
 
   const GetButtonLabelElement = () => {
     if(mode === 'register')
-    return (<><Text style={{
+    {return (<><Text style={{
       color: '#434345',
       textAlign: 'center',
       fontFamily: 'Montserrat',
@@ -105,33 +78,33 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
       fontStyle: 'normal',
       fontWeight: 500,
       letterSpacing: -0.14,
-      lineHeight: 22.4
+      lineHeight: 22.4,
 
     }}>By registering, you agree to our <TouchableWithoutFeedback><Text style={{
-      color: "#0B0B14",
+      color: '#0B0B14',
       textAlign: 'center',
       fontFamily: 'Montserrat',
       fontSize: 14,
       fontStyle: 'normal',
       fontWeight: 500,
       letterSpacing: -0.14,
-      lineHeight: 22.4
+      lineHeight: 22.4,
 
     }}>Terms & Conditions</Text></TouchableWithoutFeedback> and <TouchableWithoutFeedback><Text style={{
-      color: "#0B0B14",
+      color: '#0B0B14',
       textAlign: 'center',
       fontFamily: 'Montserrat',
       fontSize: 14,
       fontStyle: 'normal',
       fontWeight: 500,
       letterSpacing: -0.14,
-      lineHeight: 22.4
+      lineHeight: 22.4,
 
     }}>Privacy Policy</Text></TouchableWithoutFeedback></Text>
-    </>)
+    </>);}
     else if(mode === 'login')
-    return (<TouchableOpacity onPress={()=>{
-        navigation.navigate(AuthStacks.Reset)
+    {return (<TouchableOpacity onPress={()=>{
+        navigation.navigate(AuthStacks.Reset);
     }}><Text style={{
       color: '#147952',
       textAlign: 'center',
@@ -140,19 +113,19 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
       fontStyle: 'normal',
       fontWeight: 600,
       letterSpacing: -0.14,
-      lineHeight: 22.4
+      lineHeight: 22.4,
 
-    }}>Forgot password?</Text></TouchableOpacity>)
-  }
+    }}>Forgot password?</Text></TouchableOpacity>);}
+  };
 
   const getResetDesc = () => {
-      return "Don’t worry it happens. Please enter the email associated with your NEA account to receive a verification code."
-  }
+      return 'Don’t worry it happens. Please enter the email associated with your NEA account to receive a verification code.';
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
-        <View style={{ flexDirection: 'row', marginBottom: 40, alignItems: 'center', width: '100%', }}>
+        <View style={{ flexDirection: 'row', marginBottom: 40, alignItems: 'center', width: '100%' }}>
           {mode === 'register' || mode === 'login' ? <View style={{ marginRight: 16, alignSelf: 'flex-start' }}><NEAHeart /></View> : <></>}
           <Text style={{
             color: '#0B0B14',
@@ -179,24 +152,24 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
           label="Country"
           options={['United States']}
           placeholder="Choose one"
-          onSelect={handleDropDownChange?handleDropDownChange:()=>{}}
+          onSelect={handleDropDownChange ? handleDropDownChange : ()=>{}}
           required
         /> : <></>}
         {mode !== 'passwordReset' && <NEATextField
           label="Email address"
           value={email}
           onChangeText={handleTextChange}
-          onFocus={()=>{ handleFocus('email')}}
+          onFocus={()=>{ handleFocus('email');}}
           type="email"
           error={error && !email ? 'Email is required' : ''}
           required
-          style={mode === 'reset'?{ backgroundColor: '#ffffff', marginBottom: 24 }: {backgroundColor: '#ffffff'}}
+          style={mode === 'reset' ? { backgroundColor: '#ffffff', marginBottom: 24 } : {backgroundColor: '#ffffff'}}
         />}
         {mode === 'register' ? <NEATextField
           label="User name"
           value={username}
           onChangeText={handleTextChange}
-          onFocus={()=>{ handleFocus('username')}}
+          onFocus={()=>{ handleFocus('username');}}
           error={error && !username ? 'Email is required' : ''}
           required
           style={{ backgroundColor: '#ffffff' }}
@@ -238,14 +211,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
             paddingHorizontal: 16,
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 8
+            gap: 8,
           }} />
-          {mode==='login' || mode === 'register'?<GetButtonLabelElement />: <></>}
+          {mode === 'login' || mode === 'register' ? <GetButtonLabelElement /> : <></>}
         </View>
-       { mode === 'register' || mode === 'login' ?<>
+       { mode === 'register' || mode === 'login' ? <>
           <View style={{ flexDirection: 'column' }}>
             <Text style={{
-              color: "#0B0B14",
+              color: '#0B0B14',
               textAlign: 'center',
               fontFamily: 'Montserrat',
               fontSize: 16,
@@ -281,40 +254,40 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
                 paddingHorizontal: 16,
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: 8
+                gap: 8,
               }}><Google /></View>
             </View>
           </View>
 
           <View style={{ flexDirection: 'column', marginBottom: 40 }}>
             <Text style={{
-              color: "#0B0B14",
+              color: '#0B0B14',
               textAlign: 'center',
               fontFamily: 'Montserrat',
               fontSize: 14,
               fontStyle: 'normal',
               fontWeight: 500,
               letterSpacing: -0.14,
-              lineHeight: 22.4
+              lineHeight: 22.4,
 
-            }}>{mode==='register'?'Already registered?':"Don’t have an account?"} <TouchableWithoutFeedback onPress={()=>{ 
-              navigation.navigate(mode==='register'?AuthStacks.Login:AuthStacks.Register)
+            }}>{mode === 'register' ? 'Already registered?' : 'Don’t have an account?'} <TouchableWithoutFeedback onPress={()=>{
+              navigation.navigate(mode === 'register' ? AuthStacks.Login : AuthStacks.Register);
             }}><Text style={{
-              color: "#147952",
+              color: '#147952',
               textAlign: 'center',
               fontFamily: 'Montserrat',
               fontSize: 14,
               fontStyle: 'normal',
               fontWeight: 500,
               letterSpacing: -0.14,
-              lineHeight: 22.4
+              lineHeight: 22.4,
 
-            }}>{mode==='register'?'Login':'Register'}</Text></TouchableWithoutFeedback></Text>
+            }}>{mode === 'register' ? 'Login' : 'Register'}</Text></TouchableWithoutFeedback></Text>
           </View>
-        </>: <></>}
+        </> : <></>}
         {mode === 'register' || mode === 'login' ? <View style={{ flexDirection: 'column' }}>
           <Text style={{
-            color: "#0B0B14",
+            color: '#0B0B14',
             textAlign: 'center',
             fontFamily: 'Montserrat',
             fontSize: 16,
@@ -322,9 +295,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
             fontWeight: 500,
             letterSpacing: -0.16,
             lineHeight: 25.6,
-            marginBottom: 16
+            marginBottom: 16,
 
-          }}>{mode === 'register'?'Do you need  immediate help? Press "SOS" button below to make a phone call to emergency services.': 'Are you in distress? Press "SOS" button below to make a phone call to emergency services.'}</Text>
+          }}>{mode === 'register' ? 'Do you need  immediate help? Press "SOS" button below to make a phone call to emergency services.' : 'Are you in distress? Press "SOS" button below to make a phone call to emergency services.'}</Text>
           <View style={{ flexDirection: 'row', paddingTop: 16, marginBottom: 40, justifyContent: 'space-around' }}>
             <View style={{
               backgroundColor: '#FF5722',
@@ -338,16 +311,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ mode, onSubmit, username, confirmPa
               justifyContent: 'center',
               alignItems: 'center',
               gap: 8,
-              boxShadow: 'rgba(124, 125, 142, 0.40)'
+              boxShadow: 'rgba(124, 125, 142, 0.40)',
 
             }}><Text style={{
-              color: "#fff",
+              color: '#fff',
               textAlign: 'center',
               fontFamily: 'Montserrat',
               fontSize: 16,
               fontStyle: 'normal',
               fontWeight: 700,
-              lineHeight: 25.6
+              lineHeight: 25.6,
 
             }}>SOS</Text></View>
           </View>
@@ -363,7 +336,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     alignItems: 'center',
-    marginTop: 40
+    marginTop: 40,
   },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
   socialContainer: { flexDirection: 'row', marginVertical: 20, justifyContent: 'space-around' },

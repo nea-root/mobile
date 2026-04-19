@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Text, Pressable } from 'react-native';
 import { render, act, fireEvent } from '@testing-library/react-native';
 import { AuthProvider, useAuth } from '@/Context/AuthProvider/AuthProvider';

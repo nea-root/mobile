@@ -1,5 +1,4 @@
 import { mockSlideList, SlideList } from '@/../__mocks__/SlideList/mockSlideList';
-import { UserFlowTypes } from '@/Navigators/utils';
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import {
   View,
@@ -10,7 +9,6 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import { ImageSource } from 'react-native-vector-icons/Icon';
 
 export type WalkthroughCarouselProps = {
   flowType: String;
@@ -21,16 +19,12 @@ const screenWidth = Dimensions.get('window').width;
 
 
 const WalkthroughCarousel = ({ flowType, onActiveIndexChange }: WalkthroughCarouselProps) => {
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const setFlowSlideData = () =>{
-    return mockSlideList.filter((val,index)=>val.flowType === flowType)
-  }
 
   // Memoize slidesData since it's static
   const slidesData = useMemo(
-    () => setFlowSlideData(),
+    () => mockSlideList.filter((val) => val.flowType === flowType),
     [flowType]
   );
 
@@ -94,7 +88,7 @@ const WalkthroughCarousel = ({ flowType, onActiveIndexChange }: WalkthroughCarou
         scrollEventThrottle={16} // Optimize scroll handling
       />
       <View style={styles.dotsContainer}>
-        {slidesData.length > 1? slidesData.map((_, index) => (
+        {slidesData.length > 1 ? slidesData.map((_, index) => (
           <View
             key={index}
             style={[
@@ -102,7 +96,7 @@ const WalkthroughCarousel = ({ flowType, onActiveIndexChange }: WalkthroughCarou
               index === activeIndex ? styles.activeDot : styles.inactiveDot,
             ]}
           />
-        )): <></>}
+        )) : <></>}
       </View>
     </View>
   );
@@ -111,26 +105,26 @@ const WalkthroughCarousel = ({ flowType, onActiveIndexChange }: WalkthroughCarou
 const styles = StyleSheet.create({
     container: {
       flex: 0.5,
-      backgroundColor: "white",
+      backgroundColor: 'white',
       paddingTop: 40,
       paddingHorizontal: 17,
     },
     slide: {
       width: screenWidth - 2 * 17, // Padding accounted for
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     image: {
-      width: "100%",
+      width: '100%',
       aspectRatio: 16 / 9, // Adjust this ratio based on your images
-      resizeMode: "contain", // Ensures the image fits within the box
+      resizeMode: 'contain', // Ensures the image fits within the box
     },
     dotsContainer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      alignSelf: "center",
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      alignSelf: 'center',
       marginTop: 16,
       height: 8,
     },
@@ -141,12 +135,12 @@ const styles = StyleSheet.create({
       marginHorizontal: 5,
     },
     activeDot: {
-      backgroundColor: "#4AC16A",
+      backgroundColor: '#4AC16A',
     },
     inactiveDot: {
-      backgroundColor: "#CECED0",
+      backgroundColor: '#CECED0',
     },
   });
-  
+
 
 export default WalkthroughCarousel;

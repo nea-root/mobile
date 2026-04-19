@@ -1,4 +1,4 @@
-import { Palette } from './Palette'
+import { Palette } from './Palette';
 
 /**
  * Roles for colors. You can access Colors in Variable by const {Colors} = useTheme()  Prefer using these over the palette.  It makes it easier
@@ -165,4 +165,4 @@ export const Color = {
    * BG Text color
    */
   bgTextColor: 'rgba(255, 255, 255, .10)',
-}
+};

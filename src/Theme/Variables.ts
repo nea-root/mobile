@@ -5,9 +5,9 @@
  * That allows to change them more easily later on.
  */
 
-import { Dimensions } from 'react-native'
-import { Color } from './Colors'
-const windowHeight = Dimensions.get('window').height
+import { Dimensions } from 'react-native';
+import { Color } from './Colors';
+const windowHeight = Dimensions.get('window').height;
 
 export const Colors = {
   ...Color,
@@ -21,12 +21,12 @@ export const Colors = {
   radiusFillColor: 'rgba(159, 237, 203, 0.20)',
   keyboxbackground: 'rgba(88, 122, 114, 0.7)',
   keyBoxBackground2: 'rgba(88, 122, 114, 1.2)',
-  addDriversDropDownBackground: 'rgba(255,255,255,0.24)'
-}
+  addDriversDropDownBackground: 'rgba(255,255,255,0.24)',
+};
 
 export const NavigationColors = {
   primary: Colors.primary,
-}
+};
 
 /** * FontSize
  */
@@ -43,39 +43,39 @@ export const FontSize = {
   extraLarge: 48,
   huge: 60,
   smallTiny: 5,
-}
+};
 
 /**
  * Metrics Sizes
  */
-const single = 1
-const micro = 2
-const tiny = 4
-const extraSmall = 8
-const small = 12
-const xSmall = 15
-const medium = 16
-const extraMedium = 20
-const large = 24
-const large23 = 23
-const large25 = 25
-const large22 = 22
-const large28 = 28
-const extraLarge = 32
-const extraSmallLarge = 38
-const xExtraLarge = 40
-const huge = 48
-const xHuge = 50
-const extraHuge = 55
-const giant = 70
-const mediumExtraGiant = 73
-const extraGiant = 100
-const xExtraGiant = 125
-const gigantic = 140
-const extraGigantic = 160
-const xExtraGigantic = 200
-const xxExtraGigantic = 220
-const massive = 648
+const single = 1;
+const micro = 2;
+const tiny = 4;
+const extraSmall = 8;
+const small = 12;
+const xSmall = 15;
+const medium = 16;
+const extraMedium = 20;
+const large = 24;
+const large23 = 23;
+const large25 = 25;
+const large22 = 22;
+const large28 = 28;
+const extraLarge = 32;
+const extraSmallLarge = 38;
+const xExtraLarge = 40;
+const huge = 48;
+const xHuge = 50;
+const extraHuge = 55;
+const giant = 70;
+const mediumExtraGiant = 73;
+const extraGiant = 100;
+const xExtraGiant = 125;
+const gigantic = 140;
+const extraGigantic = 160;
+const xExtraGigantic = 200;
+const xxExtraGigantic = 220;
+const massive = 648;
 
 export const MetricsSizes = {
   single,
@@ -105,8 +105,8 @@ export const MetricsSizes = {
   mediumExtraGiant,
   extraSmallLarge,
   xHuge,
-  xSmall
-}
+  xSmall,
+};
 
 export const ViewSizes = {
   menuBtnSize: 58,
@@ -170,7 +170,7 @@ export const ViewSizes = {
   backButtonWidth: 70,
   toolTipWidth: 26,
   toolTipHeight: 26,
-}
+};
 
 export const Dimens = {
   zero: 0,
@@ -338,10 +338,10 @@ export const Dimens = {
   top71: 71,
   bottom21: 21,
   left40: 40,
-  fltlistleft25: 25.9, 
+  fltlistleft25: 25.9,
   fltlistright21: 21.1,
-  width32: 32 
-}
+  width32: 32,
+};
 
 export default {
   Colors,
@@ -350,4 +350,4 @@ export default {
   MetricsSizes,
   ViewSizes,
   Dimens,
-}
+};

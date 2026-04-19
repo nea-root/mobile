@@ -1,12 +1,12 @@
-import * as React from "react"
+import * as React from 'react';
 import Svg, {
   SvgProps,
   Path,
   Defs,
   LinearGradient,
   Stop,
-} from "react-native-svg"
-import { memo } from "react"
+} from 'react-native-svg';
+import { memo } from 'react';
 const SvgComponent = (props: SvgProps) => (
   <Svg
     width={284}
@@ -102,6 +102,6 @@ const SvgComponent = (props: SvgProps) => (
       </LinearGradient>
     </Defs>
   </Svg>
-)
-const NEAHomeTitle = memo(SvgComponent)
-export default NEAHomeTitle
+);
+const NEAHomeTitle = memo(SvgComponent);
+export default NEAHomeTitle;

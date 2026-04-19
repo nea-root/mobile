@@ -1,12 +1,11 @@
-import Variables from './Variables'
+import Variables from './Variables';
 import {
   DefaultVariables,
   Fonts,
   Gutters,
   Images,
   Layout,
-} from './index'
-import Common from '@/Theme/Common'
+} from './index';
 
 export type ThemeVariables = {
   Colors: typeof Variables.Colors
@@ -40,10 +39,10 @@ export type ThemeNavigationTheme = {
   colors: ThemeNavigationColors
 }
 
-const fonts = Fonts(DefaultVariables)
-const gutters = Gutters(DefaultVariables)
-const images = Images(DefaultVariables)
-const layout = Layout(DefaultVariables)
+const fonts = Fonts(DefaultVariables);
+const gutters = Gutters(DefaultVariables);
+const images = Images(DefaultVariables);
+const layout = Layout(DefaultVariables);
 
 export type CommonParams<C> = ThemeVariables &
   Pick<

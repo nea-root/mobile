@@ -22,7 +22,7 @@ jest.mock('@/Context/AuthProvider/AuthProvider', () => ({
 
 jest.mock('@/Components/Authentication/AuthForm', () => {
   const { View, TextInput, TouchableOpacity, Text } = require('react-native');
-  return ({ mode, onSubmit, password, confirmPassword, handleInput }: any) => (
+  return ({ onSubmit, password, confirmPassword, handleInput }: any) => (
     <View>
       <TextInput
         testID="password-input"
