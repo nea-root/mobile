@@ -1,5 +1,5 @@
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
-import { useState } from 'react';
+import ReactNativeBiometrics from 'react-native-biometrics';
+import {useState} from 'react';
 
 interface BiometricsResult {
   available: boolean;
@@ -20,7 +20,9 @@ interface SignatureResult {
 
 export function useBiometrics() {
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
-  const [biometryType, setBiometryType] = useState<string | undefined>(undefined);
+  const [biometryType, setBiometryType] = useState<string | undefined>(
+    undefined,
+  );
 
   const checkBiometricsAvailability = async (): Promise<BiometricsResult> => {
     const rnBiometrics = new ReactNativeBiometrics();
@@ -31,7 +33,7 @@ export function useBiometrics() {
       return result;
     } catch (error) {
       console.error('Error checking biometrics availability:', error);
-      return { available: false, error: String(error) };
+      return {available: false, error: String(error)};
     }
   };
 
@@ -46,14 +48,16 @@ export function useBiometrics() {
     }
   };
 
-  const createSignature = async (options: CreateSignatureOptions): Promise<SignatureResult> => {
+  const createSignature = async (
+    options: CreateSignatureOptions,
+  ): Promise<SignatureResult> => {
     const rnBiometrics = new ReactNativeBiometrics();
     try {
       const result = await rnBiometrics.createSignature(options);
       return result;
     } catch (error) {
       console.error('Error creating signature:', error);
-      return { success: false, error: String(error) };
+      return {success: false, error: String(error)};
     }
   };
 
@@ -82,7 +86,7 @@ export function useBiometrics() {
   const simplePrompt = async (promptMessage: string): Promise<boolean> => {
     const rnBiometrics = new ReactNativeBiometrics();
     try {
-      const result = await rnBiometrics.simplePrompt({ promptMessage });
+      const result = await rnBiometrics.simplePrompt({promptMessage});
       return result.success;
     } catch (error) {
       console.error('Error during biometric prompt:', error);

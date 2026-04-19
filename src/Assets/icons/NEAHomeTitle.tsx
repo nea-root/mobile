@@ -1,19 +1,13 @@
-import * as React from "react"
 import Svg, {
   SvgProps,
   Path,
   Defs,
   LinearGradient,
   Stop,
-} from "react-native-svg"
-import { memo } from "react"
+} from 'react-native-svg';
+import {memo} from 'react';
 const SvgComponent = (props: SvgProps) => (
-  <Svg
-    width={284}
-    height={24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={284} height={24} fill="none" {...props}>
     <Path
       fill="url(#a)"
       d="M7.225 20.233V.898A.19.19 0 0 1 7.418.71c4.047.085 5.253 2.828 5.348 4.21v18.835a.191.191 0 0 1-.299.158L7.308 20.39a.191.191 0 0 1-.083-.158Z"
@@ -51,8 +45,7 @@ const SvgComponent = (props: SvgProps) => (
         x2={10.068}
         y1={0.694}
         y2={24.32}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <Stop stopColor="#4AC16A" />
         <Stop offset={1} stopColor="#147952" />
       </LinearGradient>
@@ -62,8 +55,7 @@ const SvgComponent = (props: SvgProps) => (
         x2={16.996}
         y1={0.668}
         y2={8.134}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <Stop stopColor="#4AC16A" />
         <Stop offset={1} stopColor="#147952" />
       </LinearGradient>
@@ -73,8 +65,7 @@ const SvgComponent = (props: SvgProps) => (
         x2={3.02}
         y1={0.802}
         y2={19.147}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <Stop stopColor="#4AC16A" />
         <Stop offset={1} stopColor="#147952" />
       </LinearGradient>
@@ -84,8 +75,7 @@ const SvgComponent = (props: SvgProps) => (
         x2={23.831}
         y1={0.668}
         y2={8.134}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <Stop stopColor="#4AC16A" />
         <Stop offset={1} stopColor="#147952" />
       </LinearGradient>
@@ -95,13 +85,12 @@ const SvgComponent = (props: SvgProps) => (
         x2={20.517}
         y1={9.296}
         y2={24.237}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <Stop stopColor="#4AC16A" />
         <Stop offset={1} stopColor="#147952" />
       </LinearGradient>
     </Defs>
   </Svg>
-)
-const NEAHomeTitle = memo(SvgComponent)
-export default NEAHomeTitle
+);
+const NEAHomeTitle = memo(SvgComponent);
+export default NEAHomeTitle;

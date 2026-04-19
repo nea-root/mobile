@@ -40,5 +40,5 @@ export const Palette = {
   lightGray90: '#E5E5E5',
   limeGreen: '#36F418',
   dimGray: '#24a37e',
-  darkGreen1: '#01241C'
-}
+  darkGreen1: '#01241C',
+};

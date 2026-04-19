@@ -25,7 +25,6 @@ module.exports = {
     '!src/Store/index.ts',
     '!src/Components/NEAChat/NEAChat.tsx',
     '!src/Components/Animations/SplashAnimation.tsx',
-    '!src/Components/SplashScreen/SplashScreen.tsx',
   ],
   coverageThreshold: {
     global: {

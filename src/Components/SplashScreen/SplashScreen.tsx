@@ -1,15 +1,16 @@
-import { FadeInView } from '@/Components/Animations/FadeAnimation';
-import { SplashAnimation } from '@/Components/Animations/SplashAnimation';
-import useTheme from '@/Hooks/useTheme';
-import { useCallback, useEffect, useRef } from 'react';
-import { ImageBackground, Text, View, StyleSheet, Dimensions, Image, Animated } from 'react-native';
+import {useEffect, useRef} from 'react';
+import {
+  ImageBackground,
+  View,
+  StyleSheet,
+  Dimensions,
+  Animated,
+} from 'react-native';
 
-
-const SplashImage = require('@/Assets/images/splash-image.png')
+const SplashImage = require('@/Assets/images/splash-image.png');
 const SecondSplash = require('@/Assets/images/splash.png');
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const SpashScreen = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -18,17 +19,18 @@ const SpashScreen = () => {
   useEffect(() => {
     // Trigger fade-in animation
     const timeout = setTimeout(() => {
-      Animated.parallel([Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      Animated.timing(translateYAnim, {
-        toValue: 0, // Move to original position
-        duration: 1000,
-        useNativeDriver: true,
-      })
-    ]).start()
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateYAnim, {
+          toValue: 0, // Move to original position
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]).start();
       // Animated.timing(fadeAnim, {
       //   toValue: 1,
       //   duration: 1000,
@@ -37,24 +39,30 @@ const SpashScreen = () => {
     }, 2000);
 
     return () => clearTimeout(timeout);
-  }, [fadeAnim]);
-  const theme = useTheme();
+  }, [fadeAnim, translateYAnim]);
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <ImageBackground source={SecondSplash} resizeMode="cover" style={styles.image} >
-          <Animated.Text style={[
-            styles.text,
-            { opacity: fadeAnim }, // Fade-in animation
-          ]}>For People of All Genders</Animated.Text>
+    <View style={{flex: 1}}>
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={SecondSplash}
+          resizeMode="cover"
+          style={styles.image}>
+          <Animated.Text
+            style={[
+              styles.text,
+              {opacity: fadeAnim}, // Fade-in animation
+            ]}>
+            For People of All Genders
+          </Animated.Text>
           {/* Overlay Image at Bottom */}
           <Animated.Image
             source={SplashImage}
             style={[
               styles.overlayImage,
-              { opacity: fadeAnim, 
-                transform: [{ translateY: translateYAnim }], // Fade-in from bottom
-               }, // Fade-in animation
+              {
+                opacity: fadeAnim,
+                transform: [{translateY: translateYAnim}], // Fade-in from bottom
+              }, // Fade-in animation
             ]}
           />
         </ImageBackground>
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.16,
     position: 'absolute',
     top: screenHeight * 0.4,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   overlayImage: {
     position: 'absolute',

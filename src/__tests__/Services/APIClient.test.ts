@@ -1,10 +1,14 @@
-import { APIClient } from '@/Services/Network/Axios/APIClient';
+import {APIClient} from '@/Services/Network/Axios/APIClient';
 
 jest.mock('axios', () => {
-  const mockGet = jest.fn().mockResolvedValue({ data: { result: 'ok' }, status: 200 });
-  const mockPost = jest.fn().mockResolvedValue({ data: { id: 1 }, status: 201 });
-  const mockPut = jest.fn().mockResolvedValue({ data: { updated: true }, status: 200 });
-  const mockDelete = jest.fn().mockResolvedValue({ data: null, status: 204 });
+  const mockGet = jest
+    .fn()
+    .mockResolvedValue({data: {result: 'ok'}, status: 200});
+  const mockPost = jest.fn().mockResolvedValue({data: {id: 1}, status: 201});
+  const mockPut = jest
+    .fn()
+    .mockResolvedValue({data: {updated: true}, status: 200});
+  const mockDelete = jest.fn().mockResolvedValue({data: null, status: 204});
 
   const api = {
     get: mockGet,
@@ -12,10 +16,10 @@ jest.mock('axios', () => {
     put: mockPut,
     delete: mockDelete,
     interceptors: {
-      request: { use: jest.fn() },
-      response: { use: jest.fn() },
+      request: {use: jest.fn()},
+      response: {use: jest.fn()},
     },
-    defaults: { timeout: 0 },
+    defaults: {timeout: 0},
   };
 
   return {
@@ -40,13 +44,13 @@ describe('APIClient', () => {
 
   it('creates an axios instance with the given base URL', () => {
     expect(axios.create).toHaveBeenCalledWith(
-      expect.objectContaining({ baseURL: 'https://api.example.com' })
+      expect.objectContaining({baseURL: 'https://api.example.com'}),
     );
   });
 
   it('sets responseType to json', () => {
     expect(axios.create).toHaveBeenCalledWith(
-      expect.objectContaining({ responseType: 'json' })
+      expect.objectContaining({responseType: 'json'}),
     );
   });
 
@@ -56,26 +60,26 @@ describe('APIClient', () => {
   });
 
   it('get() calls axios get with config', async () => {
-    const config = { headers: { Authorization: 'Bearer token' } };
+    const config = {headers: {Authorization: 'Bearer token'}};
     await client.get('/users', config);
     expect(axios.__api.get).toHaveBeenCalledWith('/users', config);
   });
 
   it('post() calls axios post with url and data', async () => {
-    const data = { name: 'Alice' };
+    const data = {name: 'Alice'};
     await client.post('/users', data);
     expect(axios.__api.post).toHaveBeenCalledWith('/users', data, undefined);
   });
 
   it('post() calls axios post with config', async () => {
-    const data = { name: 'Alice' };
-    const config = { timeout: 5000 };
+    const data = {name: 'Alice'};
+    const config = {timeout: 5000};
     await client.post('/users', data, config);
     expect(axios.__api.post).toHaveBeenCalledWith('/users', data, config);
   });
 
   it('put() calls axios put with url and data', async () => {
-    const data = { name: 'Bob' };
+    const data = {name: 'Bob'};
     await client.put('/users/1', data);
     expect(axios.__api.put).toHaveBeenCalledWith('/users/1', data, undefined);
   });
@@ -86,15 +90,19 @@ describe('APIClient', () => {
   });
 
   it('postFormURLEncoded() calls axios post with stringified data', async () => {
-    jest.mock('qs', () => ({ stringify: jest.fn((d) => `mocked=${JSON.stringify(d)}`) }), { virtual: true });
-    const data = { username: 'alice', password: 'pass' };
+    jest.mock(
+      'qs',
+      () => ({stringify: jest.fn(d => `mocked=${JSON.stringify(d)}`)}),
+      {virtual: true},
+    );
+    const data = {username: 'alice', password: 'pass'};
     await client.postFormURLEncoded('/auth', data);
     expect(axios.__api.post).toHaveBeenCalledWith(
       '/auth',
       expect.any(String),
       expect.objectContaining({
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      })
+        headers: {'content-type': 'application/x-www-form-urlencoded'},
+      }),
     );
   });
 

@@ -1,4 +1,4 @@
-import { Color } from './Colors'
+import {Color} from './Colors';
 
 export const Colors = {
   ...Color,
@@ -10,11 +10,11 @@ export const Colors = {
   separator: 'rgba(255, 255, 255, 0.17)',
   separatorDark: 'rgba(140, 148, 142, 1)',
   buttonBackground: 'rgb(159, 237, 203)',
-}
+};
 
 const NavigationColors = {
   primary: Colors.primary,
-}
+};
 
 /** * FontSize
  */
@@ -23,22 +23,22 @@ export const FontSize = {
   small: 16,
   regular: 20,
   large: 40,
-}
+};
 
 /**
  * Metrics Sizes
  */
-const micro = 2
-const tiny = 4
-const extraSmall = 8
-const small = 12
-const medium = 16
-const extraMedium = 20
-const large = 24
-const extraLarge = 32
-const huge = 48
-const extraHuge = 55
-const massive = 648
+const micro = 2;
+const tiny = 4;
+const extraSmall = 8;
+const small = 12;
+const medium = 16;
+const extraMedium = 20;
+const large = 24;
+const extraLarge = 32;
+const huge = 48;
+const extraHuge = 55;
+const massive = 648;
 
 export const MetricsSizes = {
   micro,
@@ -52,11 +52,11 @@ export const MetricsSizes = {
   huge,
   extraHuge,
   massive,
-}
+};
 
 export default {
   Colors,
   NavigationColors,
   FontSize,
   MetricsSizes,
-}
+};
